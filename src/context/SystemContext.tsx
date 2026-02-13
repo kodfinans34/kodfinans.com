@@ -282,7 +282,24 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             const savedBalance = localStorage.getItem("userBalance");
             const savedUser = localStorage.getItem("userProfile");
 
-            if (savedProducts) setProducts(JSON.parse(savedProducts));
+            if (savedProducts) {
+                const storedProducts = JSON.parse(savedProducts);
+                // Merge new static products that might be missing locally
+                const mergedProducts = [...storedProducts];
+
+                // Add static products that are not in storage (by ID or Slug)
+                initialProducts.forEach((staticP: any) => {
+                    const exists = mergedProducts.find((p: any) => p.id === staticP.id || p.slug === staticP.slug);
+                    if (!exists) {
+                        mergedProducts.push({ ...staticP });
+                    }
+                });
+
+                // Also update existing static products with potentially new code changes (optional but good for dev)
+                // For now, let's just ensure missing ones are added.
+
+                setProducts(mergedProducts);
+            }
             else setProducts(initialProducts as Product[]);
 
             if (savedBlogs) setBlogs(JSON.parse(savedBlogs));
