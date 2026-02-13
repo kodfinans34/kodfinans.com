@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050506;
+  --foreground: #f8fafc;
+
+  --primary: #4abcf1;
+  --primary-glow: rgba(74, 188, 241, 0.4);
+
+  --secondary: #0ea5e9;
+  --secondary-glow: rgba(14, 165, 233, 0.4);
+
+  --accent: #22d3ee;
+  --accent-glow: rgba(34, 211, 238, 0.4);
+
+  --card: rgba(13, 13, 15, 0.85);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-hover: rgba(255, 255, 255, 0.12);
+
+  --font-inter: "Inter", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+}
+
+@theme {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-dark: #050506;
+  --color-card: var(--card);
+
+  --font-inter: var(--font-inter);
+  --font-poppins: var(--font-poppins);
+
+  --animate-gradient-x: gradient-x 15s ease infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes gradient-x {
+
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+}
+
+@layer base {
+  html {
+    overflow-x: hidden;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(13, 13, 15, 0.6);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .premium-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .neon-border {
+    position: relative;
+  }
+
+  .neon-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0.2;
+    transition: opacity 0.3s ease;
+  }
+
+  .neon-border:hover::before {
+    opacity: 0.6;
+    filter: blur(8px);
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 50px -10px var(--primary-glow);
+  }
+
+  .text-glow-primary {
+    text-shadow: 0 0 20px rgba(74, 188, 241, 0.4);
+  }
+
+  .grain {
+    position: relative;
+  }
+
+  .grain::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .animate-rainbow {
+    background-image: linear-gradient(to right, #ef5350, #f48fb1, #7e57c2, #2196f3, #26c6da, #43a047, #eeff41, #f9a825, #ff5722);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow 6s linear infinite;
+    background-size: 200% auto;
+  }
+
+  .bg-animate-rainbow {
+    background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+    background-size: 400% 400%;
+    animation: rainbow-bg 6s ease infinite;
+  }
+}
+
+@keyframes rainbow {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes rainbow-bg {
+  0% {
+    background-position: 0% 82%
+  }
+
+  50% {
+    background-position: 100% 19%
+  }
+
+  100% {
+    background-position: 0% 82%
+  }
+}

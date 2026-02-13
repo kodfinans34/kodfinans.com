@@ -1,0 +1,42 @@
+"use client";
+
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { Hero } from "@/components/sections/Hero";
+import { PlatformGrid } from "@/components/sections/PlatformGrid";
+import { ProductGrid } from "@/components/sections/ProductGrid";
+import { CalculatorWidget } from "@/components/sections/CalculatorWidget";
+import { SeoContent } from "@/components/sections/SeoContent";
+import { SalesGrid } from "@/components/sections/SalesGrid";
+import { useSystem } from "@/context/SystemContext";
+
+const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
+  Hero,
+  PlatformGrid,
+  SalesGrid,
+  ProductGrid,
+  CalculatorWidget,
+  SeoContent,
+};
+
+export default function Home() {
+  const { settings } = useSystem();
+
+  const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "ProductGrid", "CalculatorWidget", "SeoContent"];
+  const sectionOrder = settings.homepageSectionOrder || defaultOrder;
+
+  return (
+    <div className="min-h-screen bg-[#080809] text-white">
+      <Navbar />
+
+      <main>
+        {sectionOrder.map((sectionId) => {
+          const SectionComponent = SECTION_COMPONENTS[sectionId];
+          return SectionComponent ? <SectionComponent key={sectionId} /> : null;
+        })}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
