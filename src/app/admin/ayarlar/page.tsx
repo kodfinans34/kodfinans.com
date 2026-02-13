@@ -24,11 +24,14 @@ export default function AdminSettingsPage() {
 
     const handleSave = async () => {
         setSaving(true);
-        // Simulate API
-        await new Promise(resolve => setTimeout(resolve, 800));
-        updateSettings(localSettings);
-        setSaving(false);
-        alert("Ayarlar başarıyla güncellendi ve kaydedildi.");
+        try {
+            await updateSettings(localSettings);
+            alert("Ayarlar başarıyla güncellendi ve Firestore'a kaydedildi.");
+        } catch (error) {
+            alert("Ayarlar kaydedilirken bir hata oluştu.");
+        } finally {
+            setSaving(false);
+        }
     };
 
     return (

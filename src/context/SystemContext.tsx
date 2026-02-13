@@ -35,6 +35,16 @@ import {
     addWithdrawalToFirestore,
     updateWithdrawalinFirestore
 } from "@/lib/firebase-withdrawals";
+import {
+    getSettings,
+    updateSettingsInFirestore
+} from "@/lib/firebase-settings";
+import {
+    getBlogs,
+    addBlogToFirestore,
+    updateBlogInFirestore,
+    deleteBlogFromFirestore
+} from "@/lib/firebase-blogs";
 
 // System Context Interface
 interface SystemContextType {
@@ -52,9 +62,9 @@ interface SystemContextType {
 
     // Blog
     blogs: BlogPost[];
-    addBlog: (blog: Omit<BlogPost, "id">) => void;
-    updateBlog: (id: string, updates: Partial<BlogPost>) => void;
-    deleteBlog: (id: string) => void;
+    addBlog: (blog: Omit<BlogPost, "id">) => Promise<void>;
+    updateBlog: (id: string, updates: Partial<BlogPost>) => Promise<void>;
+    deleteBlog: (id: string) => Promise<void>;
 
     // Orders
     orders: Order[];
@@ -79,7 +89,7 @@ interface SystemContextType {
 
     // Settings
     settings: SiteSettings;
-    updateSettings: (newSettings: Partial<SiteSettings>) => void;
+    updateSettings: (newSettings: Partial<SiteSettings>) => Promise<void>;
 
     // User Balance (Mock)
     userBalance: number;
@@ -95,6 +105,9 @@ interface SystemContextType {
 
     // Email
     sendEmail: (options: { to: string; subject: string; text?: string; html?: string }) => Promise<void>;
+
+    // System State
+    isLoaded: boolean;
 }
 
 const defaultSettings: SiteSettings = {
@@ -123,7 +136,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         category: b.category as string,
         excerpt: b.excerpt
     }));
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<Product[]>(initialProducts as Product[]);
     const [blogs, setBlogs] = useState<BlogPost[]>(initialBlogs);
     const [orders, setOrders] = useState<Order[]>([]);
     const [bozumRequests, setBozumRequests] = useState<BozumRequest[]>([]);
@@ -174,40 +187,54 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
 
                 // Load Firestore Data (Products & Withdrawals)
                 try {
+                    console.log("SystemContext: Starting to load Firestore data...");
                     const dbProducts = await getProducts();
-                    // If DB is empty, use initial products but DON'T duplicate them.
-                    // Actually, if DB is empty, we might want to seed it once?
-                    // For now, let's mix them if DB is empty, or just rely on DB.
-                    // If the user wants to see products, they must be in Firestore.
-                    // If Firestore is empty, we show empty or fallback?
-                    // Let's assume if dbProducts is empty, we fall back to static list but we don't save to DB automatically unless admin does so.
+                    console.log("SystemContext: Loaded products from DB:", dbProducts.length);
+
                     if (dbProducts.length > 0) {
                         setProducts(dbProducts);
                     } else {
-                        // Fallback to static products if DB is empty (First run)
-                        // Note: We need to cast IDs to string if they are numbers in static
-                        const staticProds = initialProducts.map(p => ({
-                            ...p,
-                            id: p.id
-                        })) as Product[];
-                        setProducts(staticProds);
+                        console.log("SystemContext: DB products empty, using static fallback.");
+                        setProducts(initialProducts as Product[]);
                     }
 
                     const dbWithdrawals = await getWithdrawalsFromFirestore();
                     setWithdrawalRequests(dbWithdrawals);
 
+                    // Load Blogs
+                    const dbBlogs = await getBlogs();
+                    if (dbBlogs.length > 0) {
+                        setBlogs(dbBlogs);
+                    } else {
+                        setBlogs(initialBlogs);
+                    }
+
+                    // Load Settings
+                    const dbSettings = await getSettings();
+                    if (dbSettings) {
+                        setSettings(dbSettings);
+                    } else {
+                        setSettings(defaultSettings);
+                    }
+
                 } catch (error) {
-                    console.error("Error loading Firestore data:", error);
-                    setProducts(initialProducts as Product[]);
+                    console.error("SystemContext: Error loading Firestore data:", error);
+                    // Explicitly set to initial data on error to ensure we show SOMETHING
+                    if (products.length === 0) setProducts(initialProducts as Product[]);
+                    if (blogs.length === 0) setBlogs(initialBlogs);
                 }
 
-                if (savedBlogs) setBlogs(JSON.parse(savedBlogs));
-                else setBlogs(initialBlogs);
+                if (savedBlogs) {
+                    // Optionally merge or skip if we have DB data
+                    // setBlogs(JSON.parse(savedBlogs));
+                }
 
                 if (savedOrders) setOrders(JSON.parse(savedOrders).map((o: any) => ({ ...o, timestamp: new Date(o.timestamp) })));
                 if (savedBozum) setBozumRequests(JSON.parse(savedBozum).map((r: any) => ({ ...r, timestamp: new Date(r.timestamp) })));
                 if (savedReviews) setReviews(JSON.parse(savedReviews).map((rv: any) => ({ ...rv, timestamp: new Date(rv.timestamp) })));
-                if (savedSettings) setSettings(JSON.parse(savedSettings));
+                if (savedSettings) {
+                    // setSettings(JSON.parse(savedSettings));
+                }
                 if (savedUsers) setUsers(JSON.parse(savedUsers).map((u: any) => ({ ...u, createdAt: new Date(u.createdAt) })));
                 if (savedBalance) setUserBalance(parseFloat(savedBalance));
                 if (savedUser) setUser(JSON.parse(savedUser));
@@ -286,20 +313,32 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     // Blog Handlers
-    const addBlog = (blog: Omit<BlogPost, "id">) => {
-        const newBlog: BlogPost = {
-            ...blog,
-            id: Math.random().toString(36).substr(2, 9),
-        };
-        setBlogs(prev => [newBlog, ...prev]);
+    const addBlog = async (blog: Omit<BlogPost, "id">) => {
+        try {
+            const id = await addBlogToFirestore(blog);
+            const newBlog: BlogPost = { ...blog, id };
+            setBlogs(prev => [newBlog, ...prev]);
+        } catch (error) {
+            console.error("Failed to add blog", error);
+        }
     };
 
-    const updateBlog = (id: string, updates: Partial<BlogPost>) => {
-        setBlogs(prev => prev.map(b => b.id === id ? { ...b, ...updates } : b));
+    const updateBlog = async (id: string, updates: Partial<BlogPost>) => {
+        try {
+            await updateBlogInFirestore(id, updates);
+            setBlogs(prev => prev.map(b => b.id === id ? { ...b, ...updates } : b));
+        } catch (error) {
+            console.error("Failed to update blog", error);
+        }
     };
 
-    const deleteBlog = (id: string) => {
-        setBlogs(prev => prev.filter(b => b.id !== id));
+    const deleteBlog = async (id: string) => {
+        try {
+            await deleteBlogFromFirestore(id);
+            setBlogs(prev => prev.filter(b => b.id !== id));
+        } catch (error) {
+            console.error("Failed to delete blog", error);
+        }
     };
 
     // Order Handlers
@@ -384,8 +423,14 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         setReviews(prev => prev.filter(r => r.id !== id));
     };
 
-    const updateSettings = (newSettings: Partial<SiteSettings>) => {
-        setSettings(prev => ({ ...prev, ...newSettings }));
+    const updateSettings = async (newSettings: Partial<SiteSettings>) => {
+        const updated = { ...settings, ...newSettings };
+        setSettings(updated);
+        try {
+            await updateSettingsInFirestore(updated);
+        } catch (error) {
+            console.error("Failed to save settings to Firestore", error);
+        }
     };
 
     const updateUser = (id: string, updates: Partial<SystemUser>) => {
@@ -505,7 +550,8 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             login,
             register,
             logout,
-            sendEmail
+            sendEmail,
+            isLoaded
         }}>
             {children}
         </SystemContext.Provider>

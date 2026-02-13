@@ -16,23 +16,24 @@ export async function getProducts(): Promise<Product[]> {
     }
 
     try {
-        const querySnapshot = await getDocs(collection(db, "products"));
-        const products: Product[] = [];
-
-        querySnapshot.forEach((doc) => {
-            products.push(doc.data() as Product);
+        // Create a promise that rejects after 5 seconds
+        const timeoutPromise = new Promise<never>((_, reject) => {
+            setTimeout(() => reject(new Error("Firebase fetch timeout")), 5000);
         });
 
-        // Sort by ID to maintain order (optional)
-        products.sort((a, b) => {
-            const idA = Number(a.id) || 0;
-            const idB = Number(b.id) || 0;
-            return idA - idB;
+        // Race the fetch against the timeout
+        const querySnapshot = await Promise.race([
+            getDocs(collection(db, "products")),
+            timeoutPromise
+        ]);
+
+        const products: Product[] = [];
+        (querySnapshot as any).forEach((doc: any) => {
+            products.push({ ...doc.data(), id: doc.id } as Product);
         });
 
         productsCache = products;
-        lastFetchTime = now;
-
+        lastFetchTime = Date.now();
         return products;
     } catch (error) {
         console.error("Error fetching products:", error);

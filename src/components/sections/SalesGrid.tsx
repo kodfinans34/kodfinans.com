@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/Button";
 import { Star, Zap, ShoppingCart, ShoppingBag, X, CheckCircle2, Gift, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -107,8 +107,17 @@ export const SalesGrid = () => {
         }];
     });
 
-    // Shuffle and limit to create a "recent purchases" feel
-    const shuffledItems = [...explodedItems].sort(() => Math.random() - 0.5).slice(0, 12);
+    // State for client-side items to avoid hydration mismatch with Math.random()
+    const [displayItems, setDisplayItems] = useState<any[]>([]);
+
+    useEffect(() => {
+        // Explode and shuffle only once on mount or when products change
+        const items = explodedItems.sort(() => Math.random() - 0.5).slice(0, 12);
+        setDisplayItems(items);
+    }, [products, activeTab]); // Re-shuffle when products or category changes
+
+    // Fallback for SSR
+    const finalItems = displayItems.length > 0 ? displayItems : explodedItems.slice(0, 12);
 
     return (
         <section className="py-24 md:py-36 relative" id="sales">
@@ -230,7 +239,7 @@ export const SalesGrid = () => {
                         ref={scrollRef}
                         className="flex gap-4 md:gap-6 overflow-x-auto pb-6 no-scrollbar scroll-smooth snap-x snap-mandatory"
                     >
-                        {shuffledItems.map((item: any, i) => (
+                        {finalItems.map((item: any, i: number) => (
                             <motion.div
                                 key={item.uniqueId}
                                 className="group relative cursor-pointer snap-start shrink-0 w-[280px] md:w-[calc(25%-18px)]"

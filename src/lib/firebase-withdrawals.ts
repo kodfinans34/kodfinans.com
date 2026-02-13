@@ -5,22 +5,30 @@ import { WithdrawalRequest } from "@/lib/types";
 
 export async function getWithdrawalsFromFirestore(): Promise<WithdrawalRequest[]> {
     try {
+        const timeoutPromise = new Promise<never>((_, reject) => {
+            setTimeout(() => reject(new Error("Withdrawals fetch timeout")), 5000);
+        });
+
         const q = query(collection(db, "withdrawals"), orderBy("timestamp", "desc"));
-        const querySnapshot = await getDocs(q);
+        const querySnapshot = await Promise.race([
+            getDocs(q),
+            timeoutPromise
+        ]);
+
         const withdrawals: WithdrawalRequest[] = [];
 
-        querySnapshot.forEach((doc) => {
+        (querySnapshot as any).forEach((doc: any) => {
             const data = doc.data();
             withdrawals.push({
                 id: doc.id,
                 ...data,
-                timestamp: data.timestamp.toDate() // Convert Firestore Timestamp to Date
+                timestamp: data.timestamp?.toDate ? data.timestamp.toDate() : (data.timestamp || new Date())
             } as WithdrawalRequest);
         });
 
         return withdrawals;
     } catch (error) {
-        console.error("Error fetching withdrawals:", error);
+        console.error("Error fetching withdrawals from Firestore:", error);
         return [];
     }
 }

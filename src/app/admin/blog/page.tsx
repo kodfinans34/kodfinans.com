@@ -66,7 +66,7 @@ export default function AdminBlogPage() {
         setIsModalOpen(true);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!formData.title || !formData.slug || !formData.content) {
@@ -74,12 +74,16 @@ export default function AdminBlogPage() {
             return;
         }
 
-        if (editingBlog) {
-            updateBlog(editingBlog.id, formData);
-        } else {
-            addBlog(formData as Omit<BlogPost, "id">);
+        try {
+            if (editingBlog) {
+                await updateBlog(editingBlog.id, formData);
+            } else {
+                await addBlog(formData as Omit<BlogPost, "id">);
+            }
+            setIsModalOpen(false);
+        } catch (error) {
+            alert("Blog yazısı kaydedilirken bir hata oluştu.");
         }
-        setIsModalOpen(false);
     };
 
     const handleGenerateSEO = () => {
