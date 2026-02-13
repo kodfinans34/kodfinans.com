@@ -58,8 +58,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
         e.preventDefault();
 
         if (!isLoggedIn) {
-            const message = `Merhaba, bozum işlemi yapmak istiyorum.%0A%0A📦 Ürün: ${selectedProduct?.name}%0A💰 Tutar: ${amount} TL%0A💹 Hesaplanacak: ${calculatedAmount} TL`;
-            window.open(`https://wa.me/${settings.whatsappNumber}?text=${message}`, '_blank');
+            router.push("/giris");
             return;
         }
 
@@ -286,7 +285,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
                                                     {isLoggedIn ? (
                                                         <>İŞLEMİ BAŞLAT <ArrowRight size={20} /></>
                                                     ) : (
-                                                        <>CANLI DESTEK İLE BOZUM YAP <ArrowRight size={20} /></>
+                                                        <>DEVAM ETMEK İÇİN GİRİŞ YAP <ArrowRight size={20} /></>
                                                     )}
                                                 </>
                                             )}
