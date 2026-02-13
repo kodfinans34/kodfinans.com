@@ -121,9 +121,7 @@ export default function CheckoutPage() {
             text: `Yeni bir sipariş geldi! \nMüşteri: ${contactInfo.name} ${contactInfo.surname} \nTutar: ₺${currentTotal.toFixed(2)} \nÖdeme: ${paymentMethod}`
         });
 
-        // WhatsApp Notification (Optional but desired for instant notification)
-        const waMessage = `Merhaba, yeni bir sipariş verdim!%0A%0A👤 Müşteri: ${contactInfo.name} ${contactInfo.surname}%0A💰 Toplam: ₺${currentTotal.toFixed(2)}%0A💳 Ödeme: ${paymentMethod === "balance" ? "Cüzdan Bakiyesi" : paymentMethod === "card" ? "Kredi Kartı" : "Havale/EFT"}%0A%0A📦 Ürünler:%0A${cart.map(item => `• ${item.name} (${item.variant}) x${item.quantity}`).join("%0A")}`;
-        window.open(`https://wa.me/${settings.whatsappNumber}?text=${waMessage}`, '_blank');
+        // WhatsApp notification removed per request. Admin and Email only.
 
         setLastOrderTotal(currentTotal);
         clearCart();

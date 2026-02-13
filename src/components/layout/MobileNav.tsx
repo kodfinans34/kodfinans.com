@@ -20,7 +20,7 @@ export const MobileNav = () => {
     return (
         <div className="fixed bottom-0 left-0 right-0 z-[100] md:hidden px-4 pb-4 pointer-events-none">
             <div className="max-w-md mx-auto pointer-events-auto">
-                <div className="glass rounded-[2rem] border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-2 flex items-center justify-between bg-black/40 backdrop-blur-2xl">
+                <div className="glass rounded-[2rem] border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-2 grid grid-cols-5 place-items-center bg-black/40 backdrop-blur-2xl">
                     {navItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href;

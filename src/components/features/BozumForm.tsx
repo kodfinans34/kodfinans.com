@@ -58,7 +58,8 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
         e.preventDefault();
 
         if (!isLoggedIn) {
-            router.push("/giris");
+            const message = `Merhaba, bozum işlemi yapmak istiyorum.%0A%0A📦 Ürün: ${selectedProduct?.name}%0A💰 Tutar: ${amount} TL%0A💹 Hesaplanacak: ${calculatedAmount} TL`;
+            window.open(`https://wa.me/${settings.whatsappNumber}?text=${message}`, '_blank');
             return;
         }
 
@@ -113,9 +114,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
             text: `Yeni bir bozum talebi geldi! \nÜrün: ${selectedProduct.name} \nTutar: ${amount} \nMüşteri: ${email}`
         });
 
-        // Notify via WhatsApp
-        const message = `Merhaba, bozum işlemi başlatmak istiyorum.%0A%0A📦 Tür: ${selectedProduct.name}%0A💰 Tutar: ${amount} TL%0A💹 Hesaplanacak: ${calculatedAmount} TL%0A%0A👤 E-Posta: ${email}%0A📞 Telefon: ${phone}${digitalCode ? `%0A🔑 Kod: ${digitalCode}` : ""}`;
-        window.open(`https://wa.me/${settings.whatsappNumber}?text=${message}`, '_blank');
+        // WhatsApp redirect removed for logged-in users per request. Admin only.
 
         setLoading(false);
         setSuccess(true);
@@ -287,7 +286,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
                                                     {isLoggedIn ? (
                                                         <>İŞLEMİ BAŞLAT <ArrowRight size={20} /></>
                                                     ) : (
-                                                        <>DEVAM ETMEK İÇİN GİRİŞ YAP <ArrowRight size={20} /></>
+                                                        <>CANLI DESTEK İLE BOZUM YAP <ArrowRight size={20} /></>
                                                     )}
                                                 </>
                                             )}
