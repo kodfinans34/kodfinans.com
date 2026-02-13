@@ -190,7 +190,7 @@ export default function AdminBozumProductsPage() {
                                         <input
                                             type="text"
                                             value={formData.slug}
-                                            onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                            onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
                                             className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none"
                                             placeholder="örn: razer-gold-bozdurma"
                                         />

@@ -1,6 +1,6 @@
-import { products } from "@/lib/products";
+import { products as staticProducts } from "@/lib/products";
+import { getProductBySlug } from "@/lib/firebase-products";
 import ProductDetailClient from "@/components/features/ProductDetailClient";
-import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
 interface PageProps {
@@ -10,17 +10,25 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { slug } = await params;
 
-    // Check if it's a direct product slug
-    let product: any = products.find(p => p.slug === slug);
-    let variant: any = null;
+    // Try fetching from Firestore first
+    let product: any = await getProductBySlug(slug);
 
+    // If not found in Firestore, try static products
     if (!product) {
-        // Check if it's a variant slug
-        for (const p of products) {
+        product = staticProducts.find(p => p.slug === slug);
+    }
+
+    // Check variants if main product not found
+    if (!product) {
+        // We'll have to iterate static products for variants as Firestore structure for variants 
+        // implies fetching parent first. 
+        // For Firestore, if we want to search by variant slug efficiently, we'd need a different query,
+        // but for now let's assume if it is a variant slug, it might be found via parent in static or we'd need a more complex query.
+        // Let's stick to valid product slugs for now or static fallback.
+        for (const p of staticProducts) {
             const v = p.variants?.find(v => v.slug === slug);
             if (v) {
-                product = p;
-                variant = v;
+                product = p; // Use parent for metadata context, or variant specific info
                 break;
             }
         }
@@ -32,18 +40,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         };
     }
 
-    // Determine SEO values
-    const title = variant?.seoTitle || product.seoTitle || (variant ? `${variant.name} Satın Al | KodFinans` : `${product.name} Satın Al | KodFinans`);
-    const description = variant?.seoDescription || product.seoDescription || (variant ? `${variant.name} en uygun fiyatlarla KodFinans'ta.` : product.description);
-    const keywords = variant?.seoKeywords || product.seoKeywords;
-
     return {
-        title: title,
-        description: description,
-        keywords: keywords,
+        title: product.seoTitle || `${product.name} Satın Al | KodFinans`,
+        description: product.seoDescription || `${product.name} en uygun fiyatlarla KodFinans'ta.`,
+        keywords: product.seoKeywords,
         openGraph: {
-            title: title,
-            description: description,
+            title: product.seoTitle || product.name,
+            description: product.seoDescription || product.description,
             images: [product.seoImage || product.image],
         }
     };
@@ -53,3 +56,4 @@ export default async function ProductPage({ params }: PageProps) {
     const { slug } = await params;
     return <ProductDetailClient slug={slug} />;
 }
+
