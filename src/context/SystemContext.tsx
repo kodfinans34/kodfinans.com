@@ -1,150 +1,40 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { products as initialProducts, Product as StaticProduct } from "@/lib/products";
+import { products as initialProducts } from "@/lib/products";
 import { blogs as staticBlogs } from "@/lib/blogs";
+import {
+    Product,
+    Review,
+    Order,
+    BozumRequest,
+    WithdrawalRequest,
+    SiteSettings,
+    BlogPost,
+    SystemUser
+} from "@/lib/types";
 
-// --- Types ---
-
-// Review/Comment Type
-export interface Review {
-    id: string;
-    productId: number;
-    userName: string;
-    userEmail: string;
-    comment: string;
-    rating: number;
-    status: "pending" | "approved" | "rejected";
-    timestamp: Date;
-}
-
-export interface ProductVariant {
-    id: string;
-    name: string;
-    price: number;
-    discountPrice?: number;
-    stock?: number;
-    description?: string;
-    slug?: string;
-    seoTitle?: string;
-    seoDescription?: string;
-    seoKeywords?: string;
-}
-
-export interface ProductFeature {
-    key: string;
-    value: string;
-}
-
-export interface Product extends StaticProduct {
-    seoTitle?: string;
-    seoDescription?: string;
-    seoKeywords?: string;
-    seoImage?: string;
-    stock?: number;
-    variants?: ProductVariant[];
-    features?: ProductFeature[];
-    howToUse?: string;
-}
-
-// Order Type
-export interface Order {
-    id: string;
-    items: {
-        productId: number;
-        productName: string;
-        price: number;
-        quantity: number;
-        variant?: string;
-    }[];
-    totalAmount: number;
-    status: "pending" | "completed" | "cancelled";
-    customerInfo: {
-        name: string;
-        email: string;
-        phone: string;
-    };
-    paymentMethod: "credit_card" | "balance" | "transfer";
-    timestamp: Date;
-    userId?: string;
-    digitalCode?: string;
-}
-
-// Bozum Request Type
-export interface BozumRequest {
-    id: string;
-    codeType: string;
-    codeAmount: number;
-    calculatedAmount: number;
-    status: "pending" | "approved" | "rejected";
-    timestamp: Date;
-    userEmail?: string;
-    userPhone?: string;
-    digitalCode?: string;
-}
-
-// Withdrawal Request Type
-export interface WithdrawalRequest {
-    id: string;
-    bankName: string;
-    iban: string;
-    amount: number;
-    accountHolder: string;
-    status: "pending" | "approved" | "rejected";
-    timestamp: Date;
-    userEmail?: string;
-}
-
-// Site Settings Type
-export interface SiteSettings {
-    homepageTitle: string;
-    homepageDescription: string;
-    heroHeadline: string;
-    heroSubheadline: string;
-    whatsappNumber: string;
-    seoKeywords: string;
-    homepageSectionOrder?: string[]; // New: Order of homepage sections
-    // Email Settings (SMTP)
-    smtpHost?: string;
-    smtpPort?: string;
-    smtpUser?: string;
-    smtpPass?: string;
-    smtpFrom?: string;
-    // PayTR Settings
-    paytrMerchantId?: string;
-    paytrMerchantKey?: string;
-    paytrMerchantSalt?: string;
-    paytrTestMode?: boolean;
-}
-
-// Blog Post Type
-export interface BlogPost {
-    id: string;
-    title: string;
-    slug: string;
-    excerpt?: string;
-    content: string; // HTML or Markdown
-    image: string;
-    category: string;
-    date: string;
-    author: string;
-    readTime: string;
-    seoTitle?: string;
-    seoDescription?: string;
-    seoKeywords?: string;
-}
-
-// System User Type
-export interface SystemUser {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    balance: number;
-    password?: string;
-    role: "user" | "admin";
-    createdAt: Date;
-}
+export type {
+    Product,
+    Review,
+    Order,
+    BozumRequest,
+    WithdrawalRequest,
+    SiteSettings,
+    BlogPost,
+    SystemUser
+};
+import {
+    getProducts,
+    addProductToFirestore,
+    updateProductInFirestore,
+    deleteProductFromFirestore
+} from "@/lib/firebase-products";
+import {
+    getWithdrawalsFromFirestore,
+    addWithdrawalToFirestore,
+    updateWithdrawalinFirestore
+} from "@/lib/firebase-withdrawals";
 
 // System Context Interface
 interface SystemContextType {
@@ -156,9 +46,9 @@ interface SystemContextType {
 
     // Products (Dynamic)
     products: Product[];
-    addProduct: (product: Omit<Product, "id">) => void;
-    updateProduct: (id: number, updates: Partial<Product>) => void;
-    deleteProduct: (id: number) => void;
+    addProduct: (product: Omit<Product, "id">) => Promise<void>;
+    updateProduct: (id: string | number, updates: Partial<Product>) => Promise<void>;
+    deleteProduct: (id: string | number) => Promise<void>;
 
     // Blog
     blogs: BlogPost[];
@@ -178,8 +68,8 @@ interface SystemContextType {
 
     // Withdrawal
     withdrawalRequests: WithdrawalRequest[];
-    addWithdrawalRequest: (request: Omit<WithdrawalRequest, "id" | "status" | "timestamp">) => void;
-    updateWithdrawalStatus: (id: string, status: "approved" | "rejected") => void;
+    addWithdrawalRequest: (request: Omit<WithdrawalRequest, "id" | "status" | "timestamp">) => Promise<void>;
+    updateWithdrawalStatus: (id: string, status: "approved" | "rejected") => Promise<void>;
 
     // Reviews
     reviews: Review[];
@@ -268,61 +158,68 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // --- Load/Save (Mock Persistence) ---
+    // --- Load Data ---
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedProducts = localStorage.getItem("kf_products");
-            const savedBlogs = localStorage.getItem("kf_blogs");
-            const savedOrders = localStorage.getItem("kf_orders");
-            const savedBozum = localStorage.getItem("kf_bozum");
-            const savedWithdrawal = localStorage.getItem("kf_withdrawal");
-            const savedReviews = localStorage.getItem("kf_reviews");
-            const savedSettings = localStorage.getItem("kf_settings");
-            const savedUsers = localStorage.getItem("kf_users");
-            const savedBalance = localStorage.getItem("userBalance");
-            const savedUser = localStorage.getItem("userProfile");
+            const loadData = async () => {
+                // Initialize LocalStorage Data
+                const savedBlogs = localStorage.getItem("kf_blogs");
+                const savedOrders = localStorage.getItem("kf_orders");
+                const savedBozum = localStorage.getItem("kf_bozum");
+                const savedReviews = localStorage.getItem("kf_reviews");
+                const savedSettings = localStorage.getItem("kf_settings");
+                const savedUsers = localStorage.getItem("kf_users");
+                const savedBalance = localStorage.getItem("userBalance");
+                const savedUser = localStorage.getItem("userProfile");
 
-            if (savedProducts) {
-                const storedProducts = JSON.parse(savedProducts);
-                // Merge new static products that might be missing locally
-                const mergedProducts = [...storedProducts];
-
-                // Add static products that are not in storage (by ID or Slug)
-                initialProducts.forEach((staticP: any) => {
-                    const exists = mergedProducts.find((p: any) => p.id === staticP.id || p.slug === staticP.slug);
-                    if (!exists) {
-                        mergedProducts.push({ ...staticP });
+                // Load Firestore Data (Products & Withdrawals)
+                try {
+                    const dbProducts = await getProducts();
+                    // If DB is empty, use initial products but DON'T duplicate them.
+                    // Actually, if DB is empty, we might want to seed it once?
+                    // For now, let's mix them if DB is empty, or just rely on DB.
+                    // If the user wants to see products, they must be in Firestore.
+                    // If Firestore is empty, we show empty or fallback?
+                    // Let's assume if dbProducts is empty, we fall back to static list but we don't save to DB automatically unless admin does so.
+                    if (dbProducts.length > 0) {
+                        setProducts(dbProducts);
+                    } else {
+                        // Fallback to static products if DB is empty (First run)
+                        // Note: We need to cast IDs to string if they are numbers in static
+                        const staticProds = initialProducts.map(p => ({
+                            ...p,
+                            id: p.id
+                        })) as Product[];
+                        setProducts(staticProds);
                     }
-                });
 
-                // Also update existing static products with potentially new code changes (optional but good for dev)
-                // For now, let's just ensure missing ones are added.
+                    const dbWithdrawals = await getWithdrawalsFromFirestore();
+                    setWithdrawalRequests(dbWithdrawals);
 
-                setProducts(mergedProducts);
-            }
-            else setProducts(initialProducts as Product[]);
+                } catch (error) {
+                    console.error("Error loading Firestore data:", error);
+                    setProducts(initialProducts as Product[]);
+                }
 
-            if (savedBlogs) setBlogs(JSON.parse(savedBlogs));
-            else setBlogs(initialBlogs);
+                if (savedBlogs) setBlogs(JSON.parse(savedBlogs));
+                else setBlogs(initialBlogs);
 
-            if (savedOrders) setOrders(JSON.parse(savedOrders).map((o: any) => ({ ...o, timestamp: new Date(o.timestamp) })));
-            if (savedBozum) setBozumRequests(JSON.parse(savedBozum).map((r: any) => ({ ...r, timestamp: new Date(r.timestamp) })));
-            if (savedWithdrawal) setWithdrawalRequests(JSON.parse(savedWithdrawal).map((w: any) => ({ ...w, timestamp: new Date(w.timestamp) })));
-            if (savedReviews) setReviews(JSON.parse(savedReviews).map((rv: any) => ({ ...rv, timestamp: new Date(rv.timestamp) })));
-            if (savedSettings) setSettings(JSON.parse(savedSettings));
-            if (savedUsers) setUsers(JSON.parse(savedUsers).map((u: any) => ({ ...u, createdAt: new Date(u.createdAt) })));
-            if (savedBalance) setUserBalance(parseFloat(savedBalance));
-            if (savedUser) setUser(JSON.parse(savedUser));
+                if (savedOrders) setOrders(JSON.parse(savedOrders).map((o: any) => ({ ...o, timestamp: new Date(o.timestamp) })));
+                if (savedBozum) setBozumRequests(JSON.parse(savedBozum).map((r: any) => ({ ...r, timestamp: new Date(r.timestamp) })));
+                if (savedReviews) setReviews(JSON.parse(savedReviews).map((rv: any) => ({ ...rv, timestamp: new Date(rv.timestamp) })));
+                if (savedSettings) setSettings(JSON.parse(savedSettings));
+                if (savedUsers) setUsers(JSON.parse(savedUsers).map((u: any) => ({ ...u, createdAt: new Date(u.createdAt) })));
+                if (savedBalance) setUserBalance(parseFloat(savedBalance));
+                if (savedUser) setUser(JSON.parse(savedUser));
 
-            setIsLoaded(true);
+                setIsLoaded(true);
+            };
+
+            loadData();
         }
     }, []);
 
-    // Persistence Hooks
-    useEffect(() => {
-        if (isLoaded) localStorage.setItem("kf_products", JSON.stringify(products));
-    }, [products, isLoaded]);
-
+    // Persistence Hooks (Only for localStorage items)
     useEffect(() => {
         if (isLoaded) localStorage.setItem("kf_blogs", JSON.stringify(blogs));
     }, [blogs, isLoaded]);
@@ -334,10 +231,6 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         if (isLoaded) localStorage.setItem("kf_bozum", JSON.stringify(bozumRequests));
     }, [bozumRequests, isLoaded]);
-
-    useEffect(() => {
-        if (isLoaded) localStorage.setItem("kf_withdrawal", JSON.stringify(withdrawalRequests));
-    }, [withdrawalRequests, isLoaded]);
 
     useEffect(() => {
         if (isLoaded) localStorage.setItem("kf_reviews", JSON.stringify(reviews));
@@ -363,21 +256,33 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
 
     // --- Handlers ---
 
-    // Product Handlers
-    const addProduct = (product: Omit<Product, "id">) => {
-        const newProduct: Product = {
-            ...product,
-            id: Date.now(),
-        };
-        setProducts(prev => [...prev, newProduct]);
+    // Product Handlers (Firestore)
+    const addProduct = async (product: Omit<Product, "id">) => {
+        try {
+            const id = await addProductToFirestore(product);
+            const newProduct = { ...product, id };
+            setProducts(prev => [...prev, newProduct]);
+        } catch (error) {
+            console.error("Failed to add product", error);
+        }
     };
 
-    const updateProduct = (id: number, updates: Partial<Product>) => {
-        setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
+    const updateProduct = async (id: string | number, updates: Partial<Product>) => {
+        try {
+            await updateProductInFirestore(id, updates);
+            setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
+        } catch (error) {
+            console.error("Failed to update product", error);
+        }
     };
 
-    const deleteProduct = (id: number) => {
-        setProducts(prev => prev.filter(p => p.id !== id));
+    const deleteProduct = async (id: string | number) => {
+        try {
+            await deleteProductFromFirestore(id);
+            setProducts(prev => prev.filter(p => p.id !== id));
+        } catch (error) {
+            console.error("Failed to delete product", error);
+        }
     };
 
     // Blog Handlers
@@ -422,15 +327,21 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         setBozumRequests(prev => [newRequest, ...prev]);
     };
 
-    const addWithdrawalRequest = (request: Omit<WithdrawalRequest, "id" | "status" | "timestamp">) => {
-        const newRequest: WithdrawalRequest = {
+    // Withdrawal Handlers (Firestore)
+    const addWithdrawalRequest = async (request: Omit<WithdrawalRequest, "id" | "status" | "timestamp">) => {
+        const newRequestData = {
             ...request,
-            id: Math.random().toString(36).substr(2, 9),
-            status: "pending",
+            status: "pending" as const,
             timestamp: new Date()
         };
-        setWithdrawalRequests(prev => [newRequest, ...prev]);
-        deductFromBalance(newRequest.amount);
+        try {
+            const id = await addWithdrawalToFirestore(newRequestData);
+            const newRequest = { ...newRequestData, id };
+            setWithdrawalRequests(prev => [newRequest, ...prev]);
+            deductFromBalance(newRequest.amount);
+        } catch (error) {
+            console.error("Failed to add withdrawal", error);
+        }
     };
 
     const updateBozumStatus = (id: string, status: "approved" | "rejected") => {
@@ -441,12 +352,17 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         setBozumRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
     };
 
-    const updateWithdrawalStatus = (id: string, status: "approved" | "rejected") => {
-        const req = withdrawalRequests.find(r => r.id === id);
-        if (req && status === "rejected" && req.status === "pending") {
-            addToBalance(req.amount);
+    const updateWithdrawalStatus = async (id: string, status: "approved" | "rejected") => {
+        try {
+            await updateWithdrawalinFirestore(id, status);
+            const req = withdrawalRequests.find(r => r.id === id);
+            if (req && status === "rejected" && req.status === "pending") {
+                addToBalance(req.amount);
+            }
+            setWithdrawalRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
+        } catch (error) {
+            console.error("Failed to update withdrawal status", error);
         }
-        setWithdrawalRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
     };
 
     // Review Handlers
@@ -601,3 +517,5 @@ export const useSystem = () => {
     if (!context) throw new Error("useSystem must be used within a SystemProvider");
     return context;
 };
+
+

@@ -18,7 +18,7 @@ export interface ProductFeature {
 }
 
 export interface Product {
-    id: number;
+    id: string | number;
     slug: string;
     category: "gift" | "games" | "items";
     productType?: "bozum" | "satis";
