@@ -2,6 +2,7 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
+// Firebase configuration
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -11,8 +12,15 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Check if we have the minimum required config. 
+// During build (SSR) on Vercel, some variables might be missing if not properly configured.
+const isConfigValid = !!firebaseConfig.apiKey && firebaseConfig.apiKey !== "undefined";
+
 // Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const app = isConfigValid
+    ? (!getApps().length ? initializeApp(firebaseConfig) : getApp())
+    : (!getApps().length ? initializeApp({ apiKey: "dummy", projectId: "dummy" }) : getApp()); // Dummy for build time
+
 const db = getFirestore(app);
 const auth = getAuth(app);
 
