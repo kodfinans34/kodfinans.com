@@ -376,5 +376,36 @@ export const products: Product[] = [
             { id: "nflx250", name: "250 TL Netflix Kodu", price: 250, description: "250 TL Bakiye", slug: "netflix-250-tl" }
         ],
         howToUse: "www.netflix.com/redeem adresine gidin ve satın aldığınız kodu girin."
+    },
+    // GOOGLE PLAY
+    {
+        id: 107,
+        slug: "google-play-gift-card",
+        category: "gift",
+        productType: "satis",
+        name: "Google Play Hediye Kartı",
+        price: 25,
+        image: "https://images.unsplash.com/photo-1628126235206-5260b9ea6441?q=80&w=1000&auto=format&fit=crop", // Android vibes
+        logo: "https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg",
+        description: "Google Play bakiyesi ile Android uygulamaları, oyunları, filmleri ve daha fazlasını satın alın. Türkiye mağazasında geçerlidir.",
+        seoTitle: "Google Play Kodu Satın Al - Google Play Kart Fiyatları | KodFinans",
+        seoDescription: "İndirimli Google Play hediye kartı fiyatları. Android bakiyenizi güvenle ve anında yükleyin. Google Play kodu satın al.",
+        seoKeywords: "google play kodu satın al, google play kartı, android bakiye, google play gift card",
+        stock: 500,
+        rating: 4.8,
+        speed: "Anında",
+        features: [
+            { key: "Bölge", value: "Türkiye (TR)" },
+            { key: "Platform", value: "Google Play Store" },
+            { key: "Teslimat", value: "7/24 Otomatik" }
+        ],
+        variants: [
+            { id: "gp25", name: "25 TL Google Play", price: 25, description: "25 TL Bakiye", slug: "google-play-25-tl" },
+            { id: "gp50", name: "50 TL Google Play", price: 50, description: "50 TL Bakiye", slug: "google-play-50-tl" },
+            { id: "gp100", name: "100 TL Google Play", price: 100, description: "100 TL Bakiye", slug: "google-play-100-tl" },
+            { id: "gp250", name: "250 TL Google Play", price: 250, description: "250 TL Bakiye", slug: "google-play-250-tl" },
+            { id: "gp500", name: "500 TL Google Play", price: 500, description: "500 TL Bakiye", slug: "google-play-500-tl" }
+        ],
+        howToUse: "Google Play Store uygulamasını açın > Profil simgesine dokunun > Ödemeler ve abonelikler > Hediye kodu kullan seçeneğine gidin."
     }
 ];
