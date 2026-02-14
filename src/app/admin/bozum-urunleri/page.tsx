@@ -24,6 +24,7 @@ export default function AdminBozumProductsPage() {
         seoTitle: "",
         seoDescription: "",
         seoKeywords: "",
+        linkedSalesSlug: "",
     });
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -65,6 +66,7 @@ export default function AdminBozumProductsPage() {
                 seoTitle: "",
                 seoDescription: "",
                 seoKeywords: "",
+                linkedSalesSlug: "",
             });
         }
         setIsModalOpen(true);
@@ -194,6 +196,17 @@ export default function AdminBozumProductsPage() {
                                             className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none"
                                             placeholder="örn: razer-gold-bozdurma"
                                         />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-primary/60 text-xs font-bold uppercase ml-2 italic">Satın Al Butonu Linki (Satış Ürünü Slug'ı)</label>
+                                        <input
+                                            type="text"
+                                            value={formData.linkedSalesSlug}
+                                            onChange={(e) => setFormData({ ...formData, linkedSalesSlug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+                                            className="w-full bg-primary/5 border border-primary/20 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none"
+                                            placeholder="örn: google-play-gift-card"
+                                        />
+                                        <p className="text-[10px] text-white/30 ml-2">Anasayfadaki "Satın Al" butonu bu slug'a sahip ürüne gidecektir.</p>
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-white/40 text-xs font-bold uppercase ml-2">Bozum Oranı (%)</label>

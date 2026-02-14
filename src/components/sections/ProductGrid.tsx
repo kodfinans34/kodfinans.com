@@ -144,10 +144,19 @@ export const ProductGrid = () => {
                                                 <Button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
+
+                                                        // 1. Eğer admin panelden özel bir satış slug'ı bağlanmışsa onu kullan
+                                                        if (product.linkedSalesSlug) {
+                                                            router.push(`/urun/${product.linkedSalesSlug}`);
+                                                            return;
+                                                        }
+
+                                                        // 2. Yoksa otomatik eşleştirme algoritmasını kullan
                                                         const search = product.name.split(' ')[0].toLowerCase();
                                                         const found = products.find(p => p.productType === "satis" && p.name.toLowerCase().includes(search));
-                                                        alert(`ARANAN: ${search}\nBULUNAN: ${found?.name || 'YOK'}\nSLUG: ${found?.slug}`);
-                                                        router.push(`/urun/${found?.slug || product.slug.replace("-bozum", "").replace("-bozdurma", "")}`);
+
+                                                        const target = found?.slug || product.slug.replace("-bozum", "").replace("-bozdurma", "");
+                                                        router.push(`/urun/${target}`);
                                                     }}
                                                     className="flex-1 py-4 h-auto rounded-2xl text-[9px] font-black tracking-[0.2em] uppercase transition-all group/btn bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/20 text-white hover:from-primary hover:to-secondary hover:shadow-[0_0_30px_rgba(74,188,241,0.3)] shadow-lg relative overflow-hidden"
                                                     variant="ghost"

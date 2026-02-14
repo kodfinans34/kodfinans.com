@@ -40,6 +40,7 @@ export interface Product extends StaticProduct {
     variants?: ProductVariant[];
     features?: ProductFeature[];
     howToUse?: string;
+    linkedSalesSlug?: string; // Bozum ürünlerinin "Satın Al" butonu için yönlendirileceği satış ürünü slug'ı
 }
 
 // Order Type
