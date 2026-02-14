@@ -56,6 +56,12 @@ import {
     addBozumRequestToFirestore,
     updateBozumRequestInFirestore
 } from "@/lib/firebase-bozum";
+import {
+    getUsersFromFirestore,
+    addUserToFirestore,
+    updateUserInFirestore,
+    deleteUserFromFirestore
+} from "@/lib/firebase-users";
 
 // System Context Interface
 interface SystemContextType {
@@ -157,28 +163,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
     const [userBalance, setUserBalance] = useState(1250.75);
     const [user, setUser] = useState<{ name: string; email: string; phone: string } | null>(null);
 
-    const [users, setUsers] = useState<SystemUser[]>([
-        {
-            id: "1",
-            name: "Demo Kullanıcı",
-            email: "demo@kodfinans.com",
-            phone: "0555 555 55 55",
-            balance: 1250.75,
-            role: "user",
-            createdAt: new Date("2026-01-10"),
-            password: "password123"
-        },
-        {
-            id: "2",
-            name: "Ahmet Yılmaz",
-            email: "ahmet@gmail.com",
-            phone: "0532 123 44 55",
-            balance: 450.00,
-            role: "user",
-            createdAt: new Date("2026-02-01"),
-            password: "password123"
-        }
-    ]);
+    const [users, setUsers] = useState<SystemUser[]>([]);
 
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -197,6 +182,10 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                 // Load Firestore Data
                 try {
                     console.log("SystemContext: Starting to load Firestore data...");
+
+                    // Users request
+                    const dbUsers = await getUsersFromFirestore();
+                    setUsers(dbUsers);
 
                     // Products request
                     const dbProducts = await getProducts();
@@ -233,9 +222,14 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                 }
 
                 if (savedReviews) setReviews(JSON.parse(savedReviews).map((rv: any) => ({ ...rv, timestamp: new Date(rv.timestamp) })));
-                if (savedUsers) setUsers(JSON.parse(savedUsers).map((u: any) => ({ ...u, createdAt: new Date(u.createdAt) })));
+                // Users are now fully managed by Firestore, no local overwrite needed except maybe for session check
                 if (savedBalance) setUserBalance(parseFloat(savedBalance));
-                if (savedUser) setUser(JSON.parse(savedUser));
+                if (savedUser) {
+                    const parsedUser = JSON.parse(savedUser);
+                    setUser(parsedUser);
+                    // Update session with fresh data from Firestore if available
+                    // We will do this via a separate effect or just trust localStorage for now
+                }
 
                 setIsLoaded(true);
             };
@@ -450,14 +444,33 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         setUsers(prev => prev.map(u => u.id === id ? { ...u, ...updates } : u));
     };
 
-    const updateUserBalance = (id: string, amount: number, action: "add" | "set") => {
+    const updateUserBalance = async (id: string, amount: number, action: "add" | "set") => {
+        const userToUpdate = users.find(u => u.id === id);
+        if (!userToUpdate) return;
+
+        const newBalance = action === "add" ? userToUpdate.balance + amount : amount;
+        const safeBalance = Math.max(0, newBalance);
+
+        // Optimistic update
         setUsers(prev => prev.map(u => {
             if (u.id === id) {
-                const newBalance = action === "add" ? u.balance + amount : amount;
-                return { ...u, balance: Math.max(0, newBalance) };
+                return { ...u, balance: safeBalance };
             }
             return u;
         }));
+
+        // Firestore update
+        try {
+            await updateUserInFirestore(id, { balance: safeBalance });
+
+            // If the updated user is the currently logged in user, update the session balance too
+            if (user && user.email === userToUpdate.email) {
+                setUserBalance(safeBalance);
+            }
+        } catch (error) {
+            console.error("Failed to update user balance in Firestore", error);
+            // Revert on error? For now just log
+        }
     };
 
     const deleteUser = (id: string) => {
@@ -474,9 +487,8 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    const register = (userData: { name: string; email: string; phone: string; password?: string }) => {
-        const newUser: SystemUser = {
-            id: Math.random().toString(36).substr(2, 9),
+    const register = async (userData: { name: string; email: string; phone: string; password?: string }) => {
+        const newUser: Omit<SystemUser, "id"> = {
             name: userData.name,
             email: userData.email,
             phone: userData.phone,
@@ -485,9 +497,21 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             role: "user",
             createdAt: new Date()
         };
-        setUsers(prev => [...prev, newUser]);
-        setUser({ name: newUser.name, email: newUser.email, phone: newUser.phone });
-        setUserBalance(0);
+
+        try {
+            const id = await addUserToFirestore(newUser);
+            const userWithId = { ...newUser, id };
+
+            setUsers(prev => [...prev, userWithId]);
+
+            // Auto login
+            const sessionUser = { name: newUser.name, email: newUser.email, phone: newUser.phone };
+            setUser(sessionUser);
+            setUserBalance(0);
+            localStorage.setItem("userProfile", JSON.stringify(sessionUser));
+        } catch (error) {
+            console.error("Failed to register user", error);
+        }
     };
 
     const logout = () => setUser(null);
