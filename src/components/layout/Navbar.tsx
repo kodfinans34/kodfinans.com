@@ -174,8 +174,27 @@ export const Navbar = () => {
                                 </div>
                             ) : (
                                 <>
-                                    <Button variant="ghost" size="sm" className="font-black text-[10px] uppercase tracking-[0.2em] px-4 opacity-50 hover:opacity-100 h-9" onClick={() => router.push("/giris")}>Giriş</Button>
-                                    <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white font-black text-[10px] uppercase tracking-[0.2em] px-4 border border-white/5 h-9 rounded-xl" onClick={() => router.push("/kayit-ol")}>Kayıt</Button>
+                                    {/* Desktop Buttons */}
+                                    <div className="hidden md:flex gap-2">
+                                        <Button variant="ghost" size="sm" className="font-black text-[10px] uppercase tracking-[0.2em] px-4 opacity-50 hover:opacity-100 h-9" onClick={() => router.push("/giris")}>Giriş</Button>
+                                        <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white font-black text-[10px] uppercase tracking-[0.2em] px-4 border border-white/5 h-9 rounded-xl" onClick={() => router.push("/kayit-ol")}>Kayıt</Button>
+                                    </div>
+
+                                    {/* Mobile Icon Buttons */}
+                                    <div className="flex md:hidden gap-1">
+                                        <button
+                                            onClick={() => router.push("/giris")}
+                                            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 border border-white/5 text-white/60 hover:text-white transition-colors"
+                                        >
+                                            <User size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => router.push("/kayit-ol")}
+                                            className="w-9 h-9 flex items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-colors"
+                                        >
+                                            <Zap size={18} />
+                                        </button>
+                                    </div>
                                 </>
                             )}
                         </div>
@@ -231,87 +250,91 @@ export const Navbar = () => {
                         </div>
 
                         {/* Links */}
-                        <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-2">
+                        {/* Mobile Menu Content - Streamlined */}
+                        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+                            <div className="text-white/20 text-[10px] font-black uppercase tracking-[0.2em] mb-2 px-2">Menü</div>
                             {navLinks.map((link, i) => (
                                 <motion.div
                                     key={link.name}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.05 + 0.1 }}
+                                    transition={{ delay: i * 0.05 }}
                                 >
                                     <Link
                                         href={link.href}
                                         onClick={() => setIsOpen(false)}
                                         className={cn(
-                                            "flex items-center gap-4 p-5 rounded-2xl border transition-all duration-300 group",
+                                            "flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 group active:scale-95",
                                             pathname === link.href
                                                 ? "bg-primary text-white border-primary shadow-lg shadow-primary/20"
-                                                : "bg-white/[0.02] border-white/5 text-white/40 hover:bg-white/5 hover:text-white hover:border-white/10",
-                                            link.name === "VIP" && "animate-rainbow border-white/20 font-black"
+                                                : "bg-[#0f0f12] border-white/5 text-white/50 hover:bg-white/5 hover:text-white hover:border-white/10",
+                                            link.name === "VIP" && "animate-rainbow border-white/20 font-black text-white"
                                         )}
                                     >
-                                        <link.icon size={20} className={pathname === link.href ? "text-white" : "text-white/40 group-hover:text-white transition-colors"} />
-                                        <span className="text-lg font-bold tracking-tight">{link.name}</span>
-                                        <ChevronRight size={16} className="ml-auto opacity-20 group-hover:opacity-100 transition-opacity" />
+                                        <div className={cn(
+                                            "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
+                                            pathname === link.href ? "bg-white/20" : "bg-white/5 group-hover:bg-white/10"
+                                        )}>
+                                            <link.icon size={16} />
+                                        </div>
+                                        <span className="text-sm font-bold tracking-tight">{link.name}</span>
+                                        <ChevronRight size={14} className="ml-auto opacity-20 group-hover:opacity-100 transition-opacity" />
                                     </Link>
                                 </motion.div>
                             ))}
+
+                            {/* Mobile User Actions (If not logged in, show huge buttons here too as fallback) */}
+                            {!isLoggedIn && (
+                                <div className="mt-4 grid grid-cols-2 gap-3">
+                                    <Button
+                                        className="h-12 rounded-xl text-xs font-black bg-white text-black hover:bg-white/90"
+                                        onClick={() => { setIsOpen(false); router.push("/giris"); }}
+                                    >
+                                        GİRİŞ YAP
+                                    </Button>
+                                    <Button
+                                        variant="secondary"
+                                        className="h-12 rounded-xl text-xs font-black border-white/10 bg-white/5 hover:bg-white/10 text-white"
+                                        onClick={() => { setIsOpen(false); router.push("/kayit-ol"); }}
+                                    >
+                                        KAYIT OL
+                                    </Button>
+                                </div>
+                            )}
                         </div>
 
-                        {/* Footer Actions */}
-                        <div className="p-6 border-t border-white/5 space-y-4 bg-white/[0.02]">
-                            <div className="grid grid-cols-1 gap-4">
-                                {isLoggedIn ? (
-                                    <>
-                                        <div className="bg-white/5 p-4 rounded-xl flex items-center justify-between">
-                                            <div>
-                                                <p className="text-xs text-white/40 font-bold uppercase">Toplam Bakiye</p>
-                                                <p className="text-xl font-black text-white font-mono">₺{userBalance.toFixed(2)}</p>
-                                            </div>
-                                            <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white">
-                                                <User size={20} />
-                                            </div>
+                        {/* Footer Actions - Sticky Bottom */}
+                        <div className="p-4 border-t border-white/5 space-y-3 bg-[#0a0a0c] pb-8">
+                            {isLoggedIn ? (
+                                <>
+                                    <div className="bg-[#121215] p-3 rounded-xl flex items-center justify-between border border-white/5">
+                                        <div>
+                                            <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest">Kullanılabilir Bakiye</p>
+                                            <p className="text-lg font-black text-white font-mono mt-0.5">₺{userBalance.toFixed(2)}</p>
                                         </div>
-                                        <Button
-                                            className="w-full py-6 rounded-2xl text-sm font-black bg-white/5 border border-white/10 hover:bg-white/10 text-white"
-                                            onClick={() => { setIsOpen(false); router.push("/panel"); }}
+                                        <button
+                                            onClick={() => { logout(); setIsOpen(false); }}
+                                            className="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500/20 transition-colors"
                                         >
-                                            <LayoutDashboard size={18} className="mr-2" />
-                                            MÜŞTERİ PANELİ
-                                        </Button>
-                                        <Button
-                                            variant="secondary"
-                                            className="w-full py-6 rounded-2xl text-sm font-black border-red-500/20 bg-red-500/10 text-red-500 hover:bg-red-500/20"
-                                            onClick={() => { setIsOpen(false); logout(); }}
-                                        >
-                                            <LogOut size={18} className="mr-2" />
-                                            ÇIKIŞ YAP
-                                        </Button>
-                                    </>
-                                ) : (
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <Button
-                                            className="w-full py-6 rounded-2xl text-sm font-black bg-white text-black hover:bg-white/90"
-                                            onClick={() => { setIsOpen(false); router.push("/giris"); }}
-                                        >
-                                            GİRİŞ YAP
-                                        </Button>
-                                        <Button
-                                            variant="secondary"
-                                            className="w-full py-6 rounded-2xl text-sm font-black border-white/10 bg-white/5 hover:bg-white/10"
-                                            onClick={() => { setIsOpen(false); router.push("/kayit-ol"); }}
-                                        >
-                                            KAYIT OL
-                                        </Button>
+                                            <LogOut size={16} />
+                                        </button>
                                     </div>
-                                )}
-                            </div>
+                                    <Button
+                                        className="w-full h-12 rounded-xl text-xs font-black bg-white/5 border border-white/10 hover:bg-white/10 text-white"
+                                        onClick={() => { setIsOpen(false); router.push("/panel"); }}
+                                    >
+                                        <LayoutDashboard size={16} className="mr-2" />
+                                        MÜŞTERİ PANELİNE GİT
+                                    </Button>
+                                </>
+                            ) : null}
+
                             <Button
-                                className="w-full py-6 rounded-2xl text-sm font-black bg-animate-rainbow text-white shadow-xl shadow-primary/20 border border-white/10"
+                                className="w-full h-14 rounded-xl text-sm font-black bg-gradient-to-r from-primary to-blue-600 text-white shadow-xl shadow-primary/20 border border-white/10 active:scale-95 transition-transform"
                                 onClick={() => { setIsOpen(false); router.push("/bozum"); }}
                             >
-                                <Calculator size={18} className="mr-2" />
-                                BOZUM YAP
+                                <Zap size={18} className="mr-2 fill-white" />
+                                HEMEN BOZUM YAP
                             </Button>
                         </div>
                     </motion.div>

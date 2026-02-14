@@ -98,7 +98,7 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
         return (
             <div className="min-h-screen bg-[#050506] flex flex-col">
                 <Navbar />
-                <div className="flex-1 flex items-center justify-center p-4">
+                <div className="flex-1 flex items-center justify-center p-4 pt-32">
                     <div className="text-center space-y-4">
                         <h2 className="text-4xl font-black text-white uppercase italic tracking-tighter">Ürün Bulunamadı</h2>
                         <p className="text-white/50">Aradığınız ürün mevcut değil veya kaldırılmış olabilir.</p>

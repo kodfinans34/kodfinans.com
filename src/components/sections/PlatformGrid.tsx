@@ -39,7 +39,7 @@ export const PlatformGrid = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.05 }}
                             viewport={{ once: true }}
-                            onClick={() => router.push(`/urun/${product.slug}`)}
+                            onClick={() => router.push(`/bozum?product=${product.slug}`)}
                             className="group cursor-pointer w-full"
                         >
                             <div className="relative h-40 md:h-56 overflow-hidden rounded-[2rem] glass border-white/10 bg-[#08080a] p-4 md:p-6 flex flex-col justify-end transition-all duration-500 group-hover:-translate-y-2 group-hover:border-primary/30 group-hover:shadow-[0_20px_40px_rgba(74,188,241,0.1)]">
