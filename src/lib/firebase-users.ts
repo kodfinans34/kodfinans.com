@@ -10,7 +10,12 @@ export async function getUsersFromFirestore(): Promise<SystemUser[]> {
         const querySnapshot = await getDocs(collection(db, USERS_COLLECTION));
         const users: SystemUser[] = [];
         querySnapshot.forEach((doc) => {
-            users.push({ ...doc.data(), id: doc.id } as SystemUser);
+            const data = doc.data();
+            users.push({
+                ...data,
+                id: doc.id,
+                createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt || Date.now())
+            } as SystemUser);
         });
         return users;
     } catch (error) {
