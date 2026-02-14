@@ -194,9 +194,8 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                     const dbProducts = await getProducts();
                     console.log("SystemContext: Loaded products from DB:", dbProducts.length);
 
-                    if (dbProducts.length > 0) {
-                        setProducts(dbProducts);
-                    }
+                    // If fetch is successful, use DB products (even if empty) to allow full deletion
+                    setProducts(dbProducts);
 
                     const dbWithdrawals = await getWithdrawalsFromFirestore();
                     setWithdrawalRequests(dbWithdrawals);
