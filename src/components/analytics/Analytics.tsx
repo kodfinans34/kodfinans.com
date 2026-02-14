@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useSystem } from "@/context/SystemContext";
 import Script from "next/script";
 
@@ -9,37 +8,27 @@ export function Analytics() {
 
     if (!settings) return null;
 
+    // Determine the primary ID for the script src (prefer Ads ID if available as it's static here, or GA ID)
+    const primaryId = "AW-17882525420"; // Hardcoded Ads ID
+
     return (
         <>
-            {/* Google Analytics */}
-            {settings.googleAnalyticsId && (
-                <>
-                    <Script
-                        src={`https://www.googletagmanager.com/gtag/js?id=${settings.googleAnalyticsId}`}
-                        strategy="afterInteractive"
-                    />
-                    <Script id="google-analytics" strategy="afterInteractive">
-                        {`
-                            window.dataLayer = window.dataLayer || [];
-                            function gtag(){dataLayer.push(arguments);}
-                            gtag('js', new Date());
-                            gtag('config', '${settings.googleAnalyticsId}');
-                        `}
-                    </Script>
-                </>
-            )}
-
-            {/* Google Ads (Hardcoded Request) */}
+            {/* Unified Google Tag Manager */}
             <Script
-                src="https://www.googletagmanager.com/gtag/js?id=AW-17882525420"
+                src={`https://www.googletagmanager.com/gtag/js?id=${primaryId}`}
                 strategy="afterInteractive"
             />
-            <Script id="google-ads" strategy="afterInteractive">
+            <Script id="google-tag-manager" strategy="afterInteractive">
                 {`
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
+
+                    // Config for Google Ads
                     gtag('config', 'AW-17882525420');
+
+                    // Config for Google Analytics (if ID exists)
+                    ${settings.googleAnalyticsId ? `gtag('config', '${settings.googleAnalyticsId}');` : ''}
                 `}
             </Script>
 
