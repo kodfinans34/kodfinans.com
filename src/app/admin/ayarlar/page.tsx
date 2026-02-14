@@ -241,6 +241,47 @@ export default function AdminSettingsPage() {
                     </div>
                 </div>
 
+                {/* Custom Codes & CSS */}
+                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                    <h2 className="text-lg font-black text-white uppercase tracking-wider mb-4 border-b border-white/5 pb-2">Özel Kodlar & CSS</h2>
+
+                    <div className="space-y-6">
+                        <div>
+                            <label className="text-xs font-bold text-white/40 uppercase tracking-widest block mb-2">Google Analytics ID</label>
+                            <input
+                                name="googleAnalyticsId"
+                                value={localSettings.googleAnalyticsId || ""}
+                                onChange={handleChange}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                placeholder="G-XXXXXXXXXX"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="text-xs font-bold text-white/40 uppercase tracking-widest block mb-2">Özel Head Kodları (Google Ads vb.)</label>
+                            <textarea
+                                name="customHeadCode"
+                                value={localSettings.customHeadCode || ""}
+                                onChange={handleChange}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors h-32 font-mono text-xs"
+                                placeholder="<meta name='google-site-verification' ... /> veya <script>...</script>"
+                            />
+                            <p className="text-[10px] text-white/20 mt-2">Bu alana gireceğiniz kodlar sitenin &lt;head&gt; veya &lt;body&gt; kısmına eklenecektir. Dikkatli kullanınız.</p>
+                        </div>
+
+                        <div>
+                            <label className="text-xs font-bold text-white/40 uppercase tracking-widest block mb-2">Özel CSS (Custom CSS)</label>
+                            <textarea
+                                name="customCss"
+                                value={localSettings.customCss || ""}
+                                onChange={handleChange}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors h-48 font-mono text-xs"
+                                placeholder=".my-class { color: red !important; }"
+                            />
+                        </div>
+                    </div>
+                </div>
+
                 {/* PayTR */}
                 <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
                     <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
