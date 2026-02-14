@@ -142,8 +142,8 @@ export const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="flex flex-col md:flex-row items-center justify-between border-t border-white/5 pt-10 gap-8">
                     <div className="flex flex-col md:flex-row items-center gap-6">
-                        <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.2em]">
-                            © 2026 KODFINANS. DİJİTAL VARLIK YÖNETİMİ.
+                        <p className="text-white/20 text-[10px] font-medium tracking-widest uppercase">
+                            © {new Date().getFullYear()} KodFinans Exchange. Tüm Hakları Saklıdır. | v1.0.5-debug
                         </p>
                         <div className="flex gap-6 uppercase text-[9px] font-black tracking-widest text-white/20">
                             <Link href="/kvkk" className="hover:text-primary transition-colors">KVKK</Link>
