@@ -29,6 +29,20 @@ export function Analytics() {
                 </>
             )}
 
+            {/* Google Ads (Hardcoded Request) */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=AW-17882525420"
+                strategy="afterInteractive"
+            />
+            <Script id="google-ads" strategy="afterInteractive">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'AW-17882525420');
+                `}
+            </Script>
+
             {/* Content Security Policy compatible Custom CSS */}
             {settings.customCss && (
                 <style dangerouslySetInnerHTML={{ __html: settings.customCss }} />
