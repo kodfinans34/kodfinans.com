@@ -205,6 +205,15 @@ export default function BlogPage() {
 
                             </div>
                         </div>
+                    ) : (
+                        <div className="text-center py-24 glass rounded-[2rem] border-white/5 mx-auto max-w-2xl">
+                            <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6 text-white/20">
+                                <BookOpen size={32} />
+                            </div>
+                            <h2 className="text-2xl font-black text-white/40 uppercase tracking-widest">Henüz Yazı Eklenmedi</h2>
+                            <p className="text-white/20 mt-4 font-medium text-sm">Blog yazıları çok yakında burada olacak. Takipte kalın!</p>
+                        </div>
+                    )}
 
                     {/* Bottom CTA - Enhanced */}
                     <div className="mt-32 relative group">
