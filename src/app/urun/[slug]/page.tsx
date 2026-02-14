@@ -3,6 +3,8 @@ import { getProductBySlug } from "@/lib/firebase-products";
 import ProductDetailClient from "@/components/features/ProductDetailClient";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
     params: Promise<{ slug: string }>;
 }
