@@ -13,16 +13,27 @@ export default function LoginPage() {
     const router = useRouter();
     const { login } = useSystem();
     const [isLoading, setIsLoading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        // Simulate login
-        setTimeout(() => {
-            login();
+        setError("");
+
+        try {
+            const success = await login(email, password);
+            if (success) {
+                router.push("/");
+            } else {
+                setError("E-posta veya şifre hatalı!");
+                setIsLoading(false);
+            }
+        } catch (err) {
+            setError("Bir hata oluştu.");
             setIsLoading(false);
-            router.push("/");
-        }, 1500);
+        }
     };
 
     return (
@@ -92,6 +103,8 @@ export default function LoginPage() {
                                             <input
                                                 required
                                                 type="email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
                                                 className="w-full h-14 bg-white/[0.03] border border-white/5 rounded-2xl px-12 text-sm font-bold text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 focus:bg-white/[0.05] transition-all hover:bg-white/[0.05]"
                                                 placeholder="ornek@kodfinans.com"
                                             />
@@ -110,11 +123,18 @@ export default function LoginPage() {
                                             <input
                                                 required
                                                 type="password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
                                                 className="w-full h-14 bg-white/[0.03] border border-white/5 rounded-2xl px-12 text-sm font-bold text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 focus:bg-white/[0.05] transition-all hover:bg-white/[0.05]"
                                                 placeholder="••••••••"
                                             />
                                         </div>
                                     </div>
+                                    {error && (
+                                        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold text-center animate-pulse">
+                                            {error}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <Button

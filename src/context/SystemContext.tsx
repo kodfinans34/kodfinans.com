@@ -115,7 +115,7 @@ interface SystemContextType {
 
     // Auth
     user: { name: string; email: string; phone: string } | null;
-    login: () => void;
+    login: (email: string, password: string) => Promise<boolean>;
     register: (userData: { name: string; email: string; phone: string; password?: string }) => void;
     logout: () => void;
     isLoggedIn: boolean;
@@ -477,14 +477,17 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         setUsers(prev => prev.filter(u => u.id !== id));
     };
 
-    const login = () => {
-        const demoUser = users.find(u => u.id === "1");
-        if (demoUser) {
-            setUser({ name: demoUser.name, email: demoUser.email, phone: demoUser.phone });
-            setUserBalance(demoUser.balance);
-        } else {
-            setUser({ name: "Demo User", email: "demo@kodfinans.com", phone: "05555555555" });
+    const login = async (email: string, password: string) => {
+        const foundUser = users.find(u => u.email === email && u.password === password);
+
+        if (foundUser) {
+            const sessionUser = { name: foundUser.name, email: foundUser.email, phone: foundUser.phone };
+            setUser(sessionUser);
+            setUserBalance(foundUser.balance);
+            localStorage.setItem("userProfile", JSON.stringify(sessionUser));
+            return true;
         }
+        return false;
     };
 
     const register = async (userData: { name: string; email: string; phone: string; password?: string }) => {
