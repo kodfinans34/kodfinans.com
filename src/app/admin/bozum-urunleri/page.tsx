@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+// Triggering fresh deploy - 14.02.2026 - v4
 import { useSystem, Product } from "@/context/SystemContext";
 import { Plus, Edit, Trash2, Search, X, Image as ImageIcon, Save } from "lucide-react";
 import { Button } from "@/components/ui/Button";
