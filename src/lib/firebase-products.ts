@@ -6,7 +6,9 @@ import { Product } from "@/lib/types";
 // Cache for products to reduce read operations
 let productsCache: Product[] | null = null;
 let lastFetchTime = 0;
-const CACHE_DURATION = 0; // Disabled for development/testing phase
+const CACHE_DURATION = 0; // Disabled cache
+
+const PRODUCTS_COLLECTION = "products_v2"; // Changed collection name to force fresh start
 
 export async function getProducts(): Promise<Product[]> {
     const now = Date.now();
@@ -23,7 +25,7 @@ export async function getProducts(): Promise<Product[]> {
 
         // Race the fetch against the timeout
         const querySnapshot = await Promise.race([
-            getDocs(collection(db, "products")),
+            getDocs(collection(db, PRODUCTS_COLLECTION)),
             timeoutPromise
         ]);
 
@@ -42,14 +44,12 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
-    // First try to find in cache
     if (productsCache) {
         return productsCache.find(p => p.slug === slug);
     }
 
-    // If not in cache, query Firestore directly for efficiency
     try {
-        const q = query(collection(db, "products"), where("slug", "==", slug));
+        const q = query(collection(db, PRODUCTS_COLLECTION), where("slug", "==", slug));
         const querySnapshot = await getDocs(q);
 
         if (!querySnapshot.empty) {
@@ -66,7 +66,7 @@ export async function getProductById(id: string | number): Promise<Product | und
     const idStr = id.toString();
 
     try {
-        const docRef = doc(db, "products", idStr);
+        const docRef = doc(db, PRODUCTS_COLLECTION, idStr);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -76,7 +76,6 @@ export async function getProductById(id: string | number): Promise<Product | und
         console.error("Error fetching product by id:", error);
     }
 
-
     return undefined;
 }
 
@@ -84,11 +83,8 @@ export async function getProductById(id: string | number): Promise<Product | und
 
 export async function addProductToFirestore(product: Omit<Product, "id">): Promise<string> {
     try {
-        const docRef = await addDoc(collection(db, "products"), product);
-
-        // Invalidate cache
+        const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), product);
         productsCache = null;
-
         return docRef.id;
     } catch (error) {
         console.error("Error adding product:", error);
@@ -99,10 +95,8 @@ export async function addProductToFirestore(product: Omit<Product, "id">): Promi
 export async function updateProductInFirestore(id: string | number, updates: Partial<Product>): Promise<void> {
     const idStr = id.toString();
     try {
-        const docRef = doc(db, "products", idStr);
+        const docRef = doc(db, PRODUCTS_COLLECTION, idStr);
         await updateDoc(docRef, updates);
-
-        // Invalidate cache
         productsCache = null;
     } catch (error) {
         console.error("Error updating product:", error);
@@ -113,10 +107,8 @@ export async function updateProductInFirestore(id: string | number, updates: Par
 export async function deleteProductFromFirestore(id: string | number): Promise<void> {
     const idStr = id.toString();
     try {
-        const docRef = doc(db, "products", idStr);
+        const docRef = doc(db, PRODUCTS_COLLECTION, idStr);
         await deleteDoc(docRef);
-
-        // Invalidate cache
         productsCache = null;
     } catch (error) {
         console.error("Error deleting product:", error);
