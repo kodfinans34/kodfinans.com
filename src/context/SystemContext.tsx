@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { products as initialProducts } from "@/lib/products";
-import { blogs as staticBlogs } from "@/lib/blogs";
+
 import {
     Product,
     Review,
@@ -152,13 +152,8 @@ const defaultSettings: SiteSettings = {
 const SystemContext = createContext<SystemContextType | undefined>(undefined);
 
 export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
-    const initialBlogs: BlogPost[] = staticBlogs.map(b => ({
-        ...b,
-        category: b.category as string,
-        excerpt: b.excerpt
-    }));
     const [products, setProducts] = useState<Product[]>([]);
-    const [blogs, setBlogs] = useState<BlogPost[]>(initialBlogs);
+    const [blogs, setBlogs] = useState<BlogPost[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
     const [bozumRequests, setBozumRequests] = useState<BozumRequest[]>([]);
     const [withdrawalRequests, setWithdrawalRequests] = useState<WithdrawalRequest[]>([]);
@@ -176,7 +171,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         if (typeof window !== "undefined") {
             const loadData = async () => {
                 // Initialize LocalStorage Data
-                const savedBlogs = localStorage.getItem("kf_blogs");
+
                 const savedReviews = localStorage.getItem("kf_reviews");
                 const savedSettings = localStorage.getItem("kf_settings");
                 const savedUsers = localStorage.getItem("kf_users");
@@ -209,10 +204,8 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
 
                     // Blogs request
                     const dbBlogs = await getBlogs();
-                    if (dbBlogs.length > 0) {
+                    if (dbBlogs) {
                         setBlogs(dbBlogs);
-                    } else {
-                        setBlogs(initialBlogs);
                     }
 
                     // Settings request
