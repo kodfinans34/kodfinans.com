@@ -326,6 +326,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         const tempOrder = {
             ...order,
             status: "pending" as const,
+            timestamp: new Date()
         };
         try {
             const id = await addOrderToFirestore(tempOrder);
