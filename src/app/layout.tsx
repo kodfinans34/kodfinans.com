@@ -44,6 +44,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  verification: {
+    google: "JE50c0fZ8JUUrRejewNM_pYdwX_SVjwn0e0elKHtGNE",
+  },
 };
 
 import { Providers } from "@/components/Providers";
