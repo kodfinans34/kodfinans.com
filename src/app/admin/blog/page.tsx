@@ -28,9 +28,15 @@ export default function AdminBlogPage() {
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            if (file.size > 500 * 1024) { // 500KB limit
+                alert("Görsel boyutu çok yüksek! Lütfen 500KB altında bir görsel yükleyiniz. (Firestore limiti)");
+                e.target.value = ""; // Reset input
+                return;
+            }
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64String = reader.result as string;
@@ -81,8 +87,9 @@ export default function AdminBlogPage() {
                 await addBlog(formData as Omit<BlogPost, "id">);
             }
             setIsModalOpen(false);
-        } catch (error) {
-            alert("Blog yazısı kaydedilirken bir hata oluştu.");
+        } catch (error: any) {
+            console.error(error);
+            alert("Blog yazısı kaydedilirken bir hata oluştu: " + (error.message || error));
         }
     };
 
