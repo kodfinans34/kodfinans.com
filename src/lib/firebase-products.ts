@@ -6,7 +6,7 @@ import { Product } from "@/lib/types";
 // Cache for products to reduce read operations
 let productsCache: Product[] | null = null;
 let lastFetchTime = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 0; // Disabled for development/testing phase
 
 export async function getProducts(): Promise<Product[]> {
     const now = Date.now();
