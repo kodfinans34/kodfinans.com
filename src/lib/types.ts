@@ -111,6 +111,10 @@ export interface SiteSettings {
     paytrMerchantKey?: string;
     paytrMerchantSalt?: string;
     paytrTestMode?: boolean;
+    // Scripts & CSS
+    googleAnalyticsId?: string;
+    customHeadCode?: string; // For Google Ads verification, etc.
+    customCss?: string;
 }
 
 // Blog Post Type
