@@ -1,3 +1,4 @@
+// Triggering redeploy for environment variables - 14.02.2026 - v2
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -11,6 +12,13 @@ const firebaseConfig = {
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
+
+if (typeof window !== "undefined") {
+    console.log("Firebase Config Check:", {
+        hasApiKey: !!firebaseConfig.apiKey,
+        projectId: firebaseConfig.projectId
+    });
+}
 
 // Check if we have the minimum required config. 
 // During build (SSR) on Vercel, some variables might be missing if not properly configured.

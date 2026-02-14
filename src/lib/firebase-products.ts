@@ -18,7 +18,7 @@ export async function getProducts(): Promise<Product[]> {
     try {
         // Create a promise that rejects after 5 seconds
         const timeoutPromise = new Promise<never>((_, reject) => {
-            setTimeout(() => reject(new Error("Firebase fetch timeout")), 5000);
+            setTimeout(() => reject(new Error("Firebase fetch timeout")), 2000);
         });
 
         // Race the fetch against the timeout

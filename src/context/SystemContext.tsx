@@ -188,14 +188,14 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                 // Load Firestore Data (Products & Withdrawals)
                 try {
                     console.log("SystemContext: Starting to load Firestore data...");
+                    // Set initial products immediately so UI isn't empty
+                    setProducts(initialProducts as Product[]);
+
                     const dbProducts = await getProducts();
                     console.log("SystemContext: Loaded products from DB:", dbProducts.length);
 
                     if (dbProducts.length > 0) {
                         setProducts(dbProducts);
-                    } else {
-                        console.log("SystemContext: DB products empty, using static fallback.");
-                        setProducts(initialProducts as Product[]);
                     }
 
                     const dbWithdrawals = await getWithdrawalsFromFirestore();
