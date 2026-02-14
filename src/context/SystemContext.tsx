@@ -51,6 +51,11 @@ import {
     addOrderToFirestore,
     updateOrderInFirestore
 } from "@/lib/firebase-orders";
+import {
+    getBozumRequestsFromFirestore,
+    addBozumRequestToFirestore,
+    updateBozumRequestInFirestore
+} from "@/lib/firebase-bozum";
 
 // System Context Interface
 interface SystemContextType {
@@ -79,8 +84,8 @@ interface SystemContextType {
 
     // Bozum
     bozumRequests: BozumRequest[];
-    addBozumRequest: (request: Omit<BozumRequest, "id" | "status" | "timestamp">) => void;
-    updateBozumStatus: (id: string, status: "approved" | "rejected") => void;
+    addBozumRequest: (request: Omit<BozumRequest, "id" | "status" | "timestamp">) => Promise<void>;
+    updateBozumStatus: (id: string, status: "approved" | "rejected") => Promise<void>;
 
     // Withdrawal
     withdrawalRequests: WithdrawalRequest[];
@@ -142,7 +147,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         category: b.category as string,
         excerpt: b.excerpt
     }));
-    const [products, setProducts] = useState<Product[]>(initialProducts as Product[]);
+    const [products, setProducts] = useState<Product[]>([]);
     const [blogs, setBlogs] = useState<BlogPost[]>(initialBlogs);
     const [orders, setOrders] = useState<Order[]>([]);
     const [bozumRequests, setBozumRequests] = useState<BozumRequest[]>([]);
@@ -183,8 +188,6 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             const loadData = async () => {
                 // Initialize LocalStorage Data
                 const savedBlogs = localStorage.getItem("kf_blogs");
-                // const savedOrders = localStorage.getItem("kf_orders"); // Removed in favor of Firebase
-                const savedBozum = localStorage.getItem("kf_bozum");
                 const savedReviews = localStorage.getItem("kf_reviews");
                 const savedSettings = localStorage.getItem("kf_settings");
                 const savedUsers = localStorage.getItem("kf_users");
@@ -195,24 +198,23 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                 try {
                     console.log("SystemContext: Starting to load Firestore data...");
 
-                    // Products
+                    // Products request
                     const dbProducts = await getProducts();
-                    if (dbProducts.length > 0) {
-                        setProducts(dbProducts);
-                    } else {
-                        // Seed logic from before (simplified here to avoid duplication of logic)
-                        console.log("SystemContext: DB empty or fetch error.");
-                    }
+                    setProducts(dbProducts);
 
-                    // Withdrawals
+                    // Withdrawals request
                     const dbWithdrawals = await getWithdrawalsFromFirestore();
                     setWithdrawalRequests(dbWithdrawals);
 
-                    // Orders - NEW
+                    // Orders request
                     const dbOrders = await getOrdersFromFirestore();
                     setOrders(dbOrders);
 
-                    // Blogs
+                    // Bozum Requests
+                    const dbBozum = await getBozumRequestsFromFirestore();
+                    setBozumRequests(dbBozum);
+
+                    // Blogs request
                     const dbBlogs = await getBlogs();
                     if (dbBlogs.length > 0) {
                         setBlogs(dbBlogs);
@@ -220,7 +222,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                         setBlogs(initialBlogs);
                     }
 
-                    // Settings
+                    // Settings request
                     const dbSettings = await getSettings();
                     if (dbSettings) {
                         setSettings(dbSettings);
@@ -230,9 +232,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                     console.error("SystemContext: Error loading Firestore data:", error);
                 }
 
-                if (savedBozum) setBozumRequests(JSON.parse(savedBozum).map((r: any) => ({ ...r, timestamp: new Date(r.timestamp) })));
                 if (savedReviews) setReviews(JSON.parse(savedReviews).map((rv: any) => ({ ...rv, timestamp: new Date(rv.timestamp) })));
-                // if (savedSettings) ... // Prefer DB settings
                 if (savedUsers) setUsers(JSON.parse(savedUsers).map((u: any) => ({ ...u, createdAt: new Date(u.createdAt) })));
                 if (savedBalance) setUserBalance(parseFloat(savedBalance));
                 if (savedUser) setUser(JSON.parse(savedUser));
@@ -244,13 +244,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, []);
 
-    // Persistence Hooks (Only for remaining localStorage items)
-    // Orders are now in Firestore, removing local sync for them to avoid conflicts
-
-    useEffect(() => {
-        if (isLoaded) localStorage.setItem("kf_bozum", JSON.stringify(bozumRequests));
-    }, [bozumRequests, isLoaded]);
-
+    // Persistence Hooks
     useEffect(() => {
         if (isLoaded) localStorage.setItem("kf_reviews", JSON.stringify(reviews));
     }, [reviews, isLoaded]);
@@ -361,14 +355,36 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    const addBozumRequest = (request: Omit<BozumRequest, "id" | "status" | "timestamp">) => {
-        const newRequest: BozumRequest = {
+    // Bozum Handlers (Firestore)
+    const addBozumRequest = async (request: Omit<BozumRequest, "id" | "status" | "timestamp">) => {
+        const newRequestData = {
             ...request,
-            id: Math.random().toString(36).substr(2, 9),
-            status: "pending",
+            status: "pending" as const,
             timestamp: new Date()
         };
-        setBozumRequests(prev => [newRequest, ...prev]);
+        try {
+            const id = await addBozumRequestToFirestore(newRequestData);
+            const newRequest = { ...newRequestData, id };
+            setBozumRequests(prev => [newRequest, ...prev]);
+        } catch (error) {
+            console.error("Failed to add bozum request", error);
+            throw error;
+        }
+    };
+
+    const updateBozumStatus = async (id: string, status: "approved" | "rejected") => {
+        try {
+            await updateBozumRequestInFirestore(id, { status });
+            const req = bozumRequests.find(r => r.id === id);
+
+            if (req && status === "approved" && req.status !== "approved") {
+                addToBalance(req.calculatedAmount);
+            }
+
+            setBozumRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
+        } catch (error) {
+            console.error("Failed to update bozum status", error);
+        }
     };
 
     // Withdrawal Handlers (Firestore)
@@ -386,14 +402,6 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         } catch (error) {
             console.error("Failed to add withdrawal", error);
         }
-    };
-
-    const updateBozumStatus = (id: string, status: "approved" | "rejected") => {
-        const req = bozumRequests.find(r => r.id === id);
-        if (req && status === "approved" && req.status !== "approved") {
-            addToBalance(req.calculatedAmount);
-        }
-        setBozumRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
     };
 
     const updateWithdrawalStatus = async (id: string, status: "approved" | "rejected") => {
