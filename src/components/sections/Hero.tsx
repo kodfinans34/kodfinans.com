@@ -13,8 +13,8 @@ export const Hero = () => {
     const router = useRouter();
     const { settings, products } = useSystem();
 
-    const bozumProducts = products.filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
-    const featuredBozum = bozumProducts[0] || { name: "RAZER GOLD", price: "97.2" };
+    const bozumProducts = products?.filter(p => p && (p.productType === "bozum" || (p.slug && (p.slug.includes("bozum") || p.slug.includes("bozdurma"))))) || [];
+    const featuredBozum = bozumProducts.length > 0 ? bozumProducts[0] : { name: "CANLI KUR", price: "--", image: "" };
     const tickerProducts = bozumProducts.slice(0, 7);
 
     return (
