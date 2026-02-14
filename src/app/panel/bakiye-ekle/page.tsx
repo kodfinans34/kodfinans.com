@@ -124,7 +124,7 @@ export default function BakiyeEklePage() {
                         <div className="border-t border-white/5 pt-6 mt-6 flex items-center gap-4 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" className="h-4" alt="Visa" />
                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" className="h-6" alt="Mastercard" />
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Troy_logo.png/320px-Troy_logo.png" className="h-6" alt="Troy" />
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Troy_logo.png" className="h-8 object-contain bg-white/10 rounded px-1" alt="Troy" />
                         </div>
                     </div>
                 </div>
