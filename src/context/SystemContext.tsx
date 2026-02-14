@@ -49,12 +49,14 @@ import {
 import {
     getOrdersFromFirestore,
     addOrderToFirestore,
-    updateOrderInFirestore
+    updateOrderInFirestore,
+    deleteOrderFromFirestore
 } from "@/lib/firebase-orders";
 import {
     getBozumRequestsFromFirestore,
     addBozumRequestToFirestore,
-    updateBozumRequestInFirestore
+    updateBozumRequestInFirestore,
+    deleteBozumRequestFromFirestore
 } from "@/lib/firebase-bozum";
 import {
     getUsersFromFirestore,
@@ -87,11 +89,13 @@ interface SystemContextType {
     orders: Order[];
     addOrder: (order: Omit<Order, "id" | "status" | "timestamp">) => Promise<void>;
     updateOrderStatus: (id: string, status: "pending" | "completed" | "cancelled", code?: string) => Promise<void>;
+    deleteOrder: (id: string) => Promise<void>;
 
     // Bozum
     bozumRequests: BozumRequest[];
     addBozumRequest: (request: Omit<BozumRequest, "id" | "status" | "timestamp">) => Promise<void>;
     updateBozumStatus: (id: string, status: "approved" | "rejected") => Promise<void>;
+    deleteBozumRequest: (id: string) => Promise<void>;
 
     // Withdrawal
     withdrawalRequests: WithdrawalRequest[];
@@ -349,6 +353,15 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    const deleteOrder = async (id: string) => {
+        try {
+            await deleteOrderFromFirestore(id);
+            setOrders(prev => prev.filter(o => o.id !== id));
+        } catch (error) {
+            console.error("Failed to delete order", error);
+        }
+    };
+
     // Bozum Handlers (Firestore)
     const addBozumRequest = async (request: Omit<BozumRequest, "id" | "status" | "timestamp">) => {
         const newRequestData = {
@@ -378,6 +391,15 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             setBozumRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
         } catch (error) {
             console.error("Failed to update bozum status", error);
+        }
+    };
+
+    const deleteBozumRequest = async (id: string) => {
+        try {
+            await deleteBozumRequestFromFirestore(id);
+            setBozumRequests(prev => prev.filter(r => r.id !== id));
+        } catch (error) {
+            console.error("Failed to delete bozum request", error);
         }
     };
 
@@ -568,9 +590,11 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             orders,
             addOrder,
             updateOrderStatus,
+            deleteOrder,
             bozumRequests,
             addBozumRequest,
             updateBozumStatus,
+            deleteBozumRequest,
             withdrawalRequests,
             addWithdrawalRequest,
             updateWithdrawalStatus,

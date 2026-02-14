@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useSystem } from "@/context/SystemContext";
-import { Check, X, Clock, Search, ShoppingBag, Eye } from "lucide-react";
+import { Check, X, Clock, Search, ShoppingBag, Eye, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 export default function AdminOrdersPage() {
-    const { orders, updateOrderStatus, sendEmail } = useSystem();
+    const { orders, updateOrderStatus, sendEmail, deleteOrder } = useSystem();
     const [searchTerm, setSearchTerm] = useState("");
     const [filter, setFilter] = useState<"all" | "pending" | "completed" | "cancelled">("all");
 
@@ -184,11 +184,24 @@ export default function AdminOrdersPage() {
                                         </div>
                                     )}
                                     {order.status !== 'pending' && (
-                                        <div className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider border ${order.status === 'completed'
-                                            ? 'bg-green-500/5 border-green-500/20 text-green-500'
-                                            : 'bg-red-500/5 border-red-500/20 text-red-500'
-                                            }`}>
-                                            {order.status === 'completed' ? 'Tamamlandı' : 'İptal Edildi'}
+                                        <div className="flex gap-2">
+                                            <div className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider border ${order.status === 'completed'
+                                                ? 'bg-green-500/5 border-green-500/20 text-green-500'
+                                                : 'bg-red-500/5 border-red-500/20 text-red-500'
+                                                }`}>
+                                                {order.status === 'completed' ? 'Tamamlandı' : 'İptal Edildi'}
+                                            </div>
+                                            <button
+                                                onClick={() => {
+                                                    if (confirm("Bu siparişi silmek istediğinize emin misiniz?")) {
+                                                        deleteOrder(order.id);
+                                                    }
+                                                }}
+                                                className="w-8 h-8 flex items-center justify-center rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all ml-2"
+                                                title="Siparişi Sil"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
                                         </div>
                                     )}
                                 </div>

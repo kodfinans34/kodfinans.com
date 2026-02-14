@@ -42,3 +42,13 @@ export async function updateOrderInFirestore(id: string, updates: Partial<Order>
         throw error;
     }
 }
+
+export async function deleteOrderFromFirestore(id: string): Promise<void> {
+    try {
+        const docRef = doc(db, ORDERS_COLLECTION, id);
+        await deleteDoc(docRef);
+    } catch (error) {
+        console.error("Error deleting order:", error);
+        throw error;
+    }
+}

@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useSystem } from "@/context/SystemContext";
-import { Check, X, Clock, AlertCircle } from "lucide-react";
+import { Check, X, Clock, AlertCircle, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 export default function AdminBozumlarPage() {
-    const { bozumRequests, updateBozumStatus, sendEmail, settings } = useSystem();
+    const { bozumRequests, updateBozumStatus, sendEmail, settings, deleteBozumRequest } = useSystem();
     const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
     const filteredRequests = bozumRequests.filter(req => filter === "all" ? true : req.status === filter);
@@ -121,7 +121,31 @@ export default function AdminBozumlarPage() {
                                         >
                                             <X size={18} />
                                         </Button>
+                                        <Button
+                                            onClick={() => {
+                                                if (confirm("Bu bozum talebini silmek istediğinize emin misiniz?")) {
+                                                    deleteBozumRequest(req.id);
+                                                }
+                                            }}
+                                            className="bg-white/5 hover:bg-red-500/20 text-white/40 hover:text-red-500 p-3 rounded-xl transition-all"
+                                            title="Sil"
+                                        >
+                                            <Trash2 size={18} />
+                                        </Button>
                                     </div>
+                                )}
+                                {req.status !== "pending" && (
+                                    <Button
+                                        onClick={() => {
+                                            if (confirm("Bu bozum talebini silmek istediğinize emin misiniz?")) {
+                                                deleteBozumRequest(req.id);
+                                            }
+                                        }}
+                                        className="bg-white/5 hover:bg-red-500/20 text-white/40 hover:text-red-500 p-3 rounded-xl transition-all ml-4"
+                                        title="Sil"
+                                    >
+                                        <Trash2 size={18} />
+                                    </Button>
                                 )}
                             </div>
                         </div>

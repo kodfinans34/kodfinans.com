@@ -1,6 +1,6 @@
 
 import { db } from "./firebase";
-import { collection, addDoc, getDocs, updateDoc, doc, query, orderBy } from "firebase/firestore";
+import { collection, addDoc, getDocs, updateDoc, doc, deleteDoc, query, orderBy } from "firebase/firestore";
 import { BozumRequest } from "./types";
 
 const BOZUM_COLLECTION = "bozum_requests";
@@ -39,6 +39,16 @@ export async function updateBozumRequestInFirestore(id: string, updates: Partial
         await updateDoc(docRef, updates);
     } catch (error) {
         console.error("Error updating bozum request:", error);
+        throw error;
+    }
+}
+
+export async function deleteBozumRequestFromFirestore(id: string): Promise<void> {
+    try {
+        const docRef = doc(db, BOZUM_COLLECTION, id);
+        await deleteDoc(docRef);
+    } catch (error) {
+        console.error("Error deleting bozum request:", error);
         throw error;
     }
 }
