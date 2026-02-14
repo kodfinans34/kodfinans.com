@@ -85,6 +85,10 @@ export async function getProductById(id: string | number): Promise<Product | und
 export async function addProductToFirestore(product: Omit<Product, "id">): Promise<string> {
     try {
         const docRef = await addDoc(collection(db, "products"), product);
+
+        // Invalidate cache
+        productsCache = null;
+
         return docRef.id;
     } catch (error) {
         console.error("Error adding product:", error);

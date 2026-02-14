@@ -188,14 +188,35 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                 // Load Firestore Data (Products & Withdrawals)
                 try {
                     console.log("SystemContext: Starting to load Firestore data...");
-                    // Set initial products immediately so UI isn't empty
-                    setProducts(initialProducts as Product[]);
+                    // Do NOT set initial products here to avoid flicker or overwrite if using DB
+                    // setProducts(initialProducts as Product[]); 
 
                     const dbProducts = await getProducts();
                     console.log("SystemContext: Loaded products from DB:", dbProducts.length);
 
-                    // If fetch is successful, use DB products (even if empty) to allow full deletion
-                    setProducts(dbProducts);
+                    if (dbProducts.length > 0) {
+                        setProducts(dbProducts);
+                    } else {
+                        // If DB is empty, Seed it with initial data automatically
+                        console.log("SystemContext: DB is empty. Seeding initial products...");
+
+                        // Dynamically import to avoid server-side issues (though this is client-side hook)
+                        const { db } = await import("@/lib/firebase");
+                        const { writeBatch, doc, collection } = await import("firebase/firestore");
+
+                        const batch = writeBatch(db);
+                        const initialProds = initialProducts as Product[];
+
+                        initialProds.forEach((product) => {
+                            // Ensure ID is string for Firestore
+                            const productRef = doc(collection(db, "products"), product.id.toString());
+                            batch.set(productRef, product);
+                        });
+
+                        await batch.commit();
+                        console.log("SystemContext: Seeding complete.");
+                        setProducts(initialProds);
+                    }
 
                     const dbWithdrawals = await getWithdrawalsFromFirestore();
                     setWithdrawalRequests(dbWithdrawals);
@@ -218,9 +239,14 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
 
                 } catch (error) {
                     console.error("SystemContext: Error loading Firestore data:", error);
-                    // Explicitly set to initial data on error to ensure we show SOMETHING
-                    if (products.length === 0) setProducts(initialProducts as Product[]);
-                    if (blogs.length === 0) setBlogs(initialBlogs);
+                    // Do NOT fallback to initialProducts on error if we want to enforce DB usage.
+                    // But to prevent empty site on error, we might show a toast or error state.
+                    // For now, if products are already loaded (e.g. via seed), keep them.
+                    // If products is empty, we MIGHT set initialProducts TEMPORARILY but warn.
+                    if (products.length === 0) {
+                        console.warn("SystemContext: Critical load error. Using static fallback for display only.");
+                        setProducts(initialProducts as Product[]);
+                    }
                 }
 
                 if (savedBlogs) {
