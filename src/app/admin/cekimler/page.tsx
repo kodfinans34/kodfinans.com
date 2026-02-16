@@ -10,7 +10,7 @@ export default function AdminWithdrawalsPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
-    const filteredRequests = withdrawalRequests
+    const filteredRequests = (withdrawalRequests || [])
         .filter(req => filter === "all" ? true : req.status === filter)
         .filter(req =>
             req.accountHolder.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -30,7 +30,7 @@ export default function AdminWithdrawalsPage() {
                             placeholder="Talep Ara..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-[#08080a] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-red-500/50 outline-none w-64"
+                            className="bg-[#08080a] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-primary/50 outline-none w-64"
                         />
                     </div>
                 </div>
@@ -41,7 +41,7 @@ export default function AdminWithdrawalsPage() {
                     <button
                         key={f}
                         onClick={() => setFilter(f)}
-                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${filter === f ? "bg-red-600 text-white shadow-lg shadow-red-600/20" : "text-white/40 hover:text-white"
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${filter === f ? "bg-primary text-white shadow-lg shadow-primary/20" : "text-white/40 hover:text-white"
                             }`}
                     >
                         {f === "all" ? "Tümü" :

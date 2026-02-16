@@ -19,14 +19,14 @@ export default function AdminPage() {
 
     return (
         <div className="space-y-8">
-            <h1 className="text-3xl font-black text-white uppercase tracking-tight text-red-500">Admin Dashboard</h1>
+            <h1 className="text-3xl font-black text-white uppercase tracking-tight">Admin Dashboard</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="bg-[#08080a] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <span className="text-6xl font-black text-red-600">S</span>
+                        <span className="text-6xl font-black text-primary/30">S</span>
                     </div>
-                    <h3 className="text-red-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Toplam Satış</h3>
+                    <h3 className="text-primary text-[10px] font-black uppercase tracking-[0.2em] mb-2">Toplam Satış</h3>
                     <p className="text-4xl font-black text-white">₺{totalSales.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
                 </div>
                 <div className="bg-[#08080a] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
@@ -56,7 +56,7 @@ export default function AdminPage() {
                 {/* Orders */}
                 <div className="bg-[#08080a] border border-white/[0.08] rounded-2xl p-8 flex flex-col">
                     <h2 className="text-lg font-black text-white uppercase tracking-tight mb-6 flex items-center gap-2">
-                        <span className="w-2 h-6 bg-red-600 rounded-full"></span>
+                        <span className="w-2 h-6 bg-primary rounded-full"></span>
                         Son Siparişler
                     </h2>
                     <div className="flex-1 space-y-4">

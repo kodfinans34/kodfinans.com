@@ -14,13 +14,13 @@ export default function AdminBozumlarPage() {
     return (
         <div className="space-y-8">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-black text-white uppercase tracking-tight text-red-500">Bozum Talepleri</h1>
+                <h1 className="text-3xl font-black text-white uppercase tracking-tight">Bozum Talepleri</h1>
                 <div className="flex gap-2 bg-white/5 p-1 rounded-xl">
                     {(["all", "pending", "approved", "rejected"] as const).map(f => (
                         <button
                             key={f}
                             onClick={() => setFilter(f)}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${filter === f ? "bg-red-600 text-white" : "text-white/40 hover:text-white"
+                            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${filter === f ? "bg-primary text-white" : "text-white/40 hover:text-white"
                                 }`}
                         >
                             {f === "all" ? "Tümü" :

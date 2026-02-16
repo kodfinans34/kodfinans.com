@@ -10,7 +10,7 @@ export default function AdminOrdersPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [filter, setFilter] = useState<"all" | "pending" | "completed" | "cancelled">("all");
 
-    const filteredOrders = orders
+    const filteredOrders = (orders || [])
         .filter(order => filter === "all" ? true : order.status === filter)
         .filter(order =>
             order.customerInfo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -32,7 +32,7 @@ export default function AdminOrdersPage() {
                             placeholder="Sipariş Ara..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-[#08080a] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-red-500/50 outline-none w-64"
+                            className="bg-[#08080a] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-primary/50 outline-none w-64"
                         />
                     </div>
                 </div>
@@ -43,7 +43,7 @@ export default function AdminOrdersPage() {
                     <button
                         key={f}
                         onClick={() => setFilter(f)}
-                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${filter === f ? "bg-red-600 text-white shadow-lg shadow-red-600/20" : "text-white/40 hover:text-white"
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${filter === f ? "bg-primary text-white shadow-lg shadow-primary/20" : "text-white/40 hover:text-white"
                             }`}
                     >
                         {f === "all" ? "Tümü" :
