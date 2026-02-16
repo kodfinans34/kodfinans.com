@@ -56,7 +56,10 @@ export default function CheckoutPage() {
         }
 
         if (paymentMethod === "balance") {
-            if (userBalance < total) {
+            const currentBalance = Number(userBalance);
+            const orderTotal = Number(total);
+
+            if (isNaN(currentBalance) || currentBalance < orderTotal) {
                 alert("Yetersiz bakiye! Lütfen bakiye yükleyiniz veya başka bir ödeme yöntemi seçiniz.");
                 return;
             }

@@ -1,6 +1,21 @@
 import { MetadataRoute } from 'next'
+import { getProducts } from '@/lib/firebase-products'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = 'force-dynamic'
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const baseUrl = 'https://kodfinans.com'
+
+    // Fetch products dynamically
+    const products = await getProducts()
+
+    const productRoutes = products.map((product) => ({
+        url: `${baseUrl}/urun/${product.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.9,
+    }))
+
     return [
         {
             url: 'https://kodfinans.com',
@@ -32,5 +47,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.5,
         },
+        ...productRoutes,
     ]
 }

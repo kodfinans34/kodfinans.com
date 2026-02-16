@@ -132,12 +132,12 @@ interface SystemContextType {
 }
 
 const defaultSettings: SiteSettings = {
-    homepageTitle: "KodFinans | Dijital Kod Bozum",
-    homepageDescription: "Dijital varlıklarınızı anında nakite çevirin. En yüksek oran garantisi.",
-    heroHeadline: "DİJİTAL SERMAYENİ",
-    heroSubheadline: "NAKİTE ÇEVİR",
+    homepageTitle: "KodFinans | Dijital Cüzdan & Oyun Mağazası",
+    homepageDescription: "Dijital kodlarınızı güvenle nakite çevirin, oyun ürünlerini en uygun fiyatlarla satın alın.",
+    heroHeadline: "Dijital Cüzdanın,",
+    heroSubheadline: "Oyun Mağazan.",
     whatsappNumber: "+905517139330",
-    seoKeywords: "kod bozum, razer gold, epin, gift card",
+    seoKeywords: "kod bozum, razer gold, epin, gift card, oyun mağazası, dijital cüzdan",
     smtpHost: "smtp.yandex.com",
     smtpPort: "465",
     smtpUser: "",
@@ -579,17 +579,6 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             blogs,
             addBlog,
             updateBlog,
-            deleteBlog,
-
-            orders,
-            addOrder,
-            updateOrderStatus,
-            deleteOrder,
-            bozumRequests,
-            addBozumRequest,
-            updateBozumStatus,
-            deleteBozumRequest,
-            withdrawalRequests,
             addWithdrawalRequest,
             updateWithdrawalStatus,
 

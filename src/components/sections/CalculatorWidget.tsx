@@ -1,216 +1,192 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Button } from "../ui/Button";
-import { Calculator, ArrowRight, CheckCircle2, RefreshCcw, TrendingUp, Wallet2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn, extractBozumRate } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-
+import React, { useState } from "react";
+import { Wallet, Calculator, Clock, ShieldCheck, ArrowRight, ChevronDown, TrendingUp, Star } from "lucide-react";
+import { motion } from "framer-motion";
 import { useSystem } from "@/context/SystemContext";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-interface CalculatorWidgetProps {
-    initialProduct?: string;
-    compact?: boolean;
-}
-
-export const CalculatorWidget = ({ initialProduct = "Razer Gold", compact = false }: CalculatorWidgetProps) => {
-    const router = useRouter();
+export const CalculatorWidget = () => {
     const { products } = useSystem();
-    const [amount, setAmount] = useState<string>("");
-    const [isCalculating, setIsCalculating] = useState(false);
+    const router = useRouter();
+    const [amount, setAmount] = useState<number>(100);
+    const [selectedPlatform, setSelectedPlatform] = useState<number>(0);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const bozumProducts = products.filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
-    const [selectedProduct, setSelectedProduct] = useState(initialProduct || (bozumProducts[0]?.name || ""));
+    const platforms = bozumProducts.length > 0 ? bozumProducts.map(p => ({
+        name: p.name,
+        rate: Number(p.price) || 80,
+        image: p.image,
+        slug: p.slug,
+    })) : [
+        { name: "Razer Gold", rate: 80, image: "/images/razer.webp", slug: "razer-gold-bozum" },
+        { name: "Steam Cüzdan", rate: 78, image: "/images/steam.webp", slug: "steam-bozum" },
+    ];
 
-    const calculateResult = () => {
-        const numAmount = parseFloat(amount) || 0;
-        if (numAmount === 0) return "0,00";
-
-        const product = bozumProducts.find(p => p.name === selectedProduct);
-        if (!product) return "0,00";
-
-        const netRate = extractBozumRate(product.price);
-
-        return (numAmount * netRate).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    };
-
-    useEffect(() => {
-        if (amount) {
-            setIsCalculating(true);
-            const timer = setTimeout(() => setIsCalculating(false), 300);
-            return () => clearTimeout(timer);
-        }
-    }, [amount, selectedProduct]);
+    const current = platforms[selectedPlatform] || platforms[0];
+    const result = (amount * current.rate) / 100;
 
     return (
-        <section className={cn("relative overflow-hidden", compact ? "py-0" : "py-12 md:py-20")} id="calculate">
-            {/* Background Decor */}
-            {!compact && (
-                <>
-                    <div className="absolute top-0 right-[-10%] w-[400px] h-[400px] bg-primary/5 blur-[100px] rounded-full -z-10" />
-                    <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary/5 blur-[100px] rounded-full -z-10" />
-                </>
-            )}
+        <section className="py-16 md:py-24 relative overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/[0.04] blur-[120px] rounded-full -z-10" />
 
-            <div className={cn("mx-auto px-4", compact ? "max-w-full" : "max-w-6xl")}>
-                {/* Title Section */}
-                {!compact && (
-                    <div className="text-center mb-12 space-y-6">
-                        <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/[0.02] border border-white/[0.06] text-[11px] font-black text-white/50 tracking-[0.4em] uppercase backdrop-blur-3xl shadow-2xl">
-                            FINANCE ENGINE V3
+            <div className="max-w-7xl mx-auto px-4">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+                    {/* Left Info */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        className="space-y-8 text-center lg:text-left"
+                    >
+                        <div className="space-y-4">
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-primary text-xs font-medium">
+                                <Calculator size={12} /> Hesaplama Aracı
+                            </div>
+                            <h2 className="text-3xl md:text-5xl font-bold font-poppins text-white leading-tight tracking-tight">
+                                Kazancınızı <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Hesaplayın</span>
+                            </h2>
+                            <p className="text-white/30 text-sm leading-relaxed max-w-md mx-auto lg:mx-0">
+                                Platform seçin, tutarı girin, anında ne kadar kazanacağınızı görün.
+                            </p>
                         </div>
-                        <h2 className="text-5xl md:text-[6rem] font-black font-poppins text-white leading-[0.9] tracking-tighter uppercase italic drop-shadow-2xl">
-                            Kazancını <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Live</span> Hesapla
-                        </h2>
-                    </div>
-                )}
 
-                <div className={cn(
-                    "glass border-white/[0.06] p-4 relative overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] bg-white/[0.02]",
-                    compact ? "rounded-[2rem]" : "rounded-[3rem] md:p-8"
-                )}>
-                    <div className={cn("grid gap-6 items-stretch", compact ? "grid-cols-1" : "lg:grid-cols-2")}>
-
-                        {/* Input Panel */}
-                        <div className={cn(
-                            "bg-white/[0.02] border border-white/[0.05]",
-                            compact ? "rounded-[1.5rem] p-6 space-y-6" : "p-6 md:p-10 space-y-8 rounded-[2.5rem]"
-                        )}>
-                            <div className="space-y-6">
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] ml-2">DİJİTAL VARLIK</label>
-                                    <div className="relative group">
-                                        <select
-                                            className="w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl px-6 py-4 text-base font-bold text-white focus:outline-none focus:border-primary/50 transition-all appearance-none cursor-pointer relative z-10 hover:bg-white/5 uppercase tracking-wide"
-                                            value={selectedProduct}
-                                            onChange={(e) => setSelectedProduct(e.target.value)}
-                                        >
-                                            {bozumProducts.map(p => (
-                                                <option key={p.id} value={p.name} className="bg-[#050506]">{p.name}</option>
-                                            ))}
-                                        </select>
-                                        <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none z-20 text-white/40">
-                                            <Wallet2 size={20} />
-                                        </div>
+                        {/* Feature Cards */}
+                        <div className="grid sm:grid-cols-2 gap-3">
+                            {[
+                                { icon: Clock, label: "Anında Hesaplama", desc: "Canlı kur ile anlık sonuç" },
+                                { icon: TrendingUp, label: "En İyi Oranlar", desc: "Piyasanın üzerinde kurlar" },
+                                { icon: ShieldCheck, label: "Güvenli İşlem", desc: "SSL korumalı altyapı" },
+                                { icon: Star, label: "VIP Avantajı", desc: "+5000₺ üzeri özel oranlar" },
+                            ].map((feat, i) => (
+                                <div key={i} className="flex items-start gap-3.5 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04] group hover:border-primary/15 transition-all">
+                                    <div className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/20 group-hover:text-primary group-hover:bg-primary/10 group-hover:border-primary/20 transition-all shrink-0">
+                                        <feat.icon size={16} />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-semibold text-white mb-0.5">{feat.label}</p>
+                                        <p className="text-[10px] text-white/25 font-medium">{feat.desc}</p>
                                     </div>
                                 </div>
+                            ))}
+                        </div>
+                    </motion.div>
 
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] ml-2">TUTAR (TRY)</label>
-                                    <div className="relative group">
-                                        <input
-                                            type="number"
-                                            placeholder="0.00"
-                                            className="w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl px-6 py-4 text-3xl font-bold text-white placeholder:text-white/[0.05] focus:outline-none focus:border-primary/50 transition-all relative z-10 font-poppins tracking-tight bg-transparent"
-                                            value={amount}
-                                            onChange={(e) => setAmount(e.target.value)}
-                                        />
-                                        <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20">
-                                            <span className="text-primary font-bold text-sm">TRY</span>
+                    {/* Calculator Card */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        className="relative"
+                    >
+                        <div className="absolute -inset-6 bg-primary/[0.06] blur-[60px] rounded-3xl -z-10" />
+
+                        <div className="bg-white/[0.02] rounded-3xl border border-white/[0.08] overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.3)]">
+                            {/* Card Header */}
+                            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 px-6 py-5 border-b border-white/[0.04]">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                                            <Wallet size={20} />
                                         </div>
+                                        <div>
+                                            <h4 className="text-sm font-bold text-white">Bozum Hesaplayıcı</h4>
+                                            <p className="text-[10px] text-white/30 font-medium">Canlı kurlarla hesaplayın</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                        <span className="text-[9px] font-medium text-green-400">CANLI</span>
                                     </div>
                                 </div>
                             </div>
 
-                            {!compact && (
-                                <div className="p-6 rounded-[2rem] glass border-white/[0.06] flex gap-5 items-center relative overflow-hidden group/vip">
-                                    <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover/vip:opacity-100 transition-opacity" />
-                                    <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary shrink-0">
-                                        <TrendingUp size={20} />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <p className="text-sm font-bold text-white uppercase tracking-wide">VIP Avantajı</p>
-                                        <p className="text-[11px] text-white/40 leading-relaxed font-medium">
-                                            50.000₺ üzerine <span className="text-primary font-bold">Özel Oran</span>
-                                        </p>
+                            <div className="p-6 space-y-5">
+                                {/* Platform Select */}
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/25 font-medium ml-1">Platform</label>
+                                    <div className="relative">
+                                        <button
+                                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                            className="w-full flex items-center justify-between bg-white/[0.03] border border-white/[0.06] p-3.5 rounded-xl text-sm font-medium text-white hover:border-primary/20 transition-all"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.06] p-1 flex items-center justify-center overflow-hidden">
+                                                    <img src={current.image} alt={current.name} className="w-full h-full object-contain" />
+                                                </div>
+                                                <span>{current.name}</span>
+                                            </div>
+                                            <ChevronDown size={16} className={cn("text-white/25 transition-transform", isDropdownOpen && "rotate-180")} />
+                                        </button>
+
+                                        {isDropdownOpen && (
+                                            <div className="absolute top-full left-0 right-0 mt-2 bg-[#0f0f14] border border-white/[0.08] rounded-xl shadow-2xl z-40 max-h-48 overflow-y-auto no-scrollbar">
+                                                {platforms.map((p, i) => (
+                                                    <button
+                                                        key={i}
+                                                        onClick={() => { setSelectedPlatform(i); setIsDropdownOpen(false); }}
+                                                        className={cn(
+                                                            "flex items-center gap-3 w-full p-3 text-sm hover:bg-white/[0.04] transition-colors",
+                                                            selectedPlatform === i ? "bg-primary/5 text-primary" : "text-white/60"
+                                                        )}
+                                                    >
+                                                        <div className="w-7 h-7 rounded-lg bg-white/[0.04] p-1 overflow-hidden">
+                                                            <img src={p.image} alt={p.name} className="w-full h-full object-contain" />
+                                                        </div>
+                                                        <span className="font-medium">{p.name}</span>
+                                                        <span className="ml-auto text-xs font-semibold text-primary/70">%{p.rate}</span>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                            )}
-                        </div>
 
-                        {/* Results Card */}
-                        <div className="relative group flex h-full">
-                            <div className="absolute -inset-10 bg-primary/20 blur-[80px] opacity-10 group-hover:opacity-20 transition duration-1000 -z-10" />
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.98 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                className={cn(
-                                    "relative bg-white/[0.03] border border-white/[0.08] backdrop-blur-md overflow-hidden flex flex-col justify-between w-full shadow-2xl",
-                                    compact ? "rounded-[1.5rem] p-6 space-y-6" : "rounded-[2.5rem] p-8 space-y-8"
-                                )}
-                            >
-                                {/* Header */}
-                                <div className={cn(
-                                    "flex justify-between items-center border-b border-white/[0.05] relative",
-                                    compact ? "mb-4 pb-4" : "mb-6 pb-6"
-                                )}>
-                                    <div>
-                                        <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-1">ÖZET</p>
-                                        <h4 className="text-xl font-black text-white uppercase tracking-tight">İşlem Detayı</h4>
-                                    </div>
-                                    <div className="w-10 h-10 bg-white/[0.05] rounded-xl flex items-center justify-center text-primary/40 border border-white/[0.08]">
-                                        <RefreshCcw size={20} className={cn("transition-all", isCalculating && "animate-spin text-primary")} />
+                                {/* Amount Input */}
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/25 font-medium ml-1">Tutar (₺)</label>
+                                    <div className="relative">
+                                        <input
+                                            type="number"
+                                            value={amount}
+                                            onChange={(e) => setAmount(Number(e.target.value) || 0)}
+                                            className="w-full bg-white/[0.03] border border-white/[0.06] px-4 py-3.5 rounded-xl text-xl font-bold text-white placeholder:text-white/10 focus:outline-none focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/10"
+                                            placeholder="100"
+                                        />
+                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/15 text-sm font-medium">TL</span>
                                     </div>
                                 </div>
 
-                                <div className={cn("space-y-4 relative", compact ? "mb-4" : "mb-6")}>
-                                    <div className="flex justify-between items-center text-sm">
-                                        <span className="text-white/40 font-medium">Güncel Oran</span>
-                                        <span className="text-primary font-bold bg-primary/10 px-3 py-1 rounded-lg border border-primary/20">
-                                            %{(extractBozumRate(bozumProducts.find(p => p.name === selectedProduct)?.price || 0) * 100).toFixed(1)}
+                                {/* Result */}
+                                <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-5 border border-primary/10 space-y-3">
+                                    <div className="flex justify-between items-center text-xs text-white/30 font-medium">
+                                        <span>Kur Oranı</span>
+                                        <span className="text-primary font-semibold">%{current.rate}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs text-white/30 font-medium">Tahmini Ödeme</span>
+                                        <span className="text-3xl font-bold text-white tracking-tight font-mono">
+                                            ₺{result.toFixed(2)}
                                         </span>
                                     </div>
-                                    <div className="flex justify-between items-center text-xs">
-                                        <span className="text-white/40">Tahmini İşlem Süresi</span>
-                                        <span className="text-white/60 font-medium">{bozumProducts.find(p => p.name === selectedProduct)?.speed || "Anında"}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-xs">
-                                        <span className="text-white/40">Güvenlik Durumu</span>
-                                        <span className="text-green-500 font-medium">SSL Korumalı</span>
-                                    </div>
                                 </div>
 
-                                {/* Amount Area */}
-                                <div className={cn(
-                                    "bg-white/[0.03] rounded-2xl border border-white/[0.05] relative group/amount hover:border-primary/30 transition-all",
-                                    compact ? "p-4 mb-4" : "p-6 mb-6"
-                                )}>
-                                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] text-center mb-2">NET ÖDEME</p>
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            key={amount + selectedProduct}
-                                            initial={{ opacity: 0, y: 5 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            className="text-4xl md:text-5xl font-black text-white text-center font-poppins tracking-tighter"
-                                        >
-                                            ₺{calculateResult()}
-                                        </motion.div>
-                                    </AnimatePresence>
-                                </div>
-
-                                <Button
-                                    onClick={() => {
-                                        const product = bozumProducts.find(p => p.name === selectedProduct);
-                                        const query = new URLSearchParams();
-                                        if (product) query.set("product", product.slug);
-                                        if (amount) query.set("amount", amount);
-
-                                        router.push(`/bozum?${query.toString()}`);
-                                    }}
-                                    className="w-full py-6 rounded-xl text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-primary/25 hover:scale-[1.02] active:scale-98 transition-all bg-gradient-to-r from-primary via-blue-400 to-secondary text-white h-auto"
-                                    variant="primary"
+                                {/* CTA */}
+                                <button
+                                    onClick={() => router.push(`/bozum?product=${current.slug}`)}
+                                    className="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.01] active:scale-[0.99] transition-all"
                                 >
-                                    HEMEN BOZDUR <ArrowRight size={16} className="ml-2" />
-                                </Button>
+                                    Hemen Bozdur <ArrowRight size={16} />
+                                </button>
 
-                                <div className="mt-4 flex justify-center gap-3 opacity-30 grayscale">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-3" />
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-4" />
-                                </div>
-                            </motion.div>
+                                <p className="text-center text-[10px] text-white/15 font-medium">
+                                    * Gösterilen tutar tahminidir. Gerçek tutar işlem anındaki kura göre değişiklik gösterebilir.
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

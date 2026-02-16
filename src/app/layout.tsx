@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://kodfinans.com"),
   title: "KodFinans | Dijital Kod Bozum ve Alım-Satım Platformu",
   description: "Razer Gold, Google Play, iTunes, Steam gibi dijital kodlarınızı güvenli şekilde bozdurun. Hızlı ödeme ve en iyi oranlar KodFinans'ta.",
+  alternates: {
+    canonical: "https://kodfinans.com",
+    languages: {
+      "tr-TR": "https://kodfinans.com",
+    },
+  },
   keywords: "dijital kod bozum, razer gold bozum, google play bozum, itunes kart bozum, pubg uc bozum, knight online gb",
   openGraph: {
     title: "KodFinans | Dijital Kod Bozum",

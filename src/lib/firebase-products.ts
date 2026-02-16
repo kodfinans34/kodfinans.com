@@ -18,9 +18,9 @@ export async function getProducts(): Promise<Product[]> {
     }
 
     try {
-        // Create a promise that rejects after 5 seconds
+        // Create a promise that rejects after 10 seconds
         const timeoutPromise = new Promise<never>((_, reject) => {
-            setTimeout(() => reject(new Error("Firebase fetch timeout")), 2000);
+            setTimeout(() => reject(new Error("Firebase fetch timeout")), 10000);
         });
 
         // Race the fetch against the timeout
@@ -39,6 +39,13 @@ export async function getProducts(): Promise<Product[]> {
         return products;
     } catch (error) {
         console.error("Error fetching products:", error);
+        // Log environment status for debugging
+        if (typeof window === "undefined") {
+            console.error("Server-side fetch error details:", {
+                apiKeyExists: !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+                isNode: true
+            });
+        }
         return [];
     }
 }

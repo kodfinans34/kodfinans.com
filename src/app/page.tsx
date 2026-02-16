@@ -8,6 +8,7 @@ import { ProductGrid } from "@/components/sections/ProductGrid";
 import { CalculatorWidget } from "@/components/sections/CalculatorWidget";
 import { SeoContent } from "@/components/sections/SeoContent";
 import { SalesGrid } from "@/components/sections/SalesGrid";
+import { TrustBanner } from "@/components/sections/TrustBanner";
 import { useSystem } from "@/context/SystemContext";
 
 const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
@@ -15,6 +16,7 @@ const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
   PlatformGrid,
   SalesGrid,
   ProductGrid,
+  TrustBanner,
   CalculatorWidget,
   SeoContent,
 };
@@ -22,7 +24,7 @@ const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
 export default function Home() {
   const { settings } = useSystem();
 
-  const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "ProductGrid", "CalculatorWidget", "SeoContent"];
+  const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
   const sectionOrder = settings.homepageSectionOrder || defaultOrder;
 
   return (

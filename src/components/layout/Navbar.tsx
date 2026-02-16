@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/Button";
-import { Menu, X, ChevronRight, Calculator, Trophy, Info, Phone, BookOpen, LayoutGrid, Home, Command, ShoppingBag, Zap, Wallet } from "lucide-react";
+import { Menu, X, ChevronRight, ShoppingBag, Zap, Wallet, Home, BookOpen, Trophy, Phone, Store } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useSystem } from "@/context/SystemContext";
@@ -13,8 +13,8 @@ import { User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 
 const navLinks = [
     { name: "Anasayfa", href: "/", icon: Home },
-    { name: "Bozum Yap", href: "/bozum", icon: Zap },
-    { name: "Ürünler", href: "/urunler", icon: ShoppingBag },
+    { name: "Mağaza", href: "/urunler", icon: Store },
+    { name: "Kod Bozdur", href: "/bozum", icon: Zap },
     { name: "Blog", href: "/blog", icon: BookOpen },
     { name: "VIP", href: "/vip-finans", icon: Trophy },
     { name: "İletişim", href: "/iletisim", icon: Phone },
@@ -30,7 +30,6 @@ export const Navbar = () => {
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 10);
@@ -45,54 +44,61 @@ export const Navbar = () => {
                 className={cn(
                     "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
                     scrolled
-                        ? "bg-[#050506]/95 backdrop-blur-md border-b border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+                        ? "bg-[#09090b]/95 backdrop-blur-xl border-b border-white/5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                         : "bg-transparent"
                 )}
             >
-                {/* Top Banner */}
-                <div className="bg-gradient-to-r from-primary via-blue-600 to-secondary text-white font-bold text-[9px] md:text-xs tracking-widest text-center py-2.5 px-4 uppercase shadow-lg shadow-primary/10 relative z-[101]">
-                    <span className="opacity-90 leading-tight block md:inline">
-                        TÜRKİYE'NİN LİDER <span className="text-white font-black">RAZER GOLD</span> PLATFORMU
-                        <span className="hidden md:inline mx-3 opacity-50">|</span>
-                        <span className="block md:inline mt-0.5 md:mt-0">7/24 ANINDA TESLİMAT</span>
-                    </span>
+                {/* Trust Banner */}
+                <div className="bg-gradient-to-r from-primary/90 via-secondary/90 to-primary/90 text-white text-[10px] md:text-xs font-medium text-center py-2 px-4 relative z-[101]">
+                    <div className="flex items-center justify-center gap-4 md:gap-8">
+                        <span className="flex items-center gap-1.5 opacity-80">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                            7/24 Aktif
+                        </span>
+                        <span className="hidden md:inline opacity-40">•</span>
+                        <span className="hidden md:flex items-center gap-1.5 opacity-80">
+                            SSL Korumalı İşlemler
+                        </span>
+                        <span className="hidden md:inline opacity-40">•</span>
+                        <span className="opacity-80">Anında Teslimat & Ödeme</span>
+                    </div>
                 </div>
 
                 <div className={cn(
                     "max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between transition-all duration-500",
-                    scrolled ? "py-3" : "py-6"
+                    scrolled ? "py-2.5" : "py-4"
                 )}>
-                    {/* Logo - Animated & Modern */}
-                    <Link href="/" className="flex items-center gap-2 group relative z-[110] shrink-0">
-                        <div className="relative w-8 h-8 md:w-9 md:h-9 flex items-center justify-center bg-white/5 rounded-lg border border-white/10 group-hover:border-primary/50 transition-all duration-500 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            <Zap size={18} className="text-primary relative z-10 group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-500" />
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center gap-2.5 group relative z-[110] shrink-0">
+                        <div className="relative w-9 h-9 flex items-center justify-center bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-xl border border-primary/20 group-hover:border-primary/40 transition-all duration-500 overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <Wallet size={18} className="text-primary relative z-10 group-hover:scale-110 transition-transform duration-500" />
                         </div>
                         <div className="flex flex-col leading-tight">
-                            <span className="text-lg md:text-xl font-black font-poppins tracking-tighter flex items-center">
+                            <span className="text-lg md:text-xl font-bold font-poppins tracking-tight flex items-center">
                                 <span className="text-white">Kod</span>
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500 animate-gradient-x bg-[length:200%_auto]">Finans</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Finans</span>
                             </span>
-                            <span className="text-[8px] font-bold text-white/30 tracking-[0.2em] uppercase ml-0.5 group-hover:text-primary transition-colors duration-500">Exchange</span>
+                            <span className="text-[8px] font-medium text-white/30 tracking-[0.15em] uppercase ml-0.5">Digital Wallet & Store</span>
                         </div>
                     </Link>
 
-                    {/* Desktop Nav - Optimized for horizontal space */}
-                    <nav className="hidden lg:flex items-center bg-white/[0.04] border border-white/[0.1] rounded-full px-1 py-1 backdrop-blur-xl gap-0.5 mx-2">
+                    {/* Desktop Nav */}
+                    <nav className="hidden lg:flex items-center bg-white/[0.03] border border-white/[0.06] rounded-full px-1.5 py-1 backdrop-blur-xl gap-0.5 mx-4">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
                                 href={link.href}
                                 className={cn(
-                                    "px-2.5 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all duration-300 relative group flex items-center gap-1 whitespace-nowrap",
-                                    pathname === link.href ? "text-white bg-white/10" : "text-white/30 hover:text-white",
-                                    link.name === "VIP" && "animate-rainbow font-black !opacity-100"
+                                    "px-3.5 py-2 rounded-full text-[13px] font-medium transition-all duration-300 relative group whitespace-nowrap",
+                                    pathname === link.href ? "text-white" : "text-white/40 hover:text-white/80",
+                                    link.name === "VIP" && "animate-rainbow font-bold !opacity-100"
                                 )}>
                                 {link.name}
                                 {pathname === link.href && (
                                     <motion.div
                                         layoutId="activeLink"
-                                        className="absolute inset-0 rounded-full border border-white/10"
+                                        className="absolute inset-0 rounded-full bg-white/[0.08] border border-white/[0.08]"
                                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                     />
                                 )}
@@ -101,9 +107,9 @@ export const Navbar = () => {
                     </nav>
 
                     <div className="flex items-center gap-2 md:gap-3 shrink-0">
-                        {/* WhatsApp Support - Subtle Desktop */}
-                        <Link href="https://wa.me/905517139330" className="hidden xl:flex items-center justify-center w-10 h-10 rounded-2xl bg-[#25D366]/5 hover:bg-[#25D366]/10 transition-all border border-[#25D366]/10 hover:border-[#25D366]/30 group">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-5 h-5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                        {/* WhatsApp Support */}
+                        <Link href="https://wa.me/905517139330" className="hidden xl:flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.03] hover:bg-[#25D366]/10 transition-all border border-white/[0.06] hover:border-[#25D366]/30 group">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-opacity" />
                         </Link>
 
                         {/* Cart Button */}
@@ -115,46 +121,46 @@ export const Navbar = () => {
                                     toggleCart();
                                 }
                             }}
-                            className="relative w-10 h-10 md:w-11 md:h-11 flex items-center justify-center rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 text-white transition-all group"
+                            className="relative w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] text-white/50 hover:text-white transition-all group"
                         >
-                            <ShoppingBag size={20} className="group-hover:scale-110 transition-transform" />
+                            <ShoppingBag size={18} className="group-hover:scale-110 transition-transform" />
                             {cart.length > 0 && (
-                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] font-black flex items-center justify-center rounded-full border-2 border-[#050506]">
+                                <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-primary text-white text-[9px] font-bold flex items-center justify-center rounded-full border-2 border-[#09090b]">
                                     {cart.length}
                                 </span>
                             )}
                         </button>
 
-                        {/* User Area - Responsive & Protected */}
-                        <div className="flex items-center gap-2 bg-white/[0.03] p-1 rounded-2xl border border-white/5">
+                        {/* User Area */}
+                        <div className="flex items-center gap-1.5 bg-white/[0.02] p-1 rounded-xl border border-white/[0.05]">
                             {isLoggedIn ? (
                                 <div className="relative">
                                     <button
                                         onClick={() => setIsProfileOpen(!isProfileOpen)}
-                                        className="flex items-center gap-2 md:gap-3 px-2 py-1.5 hover:bg-white/5 rounded-xl transition-colors"
+                                        className="flex items-center gap-2 md:gap-2.5 px-2 py-1.5 hover:bg-white/[0.04] rounded-lg transition-colors"
                                     >
-                                        <div className="text-right hidden lg:block pr-1 border-r border-white/5">
-                                            <p className="text-[9px] text-white/30 font-black uppercase tracking-widest">Bakiye</p>
-                                            <p className="text-xs font-black text-white font-mono leading-none mt-0.5">₺{userBalance.toFixed(2)}</p>
+                                        <div className="text-right hidden lg:block pr-2 border-r border-white/[0.06]">
+                                            <p className="text-[9px] text-white/30 font-medium tracking-wide">Bakiye</p>
+                                            <p className="text-xs font-semibold text-white font-mono leading-none mt-0.5">₺{userBalance.toFixed(2)}</p>
                                         </div>
-                                        <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-gradient-to-tr from-primary to-blue-600 flex items-center justify-center text-white shadow-lg shadow-primary/20 group">
-                                            <User size={16} className="group-hover:scale-110 transition-transform" />
+                                        <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-lg shadow-primary/15">
+                                            <User size={16} />
                                         </div>
-                                        <ChevronDown size={14} className={cn("text-white/40 transition-transform hidden md:block", isProfileOpen && "rotate-180")} />
+                                        <ChevronDown size={14} className={cn("text-white/30 transition-transform hidden md:block", isProfileOpen && "rotate-180")} />
                                     </button>
 
                                     <AnimatePresence>
                                         {isProfileOpen && (
                                             <motion.div
-                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                initial={{ opacity: 0, y: 8, scale: 0.96 }}
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                className="absolute top-full right-0 mt-2 w-48 bg-[#0a0a0c] border border-white/10 rounded-2xl shadow-xl overflow-hidden z-50"
+                                                exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                                                className="absolute top-full right-0 mt-2 w-48 bg-[#0f0f14] border border-white/[0.08] rounded-2xl shadow-2xl overflow-hidden z-50"
                                             >
                                                 <div className="p-2 space-y-1">
-                                                    <Link href="/panel" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-sm text-white font-medium transition-colors">
+                                                    <Link href="/panel" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/[0.04] text-sm text-white/80 font-medium transition-colors">
                                                         <LayoutDashboard size={16} className="text-primary" />
-                                                        Müşteri Paneli
+                                                        Panelim
                                                     </Link>
                                                     <button
                                                         onClick={() => {
@@ -162,7 +168,7 @@ export const Navbar = () => {
                                                             setIsProfileOpen(false);
                                                             router.push("/");
                                                         }}
-                                                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-sm text-red-500 font-medium transition-colors"
+                                                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-sm text-red-400 font-medium transition-colors"
                                                     >
                                                         <LogOut size={16} />
                                                         Çıkış Yap
@@ -175,24 +181,18 @@ export const Navbar = () => {
                             ) : (
                                 <>
                                     {/* Desktop Buttons */}
-                                    <div className="hidden md:flex gap-2">
-                                        <Button variant="ghost" size="sm" className="font-black text-[10px] uppercase tracking-[0.2em] px-4 opacity-50 hover:opacity-100 h-9" onClick={() => router.push("/giris")}>Giriş</Button>
-                                        <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white font-black text-[10px] uppercase tracking-[0.2em] px-4 border border-white/5 h-9 rounded-xl" onClick={() => router.push("/kayit-ol")}>Kayıt</Button>
+                                    <div className="hidden md:flex gap-1.5">
+                                        <Button variant="ghost" size="sm" className="font-medium text-xs px-4 text-white/40 hover:text-white h-9" onClick={() => router.push("/giris")}>Giriş Yap</Button>
+                                        <Button size="sm" className="bg-primary/10 hover:bg-primary/20 text-primary font-medium text-xs px-4 border border-primary/20 h-9 rounded-lg" onClick={() => router.push("/kayit-ol")}>Kayıt Ol</Button>
                                     </div>
 
                                     {/* Mobile Icon Buttons */}
                                     <div className="flex md:hidden gap-1">
                                         <button
                                             onClick={() => router.push("/giris")}
-                                            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 border border-white/5 text-white/60 hover:text-white transition-colors"
+                                            className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/[0.03] border border-white/[0.06] text-white/40 hover:text-white transition-colors"
                                         >
                                             <User size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => router.push("/kayit-ol")}
-                                            className="w-9 h-9 flex items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-colors"
-                                        >
-                                            <Zap size={18} />
                                         </button>
                                     </div>
                                 </>
@@ -203,27 +203,28 @@ export const Navbar = () => {
                         <div className="hidden lg:block">
                             <Button
                                 size="sm"
-                                className="bg-animate-rainbow text-white hover:shadow-[0_0_20px_rgba(74,188,241,0.4)] px-6 py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] border border-white/10 active:scale-95 transition-all"
+                                className="bg-gradient-to-r from-primary to-secondary text-white hover:shadow-[0_0_24px_rgba(99,102,241,0.3)] px-5 py-2 rounded-xl font-semibold text-xs border border-white/10 active:scale-95 transition-all"
                                 onClick={() => router.push("/bozum")}
                             >
-                                HEMEN BOZUM
+                                <Zap size={14} className="mr-1.5" />
+                                Kod Bozdur
                             </Button>
                         </div>
 
-                        {/* Mobile & Tablet Toggle */}
+                        {/* Mobile Toggle */}
                         <button
-                            className="xl:hidden w-10 h-10 md:w-11 md:h-11 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all -mr-1"
+                            className="xl:hidden w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/[0.06] text-white/60 hover:text-white hover:bg-white/[0.06] transition-all"
                             onClick={() => setIsOpen(!isOpen)}
                         >
                             <AnimatePresence mode="wait">
-                                {isOpen ? <X size={20} key="x" /> : <Menu size={20} key="menu" />}
+                                {isOpen ? <X size={18} key="x" /> : <Menu size={18} key="menu" />}
                             </AnimatePresence>
                         </button>
                     </div>
                 </div>
             </header>
 
-            {/* Mobile Menu - Full Screen Premium */}
+            {/* Mobile Menu */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -231,28 +232,27 @@ export const Navbar = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed inset-0 z-[200] bg-[#050506] flex flex-col lg:hidden"
+                        className="fixed inset-0 z-[200] bg-[#09090b] flex flex-col lg:hidden"
                     >
                         {/* Mobile Menu Header */}
-                        <div className="flex items-center justify-between p-5 border-b border-white/5">
+                        <div className="flex items-center justify-between p-5 border-b border-white/[0.05]">
                             <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
                                 <div className="w-9 h-9 bg-primary/10 flex items-center justify-center rounded-xl border border-primary/20">
-                                    <Zap size={18} className="text-primary" />
+                                    <Wallet size={18} className="text-primary" />
                                 </div>
-                                <span className="text-xl font-black font-poppins text-white tracking-tighter">Kod<span className="text-primary italic">Finans</span></span>
+                                <span className="text-xl font-bold font-poppins text-white tracking-tight">Kod<span className="text-primary">Finans</span></span>
                             </Link>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="w-10 h-10 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-white"
+                                className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/60"
                             >
-                                <X size={20} />
+                                <X size={18} />
                             </button>
                         </div>
 
                         {/* Links */}
-                        {/* Mobile Menu Content - Streamlined */}
-                        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
-                            <div className="text-white/20 text-[10px] font-black uppercase tracking-[0.2em] mb-2 px-2">Menü</div>
+                        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-1.5">
+                            <div className="text-white/20 text-[10px] font-semibold uppercase tracking-[0.15em] mb-2 px-2">Menü</div>
                             {navLinks.map((link, i) => (
                                 <motion.div
                                     key={link.name}
@@ -264,77 +264,76 @@ export const Navbar = () => {
                                         href={link.href}
                                         onClick={() => setIsOpen(false)}
                                         className={cn(
-                                            "flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 group active:scale-95",
+                                            "flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 group active:scale-[0.98]",
                                             pathname === link.href
-                                                ? "bg-primary text-white border-primary shadow-lg shadow-primary/20"
-                                                : "bg-[#0f0f12] border-white/5 text-white/50 hover:bg-white/5 hover:text-white hover:border-white/10",
-                                            link.name === "VIP" && "animate-rainbow border-white/20 font-black text-white"
+                                                ? "bg-primary/10 text-white border-primary/20"
+                                                : "bg-white/[0.02] border-white/[0.04] text-white/50 hover:bg-white/[0.04] hover:text-white",
+                                            link.name === "VIP" && "animate-rainbow border-primary/20 font-semibold text-white"
                                         )}
                                     >
                                         <div className={cn(
                                             "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
-                                            pathname === link.href ? "bg-white/20" : "bg-white/5 group-hover:bg-white/10"
+                                            pathname === link.href ? "bg-primary/20 text-primary" : "bg-white/[0.04] group-hover:bg-white/[0.06]"
                                         )}>
                                             <link.icon size={16} />
                                         </div>
-                                        <span className="text-sm font-bold tracking-tight">{link.name}</span>
-                                        <ChevronRight size={14} className="ml-auto opacity-20 group-hover:opacity-100 transition-opacity" />
+                                        <span className="text-sm font-medium">{link.name}</span>
+                                        <ChevronRight size={14} className="ml-auto opacity-20 group-hover:opacity-60 transition-opacity" />
                                     </Link>
                                 </motion.div>
                             ))}
 
-                            {/* Mobile User Actions (If not logged in, show huge buttons here too as fallback) */}
                             {!isLoggedIn && (
                                 <div className="mt-4 grid grid-cols-2 gap-3">
                                     <Button
-                                        className="h-12 rounded-xl text-xs font-black bg-white text-black hover:bg-white/90"
+                                        className="h-12 rounded-xl text-sm font-semibold bg-white text-black hover:bg-white/90"
                                         onClick={() => { setIsOpen(false); router.push("/giris"); }}
                                     >
-                                        GİRİŞ YAP
+                                        Giriş Yap
                                     </Button>
                                     <Button
                                         variant="secondary"
-                                        className="h-12 rounded-xl text-xs font-black border-white/10 bg-white/5 hover:bg-white/10 text-white"
+                                        className="h-12 rounded-xl text-sm font-semibold border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.08] text-white"
                                         onClick={() => { setIsOpen(false); router.push("/kayit-ol"); }}
                                     >
-                                        KAYIT OL
+                                        Kayıt Ol
                                     </Button>
                                 </div>
                             )}
                         </div>
 
-                        {/* Footer Actions - Sticky Bottom */}
-                        <div className="p-4 border-t border-white/5 space-y-3 bg-[#0a0a0c] pb-8">
+                        {/* Footer Actions */}
+                        <div className="p-4 border-t border-white/[0.05] space-y-3 bg-[#0c0c10] pb-8">
                             {isLoggedIn ? (
                                 <>
-                                    <div className="bg-[#121215] p-3 rounded-xl flex items-center justify-between border border-white/5">
+                                    <div className="bg-white/[0.03] p-3 rounded-xl flex items-center justify-between border border-white/[0.05]">
                                         <div>
-                                            <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest">Kullanılabilir Bakiye</p>
-                                            <p className="text-lg font-black text-white font-mono mt-0.5">₺{userBalance.toFixed(2)}</p>
+                                            <p className="text-[10px] text-white/30 font-medium tracking-wide">Bakiye</p>
+                                            <p className="text-lg font-semibold text-white font-mono mt-0.5">₺{userBalance.toFixed(2)}</p>
                                         </div>
                                         <button
                                             onClick={() => { logout(); setIsOpen(false); }}
-                                            className="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500/20 transition-colors"
+                                            className="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center hover:bg-red-500/20 transition-colors"
                                         >
                                             <LogOut size={16} />
                                         </button>
                                     </div>
                                     <Button
-                                        className="w-full h-12 rounded-xl text-xs font-black bg-white/5 border border-white/10 hover:bg-white/10 text-white"
+                                        className="w-full h-12 rounded-xl text-sm font-medium bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] text-white"
                                         onClick={() => { setIsOpen(false); router.push("/panel"); }}
                                     >
                                         <LayoutDashboard size={16} className="mr-2" />
-                                        MÜŞTERİ PANELİNE GİT
+                                        Panelime Git
                                     </Button>
                                 </>
                             ) : null}
 
                             <Button
-                                className="w-full h-14 rounded-xl text-sm font-black bg-gradient-to-r from-primary to-blue-600 text-white shadow-xl shadow-primary/20 border border-white/10 active:scale-95 transition-transform"
+                                className="w-full h-14 rounded-xl text-sm font-semibold bg-gradient-to-r from-primary to-secondary text-white shadow-xl shadow-primary/15 border border-white/10 active:scale-[0.98] transition-transform"
                                 onClick={() => { setIsOpen(false); router.push("/bozum"); }}
                             >
-                                <Zap size={18} className="mr-2 fill-white" />
-                                HEMEN BOZUM YAP
+                                <Zap size={18} className="mr-2" />
+                                Kod Bozdur
                             </Button>
                         </div>
                     </motion.div>

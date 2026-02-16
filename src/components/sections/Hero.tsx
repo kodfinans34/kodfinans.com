@@ -2,9 +2,8 @@
 
 import React from "react";
 import { Button } from "../ui/Button";
-import { ChevronRight, TrendingUp, DollarSign, Zap, ShieldCheck, Gamepad2, CreditCard, Apple, Monitor, Smartphone, Play } from "lucide-react";
+import { ChevronRight, TrendingUp, Zap, ShieldCheck, Wallet, ArrowRight, Store } from "lucide-react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useSystem } from "@/context/SystemContext";
 import { GlobalSearch } from "../features/GlobalSearch";
@@ -18,152 +17,161 @@ export const Hero = () => {
     const tickerProducts = bozumProducts.slice(0, 7);
 
     return (
-        <section className="relative pt-32 md:pt-48 pb-12 overflow-hidden mesh-gradient">
-            {/* Dynamic Background Elements - Optimized */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[100px] rounded-full -z-10" />
-            <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary/5 blur-[80px] rounded-full -z-10" />
+        <section className="relative pt-32 md:pt-44 pb-16 overflow-hidden gradient-mesh">
+            {/* Background Elements */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/[0.06] blur-[120px] rounded-full -z-10" />
+            <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary/[0.04] blur-[100px] rounded-full -z-10" />
 
-            {/* Decorative Lines */}
-            <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/[0.03] -z-10" />
-            <div className="absolute top-0 left-1/4 w-[1px] h-full bg-white/[0.03] -z-10" />
+            {/* Subtle grid lines */}
+            <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/[0.02] -z-10" />
+            <div className="absolute top-0 left-1/4 w-[1px] h-full bg-white/[0.02] -z-10" />
 
-            <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-20 items-center">
+            <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="space-y-10 text-center lg:text-left relative z-10"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="space-y-8 text-center lg:text-left relative z-10"
                 >
-                    <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-primary text-[11px] font-black tracking-[0.2em] uppercase shadow-2xl backdrop-blur-xl">
-                        <span className="flex h-2 w-2">
+                    {/* Badge */}
+                    <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.06] text-primary text-xs font-medium tracking-wide backdrop-blur-xl">
+                        <span className="flex h-2 w-2 relative">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                         </span>
-                        Premium Bozum Merkezi v2.0
+                        Dijital Cüzdan & Oyun Mağazası
                     </div>
 
+                    {/* Headline */}
                     <div className="space-y-4">
-                        <h1 className="text-5xl md:text-7xl lg:text-[6.5rem] font-black font-poppins leading-[0.95] tracking-tighter text-white uppercase italic">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-poppins leading-[1.05] tracking-tight text-white">
                             {settings.heroHeadline} <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-secondary animate-gradient-x">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-violet-400 to-secondary">
                                 {settings.heroSubheadline}
                             </span>
                         </h1>
                     </div>
 
-                    <p className="text-white/40 text-lg md:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-                        Razer Gold, Steam ve iTunes bakiyelerinizi <span className="text-white">Türkiye'nin en yüksek oranlarıyla</span> nakite dönüştürün. Saniyeler içinde ödemeniz cebinizde.
+                    <p className="text-white/40 text-base md:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0">
+                        Oyun kodlarınızı <span className="text-white/70 font-medium">en yüksek oranlarla</span> nakite çevirin,
+                        dijital ürünleri güvenle satın alın. Tek platformda her şey.
                     </p>
 
-                    {/* Global Search Bar */}
-                    <div className="py-4">
+                    {/* Search */}
+                    <div className="py-2">
                         <GlobalSearch />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
-                        <Button size="lg" className="h-16 w-full sm:w-auto px-12 rounded-[2rem] bg-animate-rainbow text-white shadow-[0_15px_40px_rgba(74,188,241,0.3)] font-black text-sm uppercase tracking-widest hover:scale-105 active:scale-95 transition-all" onClick={() => router.push("/bozum")}>
-                            Hemen Bozum Yap <ChevronRight size={20} className="ml-1" />
+                    {/* CTAs */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+                        <Button
+                            size="lg"
+                            className="h-14 w-full sm:w-auto px-8 rounded-xl bg-gradient-to-r from-primary to-secondary text-white shadow-[0_12px_32px_rgba(99,102,241,0.25)] font-semibold text-sm hover:shadow-[0_16px_40px_rgba(99,102,241,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                            onClick={() => router.push("/urunler")}
+                        >
+                            <Store size={18} className="mr-2" /> Mağazaya Git
                         </Button>
-                        <Button variant="secondary" size="lg" className="h-16 w-full sm:w-auto px-12 rounded-[2rem] glass border-white/10 font-bold text-sm uppercase tracking-widest hover:bg-white/5" onClick={() => router.push("/vip-finans")}>
-                            VIP Masası Başvuru
+                        <Button
+                            variant="secondary"
+                            size="lg"
+                            className="h-14 w-full sm:w-auto px-8 rounded-xl glass border-white/[0.08] font-semibold text-sm hover:bg-white/[0.05] transition-all"
+                            onClick={() => router.push("/bozum")}
+                        >
+                            <Zap size={18} className="mr-2" /> Kod Bozdur <ArrowRight size={16} className="ml-1.5 opacity-40" />
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 pt-10 border-t border-white/[0.05]">
-                        <div className="space-y-1">
-                            <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Aktif Üye</p>
-                            <p className="text-2xl font-black text-white">12.5k+</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Hacim</p>
-                            <p className="text-2xl font-black text-white">₺4M+</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Memnuniyet</p>
-                            <p className="text-2xl font-black text-white">%99.8</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Ort. Hız</p>
-                            <p className="text-2xl font-black text-white">45sn</p>
-                        </div>
+                    {/* Stats */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-white/[0.04]">
+                        {[
+                            { label: "Aktif Üye", value: "12.5k+" },
+                            { label: "Hacim", value: "₺4M+" },
+                            { label: "Memnuniyet", value: "%99.8" },
+                            { label: "Ort. Hız", value: "45sn" },
+                        ].map((stat, i) => (
+                            <div key={i} className="space-y-1">
+                                <p className="text-[10px] text-white/20 font-medium tracking-wide">{stat.label}</p>
+                                <p className="text-xl font-bold text-white">{stat.value}</p>
+                            </div>
+                        ))}
                     </div>
                 </motion.div>
 
-                {/* Hero Visual - High End PC Version */}
+                {/* Hero Visual */}
                 <motion.div
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: 40 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 1.2, delay: 0.2 }}
+                    transition={{ duration: 1, delay: 0.2 }}
                     className="relative hidden lg:block"
                 >
                     <div className="relative group">
-                        {/* Main Visual Frame */}
-                        <div className="absolute -inset-10 bg-primary/20 blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-1000 -z-10" />
+                        <div className="absolute -inset-10 bg-primary/[0.1] blur-[80px] opacity-20 group-hover:opacity-30 transition-opacity duration-1000 -z-10" />
 
-                        <div className="relative glass p-4 rounded-[4rem] border-white/10 shadow-[0_32px_80px_rgba(0,0,0,0.5)] bg-white/[0.02]">
-                            <div className="relative aspect-[4/5] md:aspect-square rounded-[3.5rem] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-1000">
+                        <div className="relative glass p-3 rounded-[2.5rem] border-white/[0.08] shadow-[0_24px_64px_rgba(0,0,0,0.4)] bg-white/[0.02]">
+                            <div className="relative aspect-square rounded-[2rem] overflow-hidden">
                                 <img
                                     src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200"
-                                    alt="Premium Gaming"
-                                    className="object-cover w-full h-full scale-110 group-hover:scale-100 transition-transform duration-[2s]"
+                                    alt="Premium Gaming & Finance"
+                                    className="object-cover w-full h-full scale-105 group-hover:scale-100 transition-transform duration-[2s]"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#050506] via-[#050506]/20 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/30 to-transparent" />
 
-                                {/* Floating Meta Labels */}
-                                <div className="absolute top-10 left-10 space-y-3">
-                                    <div className="glass px-4 py-2 rounded-2xl border-white/20 backdrop-blur-3xl shadow-2xl">
-                                        <span className="text-[10px] font-black text-primary tracking-widest flex items-center gap-2 uppercase">
-                                            <Zap size={14} className="fill-primary" /> LIVE EXCHANGE
+                                {/* Floating Labels */}
+                                <div className="absolute top-8 left-8 space-y-2.5">
+                                    <div className="glass px-3.5 py-2 rounded-xl border-white/[0.12] backdrop-blur-2xl">
+                                        <span className="text-[10px] font-semibold text-primary tracking-wide flex items-center gap-1.5">
+                                            <Zap size={12} className="fill-primary" /> LİVE EXCHANGE
                                         </span>
                                     </div>
-                                    <div className="bg-white/5 backdrop-blur-3xl px-4 py-2 rounded-2xl border border-white/10">
-                                        <span className="text-[10px] font-black text-white tracking-widest uppercase opacity-40">SECURED BY SSL</span>
+                                    <div className="bg-white/[0.04] backdrop-blur-2xl px-3.5 py-2 rounded-xl border border-white/[0.08]">
+                                        <span className="text-[10px] font-medium text-white/30 tracking-wide">SSL SECURED</span>
                                     </div>
                                 </div>
 
-                                <div className="absolute bottom-10 left-10 right-10">
-                                    <div className="space-y-6">
-                                        <div className="flex gap-2">
-                                            <span className="w-12 h-1 bg-primary rounded-full shadow-[0_0_10px_#4abcf1]" />
-                                            <span className="w-4 h-1 bg-white/10 rounded-full" />
-                                            <span className="w-4 h-1 bg-white/10 rounded-full" />
+                                <div className="absolute bottom-8 left-8 right-8">
+                                    <div className="space-y-4">
+                                        <div className="flex gap-1.5">
+                                            <span className="w-10 h-0.5 bg-primary rounded-full shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+                                            <span className="w-3 h-0.5 bg-white/10 rounded-full" />
+                                            <span className="w-3 h-0.5 bg-white/10 rounded-full" />
                                         </div>
-                                        <h4 className="text-4xl font-black text-white uppercase italic tracking-tighter">
-                                            En güvenli yol, <br /> en iyi kur.
+                                        <h4 className="text-3xl font-bold text-white tracking-tight">
+                                            Güvenli işlem, <br />en iyi kurlar.
                                         </h4>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Advanced Floating Cards */}
+                            {/* Floating Card - Top Right */}
                             <motion.div
-                                animate={{ y: [0, -20, 0] }}
+                                animate={{ y: [0, -16, 0] }}
                                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                                className="absolute -top-12 -right-12 glass p-8 rounded-[3rem] border-white/20 shadow-2xl backdrop-blur-3xl"
+                                className="absolute -top-10 -right-10 glass p-6 rounded-2xl border-white/[0.1] shadow-xl backdrop-blur-2xl"
                             >
-                                <div className="flex items-center gap-6">
-                                    <div className="w-16 h-16 rounded-[1.5rem] bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-xl">
-                                        <TrendingUp size={32} />
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-lg">
+                                        <TrendingUp size={24} />
                                     </div>
-                                    <div className="space-y-1">
-                                        <p className="text-[11px] text-white/30 font-black uppercase tracking-[0.2em]">{featuredBozum.name.toUpperCase()}</p>
-                                        <p className="text-3xl font-black text-white italic tracking-tighter">%{featuredBozum.price}</p>
+                                    <div className="space-y-0.5">
+                                        <p className="text-[10px] text-white/25 font-medium tracking-wide">{featuredBozum.name}</p>
+                                        <p className="text-2xl font-bold text-white tracking-tight">%{featuredBozum.price}</p>
                                     </div>
                                 </div>
                             </motion.div>
 
+                            {/* Floating Card - Bottom Left */}
                             <motion.div
-                                animate={{ y: [0, 20, 0] }}
+                                animate={{ y: [0, 16, 0] }}
                                 transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-                                className="absolute -bottom-12 -left-12 glass p-8 rounded-[3rem] border-white/20 shadow-2xl backdrop-blur-3xl bg-white/[0.05]"
+                                className="absolute -bottom-10 -left-10 glass p-6 rounded-2xl border-white/[0.1] shadow-xl backdrop-blur-2xl bg-white/[0.03]"
                             >
-                                <div className="flex items-center gap-6">
-                                    <div className="w-16 h-16 rounded-[1.5rem] bg-white/5 flex items-center justify-center text-primary border border-white/10">
-                                        <ShieldCheck size={32} />
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-white/[0.04] flex items-center justify-center text-primary border border-white/[0.08]">
+                                        <ShieldCheck size={24} />
                                     </div>
-                                    <div className="space-y-1">
-                                        <p className="text-[11px] text-white/30 font-black uppercase tracking-[0.2em]">TAM GÜVEN</p>
-                                        <p className="text-lg font-black text-white uppercase tracking-widest">GÜVENLİ İŞLEM</p>
+                                    <div className="space-y-0.5">
+                                        <p className="text-[10px] text-white/25 font-medium tracking-wide">Güvenlik</p>
+                                        <p className="text-base font-semibold text-white">Tam Koruma</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -172,25 +180,25 @@ export const Hero = () => {
                 </motion.div>
             </div>
 
-            {/* Advanced Quick Access Bar - Premium refined */}
-            <div className="max-w-7xl mx-auto px-4 mt-20 md:mt-32">
+            {/* Quick Access Ticker */}
+            <div className="max-w-7xl mx-auto px-4 mt-16 md:mt-24">
                 <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                    <div className="relative glass rounded-[2.5rem] md:rounded-full border-white/[0.06] p-4 flex items-center gap-3 overflow-x-auto no-scrollbar scroll-smooth shadow-2xl">
-                        <div className="flex items-center gap-3 px-6 border-r border-white/10 mr-2 shrink-0">
-                            <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary shadow-inner">
-                                <Zap size={20} className="fill-primary" />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/[0.06] via-secondary/[0.06] to-primary/[0.06] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+                    <div className="relative glass rounded-2xl md:rounded-full border-white/[0.05] p-3 flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth shadow-xl">
+                        <div className="flex items-center gap-2.5 px-4 border-r border-white/[0.06] mr-1 shrink-0">
+                            <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center text-primary">
+                                <Zap size={16} className="fill-primary" />
                             </div>
-                            <span className="text-[11px] font-black text-white uppercase tracking-[0.3em] italic">Anlık Kurlar</span>
+                            <span className="text-xs font-semibold text-white/60 whitespace-nowrap">Anlık Kurlar</span>
                         </div>
                         {tickerProducts.map((cat, i) => (
-                            <button key={i} onClick={() => router.push(`/bozum?product=${cat.slug}`)} className="whitespace-nowrap flex items-center gap-4 px-8 py-4 rounded-2xl md:rounded-full hover:bg-white/5 transition-all group/btn border border-transparent hover:border-white/10 shrink-0">
-                                <div className="w-8 h-8 flex items-center justify-center group-hover/btn:scale-110 transition-transform overflow-hidden rounded-lg">
+                            <button key={i} onClick={() => router.push(`/bozum?product=${cat.slug}`)} className="whitespace-nowrap flex items-center gap-3 px-5 py-2.5 rounded-xl md:rounded-full hover:bg-white/[0.04] transition-all group/btn border border-transparent hover:border-white/[0.06] shrink-0">
+                                <div className="w-6 h-6 flex items-center justify-center group-hover/btn:scale-110 transition-transform overflow-hidden rounded-md">
                                     <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
                                 </div>
-                                <div className="flex flex-col items-start leading-none gap-1">
-                                    <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest group-hover/btn:text-white transition-colors">{cat.name}</span>
-                                    <span className="text-xs font-black italic text-primary">%{cat.price}</span>
+                                <div className="flex flex-col items-start leading-none gap-0.5">
+                                    <span className="text-[10px] font-medium text-white/25 group-hover/btn:text-white/60 transition-colors">{cat.name}</span>
+                                    <span className="text-xs font-semibold text-primary">%{cat.price}</span>
                                 </div>
                             </button>
                         ))}
