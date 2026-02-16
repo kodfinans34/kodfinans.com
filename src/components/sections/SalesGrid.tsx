@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/Button";
-import { ShoppingCart, ShoppingBag, X, CheckCircle2, Gift, ChevronLeft, ChevronRight, Store } from "lucide-react";
+import { Zap, ShoppingCart, ShoppingBag, X, CheckCircle2, Gift, ChevronLeft, ChevronRight, Store } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSystem } from "@/context/SystemContext";

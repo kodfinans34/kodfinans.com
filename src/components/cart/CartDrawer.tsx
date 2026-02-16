@@ -121,28 +121,57 @@ export const CartDrawer = () => {
                             )}
                         </div>
 
-                        {/* Footer */}
+                        {/* Sticky Footer - Live Total */}
                         {cart.length > 0 && (
-                            <div className="p-6 bg-[#070d0b] border-t border-white/5 space-y-6">
-                                <div className="space-y-2">
-                                    <div className="flex justify-between items-center text-white/40 text-xs font-bold uppercase tracking-widest">
-                                        <span>Ara Toplam</span>
-                                        <span>₺{total.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-white text-lg font-black uppercase tracking-tight">
-                                        <span>Genel Toplam</span>
-                                        <span className="text-primary">₺{total.toFixed(2)}</span>
+                            <div className="border-t border-white/5 bg-[#070d0b]/95 backdrop-blur-xl">
+                                {/* Item Summary */}
+                                <div className="px-6 pt-5 pb-3 space-y-2">
+                                    {cart.map((item) => (
+                                        <div key={`${item.id}-${item.variant}-summary`} className="flex justify-between items-center text-xs">
+                                            <span className="text-white/40 truncate max-w-[200px]">
+                                                {item.name} <span className="text-white/20">x{item.quantity}</span>
+                                            </span>
+                                            <span className="text-white/50 font-mono">₺{(item.price * item.quantity).toFixed(2)}</span>
+                                        </div>
+                                    ))}
+                                    <div className="border-t border-white/5 my-1" />
+                                </div>
+
+                                {/* Total */}
+                                <div className="px-6 pb-3">
+                                    <div className="flex justify-between items-end">
+                                        <div>
+                                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest">Toplam Tutar</p>
+                                            <p className="text-xs text-white/40 mt-0.5">{cart.reduce((s, i) => s + i.quantity, 0)} ürün</p>
+                                        </div>
+                                        <motion.div
+                                            key={total}
+                                            initial={{ scale: 1.15, color: "rgb(16, 185, 129)" }}
+                                            animate={{ scale: 1, color: "rgb(255, 255, 255)" }}
+                                            transition={{ duration: 0.4 }}
+                                            className="text-3xl font-black tracking-tight"
+                                        >
+                                            ₺{total.toFixed(2)}
+                                        </motion.div>
                                     </div>
                                 </div>
-                                <Button
-                                    onClick={() => {
-                                        toggleCart();
-                                        router.push("/odeme");
-                                    }}
-                                    className="w-full py-4 rounded-xl text-xs font-black uppercase tracking-[0.2em] bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-98 transition-all"
-                                >
-                                    Ödemeye Geç
-                                </Button>
+
+                                {/* Checkout Button */}
+                                <div className="px-6 pb-6">
+                                    <Button
+                                        onClick={() => {
+                                            toggleCart();
+                                            router.push("/odeme");
+                                        }}
+                                        className="w-full py-4 rounded-2xl text-sm font-bold uppercase tracking-wider bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                                    >
+                                        Ödemeye Geç →
+                                    </Button>
+                                    <div className="flex items-center justify-center gap-2 mt-3 opacity-40">
+                                        <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
+                                        <span className="text-[10px] text-white font-medium">SSL Güvenli Ödeme</span>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </motion.div>
