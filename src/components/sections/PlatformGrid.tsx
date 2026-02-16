@@ -49,7 +49,7 @@ export const PlatformGrid = () => {
                                         alt={product.name}
                                         className="w-full h-full object-cover opacity-20 group-hover:opacity-30 group-hover:scale-105 transition-all duration-700"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/70 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-[#0a0f0d]/70 to-transparent" />
                                 </div>
 
                                 <div className="relative z-10 space-y-2">

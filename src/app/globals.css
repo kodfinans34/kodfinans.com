@@ -156,7 +156,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #09090b;
+    background: #0a0f0d;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -171,7 +171,7 @@
 
 @layer utilities {
   .glass {
-    background: rgba(15, 15, 20, 0.6);
+    background: rgba(10, 16, 13, 0.7);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.07);

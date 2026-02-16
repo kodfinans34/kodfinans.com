@@ -88,7 +88,7 @@ export const ProductGrid = () => {
                                             alt={product.name}
                                             className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-transparent opacity-70" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-transparent to-transparent opacity-70" />
 
                                         {product.badge && (
                                             <div className="absolute top-2.5 left-2.5 z-20">

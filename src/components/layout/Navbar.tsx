@@ -44,7 +44,7 @@ export const Navbar = () => {
                 className={cn(
                     "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
                     scrolled
-                        ? "bg-[#09090b]/95 backdrop-blur-xl border-b border-white/5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+                        ? "bg-[#0a0f0d]/95 backdrop-blur-xl border-b border-white/5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                         : "bg-transparent"
                 )}
             >
@@ -125,7 +125,7 @@ export const Navbar = () => {
                         >
                             <ShoppingBag size={18} className="group-hover:scale-110 transition-transform" />
                             {cart.length > 0 && (
-                                <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-primary text-white text-[9px] font-bold flex items-center justify-center rounded-full border-2 border-[#09090b]">
+                                <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-primary text-white text-[9px] font-bold flex items-center justify-center rounded-full border-2 border-[#0a0f0d]">
                                     {cart.length}
                                 </span>
                             )}
@@ -232,7 +232,7 @@ export const Navbar = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed inset-0 z-[200] bg-[#09090b] flex flex-col lg:hidden"
+                        className="fixed inset-0 z-[200] bg-[#0a0f0d] flex flex-col lg:hidden"
                     >
                         {/* Mobile Menu Header */}
                         <div className="flex items-center justify-between p-5 border-b border-white/[0.05]">

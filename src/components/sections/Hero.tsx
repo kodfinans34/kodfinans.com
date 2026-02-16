@@ -51,7 +51,7 @@ export const Hero = () => {
                     transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
                 />
                 {/* Dark overlay to keep text readable */}
-                <div className="absolute inset-0 bg-[#09090b]/60" />
+                <div className="absolute inset-0 bg-[#0a0f0d]/60" />
             </div>
 
             {/* Subtle grid lines */}
@@ -146,7 +146,7 @@ export const Hero = () => {
                                     alt="Premium Gaming & Finance"
                                     className="object-cover w-full h-full scale-105 group-hover:scale-100 transition-transform duration-[2s]"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/30 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-[#0a0f0d]/30 to-transparent" />
 
                                 {/* Floating Labels */}
                                 <div className="absolute top-8 left-8 space-y-2.5">

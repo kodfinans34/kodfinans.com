@@ -4,7 +4,7 @@ import { ShieldCheck, Zap, Facebook, Twitter, Instagram, Youtube, Send, Mail, Ph
 
 export const Footer = () => {
     return (
-        <footer className="relative bg-[#09090b] pt-20 pb-8 border-t border-white/[0.05] overflow-hidden">
+        <footer className="relative bg-[#0a0f0d] pt-20 pb-8 border-t border-white/[0.05] overflow-hidden">
             {/* Top gradient line */}
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/[0.03] blur-[120px] rounded-full -z-10" />
