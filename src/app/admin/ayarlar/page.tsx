@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const THEME_OPTIONS = [
     { id: "green", label: "Yeşil (Gaming)", color: "#10b981", ring: "ring-emerald-500" },
     { id: "indigo", label: "İndigo", color: "#6366f1", ring: "ring-indigo-500" },
-    { id: "red", label: "Kırmızı", color: "#ef4444", ring: "ring-red-500" },
+    { id: "red", label: "Kırmızı", color: "#ef4444", ring: "ring-primary" },
     { id: "blue", label: "Mavi", color: "#3b82f6", ring: "ring-blue-500" },
     { id: "orange", label: "Turuncu", color: "#f59e0b", ring: "ring-amber-500" },
 ];
@@ -44,7 +44,7 @@ export default function AdminSettingsPage() {
 
     return (
         <div className="space-y-8 max-w-4xl">
-            <h1 className="text-3xl font-black text-white uppercase tracking-tight text-red-500">Site Ayarları</h1>
+            <h1 className="text-3xl font-black text-white uppercase tracking-tight text-primary">Site Ayarları</h1>
 
             <div className="grid gap-8">
                 {/* General/SEO */}
@@ -58,7 +58,7 @@ export default function AdminSettingsPage() {
                                 name="homepageTitle"
                                 value={localSettings.homepageTitle}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                             />
                         </div>
                         <div>
@@ -67,7 +67,7 @@ export default function AdminSettingsPage() {
                                 name="homepageDescription"
                                 value={localSettings.homepageDescription}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors h-24 resize-none"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors h-24 resize-none"
                             />
                         </div>
                         <div>
@@ -76,7 +76,7 @@ export default function AdminSettingsPage() {
                                 name="seoKeywords"
                                 value={localSettings.seoKeywords}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                             />
                         </div>
                     </div>
@@ -93,7 +93,7 @@ export default function AdminSettingsPage() {
                                 name="heroHeadline"
                                 value={localSettings.heroHeadline}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                             />
                         </div>
                         <div>
@@ -102,7 +102,7 @@ export default function AdminSettingsPage() {
                                 name="heroSubheadline"
                                 value={localSettings.heroSubheadline}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                             />
                         </div>
                     </div>
@@ -161,7 +161,7 @@ export default function AdminSettingsPage() {
                                 name="whatsappNumber"
                                 value={localSettings.whatsappNumber}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl pl-8 pr-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl pl-8 pr-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                                 placeholder="90532..."
                             />
                         </div>
@@ -180,7 +180,7 @@ export default function AdminSettingsPage() {
                                 name="smtpHost"
                                 value={localSettings.smtpHost || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                                 placeholder="smtp.gmail.com"
                             />
                         </div>
@@ -190,7 +190,7 @@ export default function AdminSettingsPage() {
                                 name="smtpPort"
                                 value={localSettings.smtpPort || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                                 placeholder="465 veya 587"
                             />
                         </div>
@@ -200,7 +200,7 @@ export default function AdminSettingsPage() {
                                 name="smtpUser"
                                 value={localSettings.smtpUser || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                                 placeholder="ornek@alanadi.com"
                             />
                         </div>
@@ -211,7 +211,7 @@ export default function AdminSettingsPage() {
                                 name="smtpPass"
                                 value={localSettings.smtpPass || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                                 placeholder="********"
                             />
                         </div>
@@ -221,7 +221,7 @@ export default function AdminSettingsPage() {
                                 name="smtpFrom"
                                 value={localSettings.smtpFrom || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                                 placeholder="bilgi@kodfinans.com"
                             />
                         </div>
@@ -237,7 +237,7 @@ export default function AdminSettingsPage() {
                         <input
                             type="email"
                             placeholder="Test e-postası gönderilecek adres"
-                            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                             id="test_email_input"
                         />
                         <Button
@@ -301,7 +301,7 @@ export default function AdminSettingsPage() {
                                 name="googleAnalyticsId"
                                 value={localSettings.googleAnalyticsId || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                                 placeholder="G-XXXXXXXXXX"
                             />
                         </div>
@@ -312,7 +312,7 @@ export default function AdminSettingsPage() {
                                 name="customHeadCode"
                                 value={localSettings.customHeadCode || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors h-32 font-mono text-xs"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors h-32 font-mono text-xs"
                                 placeholder="<meta name='google-site-verification' ... /> veya <script>...</script>"
                             />
                             <p className="text-[10px] text-white/20 mt-2">Bu alana gireceğiniz kodlar sitenin &lt;head&gt; veya &lt;body&gt; kısmına eklenecektir. Dikkatli kullanınız.</p>
@@ -324,7 +324,7 @@ export default function AdminSettingsPage() {
                                 name="customCss"
                                 value={localSettings.customCss || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors h-48 font-mono text-xs"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors h-48 font-mono text-xs"
                                 placeholder=".my-class { color: red !important; }"
                             />
                         </div>
@@ -341,7 +341,7 @@ export default function AdminSettingsPage() {
                                 onClick={() => setLocalSettings(prev => ({ ...prev, paytrTestMode: !prev.paytrTestMode }))}
                                 className={cn(
                                     "w-12 h-6 rounded-full transition-all relative",
-                                    localSettings.paytrTestMode ? "bg-red-500" : "bg-white/10"
+                                    localSettings.paytrTestMode ? "bg-primary" : "bg-white/10"
                                 )}
                             >
                                 <div className={cn(
@@ -359,7 +359,7 @@ export default function AdminSettingsPage() {
                                 name="paytrMerchantId"
                                 value={localSettings.paytrMerchantId || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                             />
                         </div>
                         <div>
@@ -368,7 +368,7 @@ export default function AdminSettingsPage() {
                                 name="paytrMerchantKey"
                                 value={localSettings.paytrMerchantKey || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                             />
                         </div>
                         <div>
@@ -377,7 +377,7 @@ export default function AdminSettingsPage() {
                                 name="paytrMerchantSalt"
                                 value={localSettings.paytrMerchantSalt || ""}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 focus:outline-none transition-colors"
                             />
                         </div>
                     </div>
@@ -387,7 +387,7 @@ export default function AdminSettingsPage() {
                     <Button
                         onClick={handleSave}
                         disabled={saving}
-                        className="bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest px-8 py-4 rounded-xl shadow-lg shadow-red-600/20 flex items-center gap-2"
+                        className="bg-primary hover:bg-secondary text-white font-black uppercase tracking-widest px-8 py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center gap-2"
                     >
                         {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
                         Kaydet

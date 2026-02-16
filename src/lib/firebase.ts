@@ -32,10 +32,16 @@ const app = isConfigValid
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let analytics;
-if (typeof window !== "undefined") {
+let analytics: any;
+if (typeof window !== "undefined" && isConfigValid) {
     import("firebase/analytics").then(({ getAnalytics }) => {
-        analytics = getAnalytics(app);
+        try {
+            analytics = getAnalytics(app);
+        } catch (e) {
+            console.warn("Firebase Analytics initialization failed:", e);
+        }
+    }).catch(() => {
+        console.warn("Firebase Analytics module could not be loaded.");
     });
 }
 

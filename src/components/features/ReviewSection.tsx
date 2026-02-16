@@ -18,7 +18,7 @@ export default function ReviewSection({ productId }: ReviewSectionProps) {
     const [email, setEmail] = useState(user?.email || "");
     const [submitted, setSubmitted] = useState(false);
 
-    const productReviews = reviews.filter(r => r.productId === productId && r.status === "approved");
+    const productReviews = (reviews || []).filter(r => r.productId === productId && r.status === "approved");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
