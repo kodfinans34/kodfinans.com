@@ -20,7 +20,7 @@ export const ProductGrid = () => {
     const [activeTab, setActiveTab] = useState("all");
     const router = useRouter();
 
-    const bozumProducts = products.filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
+    const bozumProducts = (products || []).filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
 
     const filteredProducts = activeTab === "all"
         ? bozumProducts

@@ -14,7 +14,7 @@ export const CalculatorWidget = () => {
     const [selectedPlatform, setSelectedPlatform] = useState<number>(0);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const bozumProducts = products.filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
+    const bozumProducts = (products || []).filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
     const platforms = bozumProducts.length > 0 ? bozumProducts.map(p => ({
         name: p.name,
         rate: Number(p.price) || 80,

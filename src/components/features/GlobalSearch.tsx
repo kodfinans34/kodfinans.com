@@ -22,7 +22,7 @@ export const GlobalSearch = () => {
 
     // Filter products
     const results = query.length > 1
-        ? products.filter(p =>
+        ? (products || []).filter(p =>
             p.name.toLowerCase().includes(query.toLowerCase()) ||
             p.category?.toLowerCase().includes(query.toLowerCase()) ||
             p.description?.toLowerCase().includes(query.toLowerCase())

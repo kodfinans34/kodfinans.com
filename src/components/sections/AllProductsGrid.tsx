@@ -56,7 +56,7 @@ export const AllProductsGrid = () => {
     };
 
     // Filter: Only 'satis' products (not bozum)
-    const salesProducts = products.filter(p => p.productType === "satis" || (!p.productType && !p.slug.includes("bozum")));
+    const salesProducts = (products || []).filter(p => p.productType === "satis" || (!p.productType && !p.slug.includes("bozum")));
 
     const filteredProducts = activeTab === "all"
         ? salesProducts

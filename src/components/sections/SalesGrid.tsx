@@ -66,7 +66,7 @@ export const SalesGrid = () => {
         router.push("/odeme");
     };
 
-    const salesProducts = products.filter(p => p.productType === "satis" || (!p.productType && !p.slug.includes("bozum")));
+    const salesProducts = (products || []).filter(p => p.productType === "satis" || (!p.productType && !p.slug.includes("bozum")));
 
     // Explode products into variants
     const explodedItems = salesProducts.flatMap(product => {

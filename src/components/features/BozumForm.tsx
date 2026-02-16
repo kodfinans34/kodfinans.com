@@ -19,7 +19,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const bozumProducts = products.filter(p => p.slug.includes("bozdurma") || p.slug.includes("bozum") || p.productType === "bozum");
+    const bozumProducts = (products || []).filter(p => p.slug.includes("bozdurma") || p.slug.includes("bozum") || p.productType === "bozum");
 
     const queryProductSlug = searchParams.get("product");
     const initialProduct = (initialProductSlug || queryProductSlug)

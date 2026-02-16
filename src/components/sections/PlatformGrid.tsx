@@ -11,7 +11,7 @@ export const PlatformGrid = () => {
     const { products } = useSystem();
     const router = useRouter();
 
-    const bozumProducts = products.filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
+    const bozumProducts = (products || []).filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
 
     return (
         <section className="py-16 md:py-24 relative overflow-hidden">
