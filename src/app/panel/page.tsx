@@ -10,8 +10,8 @@ export default function PanelPage() {
 
     const userEmail = user?.email;
 
-    const userBozumRequests = bozumRequests.filter(req => req.userEmail === userEmail);
-    const userOrders = orders.filter(o => o.customerInfo.email === userEmail);
+    const userBozumRequests = (bozumRequests || []).filter(req => req.userEmail === userEmail);
+    const userOrders = (orders || []).filter(o => o.customerInfo.email === userEmail);
 
     const pendingBozumCount = userBozumRequests.filter(req => req.status === "pending").length;
     const totalOrdersCount = userOrders.length;
@@ -101,8 +101,8 @@ export default function PanelPage() {
                                     <div key={req.id} className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] transition-colors">
                                         <div className="flex items-center gap-4">
                                             <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${(req.status === 'approved' || req.status === 'completed') ? 'bg-green-500/10 text-green-500' :
-                                                    (req.status === 'rejected' || req.status === 'cancelled') ? 'bg-red-500/10 text-red-500' :
-                                                        'bg-yellow-500/10 text-yellow-500'
+                                                (req.status === 'rejected' || req.status === 'cancelled') ? 'bg-red-500/10 text-red-500' :
+                                                    'bg-yellow-500/10 text-yellow-500'
                                                 }`}>
                                                 {(req.status === 'approved' || req.status === 'completed') ? <CheckCircle2 size={18} /> :
                                                     (req.status === 'rejected' || req.status === 'cancelled') ? <XCircle size={18} /> :
@@ -120,8 +120,8 @@ export default function PanelPage() {
                                                 {req.type === 'bozum' ? '+' : '-'}₺{req.calculatedAmount.toFixed(2)}
                                             </p>
                                             <p className={`text-[10px] font-bold uppercase tracking-wider ${(req.status === 'approved' || req.status === 'completed') ? 'text-green-500' :
-                                                    (req.status === 'rejected' || req.status === 'cancelled') ? 'text-red-500' :
-                                                        'text-yellow-500'
+                                                (req.status === 'rejected' || req.status === 'cancelled') ? 'text-red-500' :
+                                                    'text-yellow-500'
                                                 }`}>
                                                 {req.status === 'approved' ? 'Onaylandı' :
                                                     req.status === 'completed' ? 'Tamamlandı' :

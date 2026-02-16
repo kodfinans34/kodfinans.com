@@ -7,15 +7,15 @@ export default function AdminPage() {
     const { bozumRequests, orders, withdrawalRequests } = useSystem();
 
     // Stats
-    const pendingRequests = bozumRequests.filter(req => req.status === "pending").length;
-    const totalSales = orders
+    const pendingRequests = (bozumRequests || []).filter(req => req.status === "pending").length;
+    const totalSales = (orders || [])
         .filter(o => o.status === "completed")
         .reduce((acc, curr) => acc + curr.totalAmount, 0);
-    const completedBozumAmount = bozumRequests
+    const completedBozumAmount = (bozumRequests || [])
         .filter(r => r.status === "approved")
         .reduce((acc, r) => acc + r.calculatedAmount, 0);
 
-    const pendingWithdrawals = withdrawalRequests.filter(w => w.status === "pending").length;
+    const pendingWithdrawals = (withdrawalRequests || []).filter(w => w.status === "pending").length;
 
     return (
         <div className="space-y-8">
@@ -60,8 +60,8 @@ export default function AdminPage() {
                         Son Siparişler
                     </h2>
                     <div className="flex-1 space-y-4">
-                        {orders.length > 0 ? (
-                            orders.slice(0, 5).map(order => (
+                        {(orders || []).length > 0 ? (
+                            (orders || []).slice(0, 5).map(order => (
                                 <div key={order.id} className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
                                     <div>
                                         <p className="text-white font-bold text-sm">#{order.id}</p>
@@ -90,8 +90,8 @@ export default function AdminPage() {
                         Son Bozum Talepleri
                     </h2>
                     <div className="flex-1 space-y-4">
-                        {bozumRequests.length > 0 ? (
-                            bozumRequests.slice(0, 5).map(req => (
+                        {(bozumRequests || []).length > 0 ? (
+                            (bozumRequests || []).slice(0, 5).map(req => (
                                 <div key={req.id} className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
                                     <div>
                                         <p className="text-white font-bold text-sm">{req.codeType}</p>
@@ -120,8 +120,8 @@ export default function AdminPage() {
                         Son Çekim Talepleri
                     </h2>
                     <div className="flex-1 space-y-4">
-                        {withdrawalRequests.length > 0 ? (
-                            withdrawalRequests.slice(0, 5).map(req => (
+                        {(withdrawalRequests || []).length > 0 ? (
+                            (withdrawalRequests || []).slice(0, 5).map(req => (
                                 <div key={req.id} className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
                                     <div>
                                         <p className="text-white font-bold text-sm">{req.accountHolder.split(' ')[0]}...</p>

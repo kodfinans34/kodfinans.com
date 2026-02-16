@@ -9,7 +9,7 @@ export default function MyOrdersPage() {
     const [filter, setFilter] = useState<"all" | "pending" | "completed" | "cancelled">("all");
 
     // Filter orders for the current user mock
-    const userOrders = orders.filter(o => o.customerInfo.email === user?.email);
+    const userOrders = (orders || []).filter(o => o.customerInfo.email === user?.email);
 
     const filteredOrders = userOrders.filter(o => filter === "all" ? true : o.status === filter);
 

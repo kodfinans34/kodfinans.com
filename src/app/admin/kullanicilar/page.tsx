@@ -14,15 +14,15 @@ export default function AdminUsersPage() {
     const [balanceAction, setBalanceAction] = useState<"add" | "set">("add");
     const [balanceAmount, setBalanceAmount] = useState<string>("");
 
-    const filteredUsers = users.filter(user =>
+    const filteredUsers = (users || []).filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.phone.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const getUserStats = (email: string) => {
-        const userOrders = orders.filter(o => o.customerInfo.email === email);
-        const userBozums = bozumRequests.filter(b => b.userEmail === email);
+        const userOrders = (orders || []).filter(o => o.customerInfo.email === email);
+        const userBozums = (bozumRequests || []).filter(b => b.userEmail === email);
         return {
             orderCount: userOrders.length,
             orderTotal: userOrders.reduce((sum, o) => sum + o.totalAmount, 0),

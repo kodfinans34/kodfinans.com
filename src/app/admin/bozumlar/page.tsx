@@ -9,7 +9,7 @@ export default function AdminBozumlarPage() {
     const { bozumRequests, updateBozumStatus, sendEmail, settings, deleteBozumRequest } = useSystem();
     const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
-    const filteredRequests = bozumRequests.filter(req => filter === "all" ? true : req.status === filter);
+    const filteredRequests = (bozumRequests || []).filter(req => filter === "all" ? true : req.status === filter);
 
     return (
         <div className="space-y-8">

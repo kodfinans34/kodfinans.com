@@ -10,7 +10,7 @@ export default function MyBozumRequestsPage() {
     const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
     // Filter requests for the current user mock
-    const userRequests = bozumRequests.filter(req => req.userEmail === user?.email);
+    const userRequests = (bozumRequests || []).filter(req => req.userEmail === user?.email);
 
     const filteredRequests = userRequests.filter(req => filter === "all" ? true : req.status === filter);
 
