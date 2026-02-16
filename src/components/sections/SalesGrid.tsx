@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/Button";
-import { Star, Zap, ShoppingCart, ShoppingBag, X, CheckCircle2, Gift, ChevronLeft, ChevronRight, Store } from "lucide-react";
+import { ShoppingCart, ShoppingBag, X, CheckCircle2, Gift, ChevronLeft, ChevronRight, Store } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSystem } from "@/context/SystemContext";
@@ -246,24 +246,11 @@ export const SalesGrid = () => {
                                                 </span>
                                             </div>
                                         )}
-
-                                        <div className="absolute bottom-2.5 right-2.5 z-20 w-7 h-7 bg-[#0f0f14] border border-white/[0.08] rounded-lg p-1 flex items-center justify-center">
-                                            <img src={item.logo} alt="logo" className="w-full h-full object-contain brightness-0 invert" />
-                                        </div>
                                     </div>
 
                                     {/* Content */}
                                     <div className="space-y-2.5 flex-1 flex flex-col">
                                         <div>
-                                            <div className="flex items-center justify-between mb-1">
-                                                <div className="flex items-center gap-1">
-                                                    <Star size={10} className="fill-yellow-500 text-yellow-500" />
-                                                    <span className="text-[10px] font-medium text-white/30">{item.rating}</span>
-                                                </div>
-                                                <span className="text-[9px] font-medium text-emerald-400 flex items-center gap-0.5">
-                                                    <Zap size={9} /> {item.speed}
-                                                </span>
-                                            </div>
                                             <h3 className="text-sm font-semibold text-white leading-tight line-clamp-2 group-hover/card:text-primary transition-colors">
                                                 {item.name} {item.variantName && <span className="text-white/30 block text-[10px] mt-0.5 font-normal">{item.variantName}</span>}
                                             </h3>
