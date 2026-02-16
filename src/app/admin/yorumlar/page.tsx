@@ -36,7 +36,7 @@ export default function AdminReviewsPage() {
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 font-poppins">
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 font-inter">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>

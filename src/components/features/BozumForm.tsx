@@ -121,7 +121,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
 
     if (success) {
         return (
-            <div className="min-h-screen bg-[#050506] text-white font-poppins flex flex-col">
+            <div className="min-h-screen bg-[#050506] text-white font-inter flex flex-col">
                 <Navbar />
                 <div className="flex-1 flex items-center justify-center p-4">
                     <div className="max-w-md w-full glass p-8 rounded-[2.5rem] border-white/10 text-center space-y-6">
@@ -149,7 +149,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
     }
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white font-poppins selection:bg-primary/30">
+        <div className="min-h-screen bg-[#050506] text-white font-inter selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-32 pb-24 relative overflow-hidden">

@@ -17,10 +17,42 @@ export const Hero = () => {
     const tickerProducts = bozumProducts.slice(0, 7);
 
     return (
-        <section className="relative pt-32 md:pt-44 pb-16 overflow-hidden gradient-mesh">
-            {/* Background Elements */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/[0.06] blur-[120px] rounded-full -z-10" />
-            <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary/[0.04] blur-[100px] rounded-full -z-10" />
+        <section className="relative pt-32 md:pt-44 pb-16 overflow-hidden">
+            {/* Animated Gradient Background */}
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+                <motion.div
+                    className="absolute w-[800px] h-[800px] rounded-full blur-[160px] opacity-30"
+                    style={{ background: "radial-gradient(circle, var(--primary), transparent 70%)" }}
+                    animate={{
+                        x: ["-10%", "15%", "-5%", "10%", "-10%"],
+                        y: ["-20%", "10%", "-10%", "5%", "-20%"],
+                        scale: [1, 1.2, 0.9, 1.1, 1],
+                    }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                    className="absolute right-0 bottom-0 w-[700px] h-[700px] rounded-full blur-[140px] opacity-20"
+                    style={{ background: "radial-gradient(circle, var(--secondary), transparent 70%)" }}
+                    animate={{
+                        x: ["10%", "-15%", "5%", "-10%", "10%"],
+                        y: ["10%", "-10%", "15%", "-5%", "10%"],
+                        scale: [1.1, 0.9, 1.2, 1, 1.1],
+                    }}
+                    transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                    className="absolute left-1/3 top-1/4 w-[500px] h-[500px] rounded-full blur-[120px] opacity-15"
+                    style={{ background: "radial-gradient(circle, var(--accent), transparent 70%)" }}
+                    animate={{
+                        x: ["-5%", "10%", "-10%", "5%", "-5%"],
+                        y: ["5%", "-15%", "10%", "-10%", "5%"],
+                        scale: [0.9, 1.15, 1, 1.1, 0.9],
+                    }}
+                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                />
+                {/* Dark overlay to keep text readable */}
+                <div className="absolute inset-0 bg-[#09090b]/60" />
+            </div>
 
             {/* Subtle grid lines */}
             <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/[0.02] -z-10" />
@@ -44,7 +76,7 @@ export const Hero = () => {
 
                     {/* Headline */}
                     <div className="space-y-4">
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-poppins leading-[1.05] tracking-tight text-white">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-inter leading-[1.05] tracking-tight text-white">
                             {settings.heroHeadline} <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-violet-400 to-secondary">
                                 {settings.heroSubheadline}

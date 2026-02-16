@@ -56,7 +56,7 @@ export default function LoginPage() {
                                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                                 KodFinans ID
                             </div>
-                            <h1 className="text-6xl font-black font-poppins text-white leading-tight tracking-tighter mb-4">
+                            <h1 className="text-6xl font-black font-inter text-white leading-tight tracking-tighter mb-4">
                                 DİJİTAL <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">KİMLİĞİNİZ</span>
                             </h1>

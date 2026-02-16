@@ -22,7 +22,7 @@
   --card-hover: rgba(255, 255, 255, 0.1);
 
   --font-inter: "Inter", sans-serif;
-  --font-poppins: "Poppins", sans-serif;
+  --font-inter: "Poppins", sans-serif;
 }
 
 /* Theme Variants - applied via class on body */
@@ -71,7 +71,7 @@
   --color-card: var(--card);
 
   --font-inter: var(--font-inter);
-  --font-poppins: var(--font-poppins);
+  --font-inter: var(--font-inter);
 
   --animate-gradient-x: gradient-x 15s ease infinite;
   --animate-float: float 6s ease-in-out infinite;

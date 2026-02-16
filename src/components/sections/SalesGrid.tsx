@@ -192,7 +192,7 @@ export const SalesGrid = () => {
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-emerald-400 text-xs font-medium">
                             <Store size={12} /> Oyun Mağazası
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-bold font-poppins text-white leading-tight tracking-tight">
+                        <h2 className="text-3xl md:text-5xl font-bold font-inter text-white leading-tight tracking-tight">
                             Popüler <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">Ürünler</span>
                         </h2>
                         <p className="text-white/30 max-w-lg text-sm leading-relaxed">

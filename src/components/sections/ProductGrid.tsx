@@ -38,7 +38,7 @@ export const ProductGrid = () => {
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-primary text-xs font-medium">
                             <Zap size={12} className="fill-primary" /> Kod Bozdurma
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-bold font-poppins text-white leading-tight tracking-tight">
+                        <h2 className="text-3xl md:text-5xl font-bold font-inter text-white leading-tight tracking-tight">
                             Bozdurma <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-violet-400">Merkezi</span>
                         </h2>
                         <p className="text-white/30 max-w-lg text-sm leading-relaxed">
@@ -171,7 +171,7 @@ export const ProductGrid = () => {
                             className="bg-white/[0.02] p-8 md:p-10 rounded-2xl border border-white/[0.05] text-center space-y-3 group hover:border-primary/15 transition-all"
                         >
                             <p className="text-[11px] text-white/25 font-medium tracking-wide">{stat.label}</p>
-                            <p className="text-4xl md:text-5xl font-bold text-white font-poppins tracking-tight group-hover:text-primary transition-colors">{stat.val}</p>
+                            <p className="text-4xl md:text-5xl font-bold text-white font-inter tracking-tight group-hover:text-primary transition-colors">{stat.val}</p>
                             <p className="text-xs font-medium text-primary/70">{stat.sub}</p>
                         </motion.div>
                     ))}

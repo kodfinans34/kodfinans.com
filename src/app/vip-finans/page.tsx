@@ -65,7 +65,7 @@ export default function VipPage() {
                             <div className="flex items-center gap-2 text-primary font-bold">
                                 <Trophy size={20} /> VIP FİNANS AYRICALIĞI
                             </div>
-                            <h1 className="text-4xl md:text-6xl font-bold font-poppins">
+                            <h1 className="text-4xl md:text-6xl font-bold font-inter">
                                 Kurumsal ve Yüksek <br />
                                 Hacimli İşlemler İçin <span className="text-primary">Özel Destek</span>
                             </h1>

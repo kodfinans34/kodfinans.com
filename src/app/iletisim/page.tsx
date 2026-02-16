@@ -16,7 +16,7 @@ export default function ContactPage() {
 
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="text-center mb-16 space-y-4">
-                        <h1 className="text-4xl md:text-6xl font-bold font-poppins">Bizimle İletişime Geçin</h1>
+                        <h1 className="text-4xl md:text-6xl font-bold font-inter">Bizimle İletişime Geçin</h1>
                         <p className="text-white/40 max-w-2xl mx-auto">
                             Sorularınız, önerileriniz veya VIP üyelik talepleriniz için bize ulaşabilirsiniz.
                             Müşteri hizmetlerimiz 7/24 hizmetinizdedir.

@@ -12,7 +12,7 @@ export default function AboutPage() {
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
                         <div className="space-y-8">
-                            <h1 className="text-4xl md:text-6xl font-bold font-poppins">
+                            <h1 className="text-4xl md:text-6xl font-bold font-inter">
                                 Güvenli Dijital <br />
                                 Varlık <span className="text-primary">Yönetimi</span>
                             </h1>

@@ -144,7 +144,7 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
     ];
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white font-poppins selection:bg-primary/30">
+        <div className="min-h-screen bg-[#050506] text-white font-inter selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-32 md:pt-40 pb-24 px-4 overflow-hidden">

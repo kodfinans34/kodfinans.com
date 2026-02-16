@@ -18,7 +18,7 @@ export default function WhatsAppLogoPage() {
 
                 {/* Text */}
                 <div className="relative z-10 flex flex-col items-center leading-none mt-4">
-                    <span className="text-[100px] font-black font-poppins tracking-tighter flex items-center">
+                    <span className="text-[100px] font-black font-inter tracking-tighter flex items-center">
                         <span className="text-white">Kod</span>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 italic">Finans</span>
                     </span>

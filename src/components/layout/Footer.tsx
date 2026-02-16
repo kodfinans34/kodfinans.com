@@ -19,7 +19,7 @@ export const Footer = () => {
                                 <Wallet size={20} className="text-primary relative z-10" />
                             </div>
                             <div className="flex flex-col leading-none">
-                                <span className="text-xl font-bold font-poppins tracking-tight flex items-center">
+                                <span className="text-xl font-bold font-inter tracking-tight flex items-center">
                                     <span className="text-white">Kod</span>
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Finans</span>
                                 </span>

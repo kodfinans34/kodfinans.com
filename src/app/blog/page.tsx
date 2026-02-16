@@ -20,7 +20,7 @@ export default function BlogPage() {
     })).filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
-        <div className="min-h-screen bg-[#080809] text-white font-poppins selection:bg-primary/30">
+        <div className="min-h-screen bg-[#080809] text-white font-inter selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-32 md:pt-48 pb-24 relative overflow-hidden">
@@ -97,7 +97,7 @@ export default function BlogPage() {
                                                         <span className="w-1 h-1 rounded-full bg-white/10" />
                                                         <span>{post.read}</span>
                                                     </div>
-                                                    <h3 className="text-xl font-black text-white group-hover:text-primary transition-colors leading-tight uppercase font-poppins">
+                                                    <h3 className="text-xl font-black text-white group-hover:text-primary transition-colors leading-tight uppercase font-inter">
                                                         {post.title}
                                                     </h3>
                                                     <p className="text-white/40 text-xs leading-relaxed line-clamp-2 font-medium">

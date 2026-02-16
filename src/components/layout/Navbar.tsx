@@ -75,7 +75,7 @@ export const Navbar = () => {
                             <Wallet size={18} className="text-primary relative z-10 group-hover:scale-110 transition-transform duration-500" />
                         </div>
                         <div className="flex flex-col leading-tight">
-                            <span className="text-lg md:text-xl font-bold font-poppins tracking-tight flex items-center">
+                            <span className="text-lg md:text-xl font-bold font-inter tracking-tight flex items-center">
                                 <span className="text-white">Kod</span>
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Finans</span>
                             </span>
@@ -240,7 +240,7 @@ export const Navbar = () => {
                                 <div className="w-9 h-9 bg-primary/10 flex items-center justify-center rounded-xl border border-primary/20">
                                     <Wallet size={18} className="text-primary" />
                                 </div>
-                                <span className="text-xl font-bold font-poppins text-white tracking-tight">Kod<span className="text-primary">Finans</span></span>
+                                <span className="text-xl font-bold font-inter text-white tracking-tight">Kod<span className="text-primary">Finans</span></span>
                             </Link>
                             <button
                                 onClick={() => setIsOpen(false)}

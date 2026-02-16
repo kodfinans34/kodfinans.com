@@ -83,7 +83,7 @@ export default function RegisterPage() {
                                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                                 Yepyeni Bir Deneyim
                             </div>
-                            <h1 className="text-6xl font-black font-poppins text-white leading-tight tracking-tighter mb-4">
+                            <h1 className="text-6xl font-black font-inter text-white leading-tight tracking-tighter mb-4">
                                 BİZE <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">KATILIN</span>
                             </h1>

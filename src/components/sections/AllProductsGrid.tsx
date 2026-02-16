@@ -177,7 +177,7 @@ export const AllProductsGrid = () => {
                             <div className="inline-flex items-center gap-2 px-3 md:px-4 lg:px-5 py-1 md:py-1.5 lg:py-2 rounded-full bg-white/[0.03] border border-white/5 text-primary text-[8px] md:text-[9px] lg:text-[10px] font-black tracking-wider md:tracking-[0.2em] lg:tracking-[0.3em] uppercase">
                                 Dijital Kodlar
                             </div>
-                            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-poppins text-white leading-[0.95] md:leading-[0.9] tracking-tight md:tracking-tighter uppercase md:italic">
+                            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-inter text-white leading-[0.95] md:leading-[0.9] tracking-tight md:tracking-tighter uppercase md:italic">
                                 KOD <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">ÜRÜNLERİ</span>
                             </h2>
                             <p className="text-white/30 max-w-xl text-xs md:text-sm lg:text-base xl:text-lg leading-relaxed font-medium">
