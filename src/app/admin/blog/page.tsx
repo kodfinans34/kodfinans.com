@@ -120,14 +120,14 @@ export default function AdminBlogPage() {
                     placeholder="Blog Yazısı Ara..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-[#08080a] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white focus:outline-none focus:border-primary/50 transition-all"
+                    className="w-full bg-[#0a100e] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white focus:outline-none focus:border-primary/50 transition-all"
                 />
             </div>
 
             {/* Blog Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredBlogs.map((blog) => (
-                    <div key={blog.id} className="bg-[#08080a] border border-white/10 rounded-2xl p-4 group hover:border-white/20 transition-all flex flex-col h-full">
+                    <div key={blog.id} className="bg-[#0a100e] border border-white/10 rounded-2xl p-4 group hover:border-white/20 transition-all flex flex-col h-full">
                         <div className="relative aspect-video rounded-xl overflow-hidden mb-4 bg-white/5">
                             <img src={blog.image} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             <div className="absolute top-2 right-2 flex gap-2">

@@ -68,7 +68,7 @@ export default function AdminUsersPage() {
                             placeholder="Kullanıcı Ara..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-[#08080a] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-blue-500/50 outline-none w-64 transition-all"
+                            className="bg-[#0a100e] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-blue-500/50 outline-none w-64 transition-all"
                         />
                     </div>
                 </div>
@@ -76,7 +76,7 @@ export default function AdminUsersPage() {
 
             <div className="grid gap-4">
                 {filteredUsers.length === 0 ? (
-                    <div className="text-center py-20 bg-[#08080a] border border-white/5 rounded-3xl border-dashed">
+                    <div className="text-center py-20 bg-[#0a100e] border border-white/5 rounded-3xl border-dashed">
                         <Users className="w-12 h-12 text-white/20 mx-auto mb-4" />
                         <p className="text-white/40 font-bold uppercase tracking-widest text-xs">Kullanıcı Bulunamadı</p>
                     </div>
@@ -84,7 +84,7 @@ export default function AdminUsersPage() {
                     filteredUsers.map((user) => {
                         const stats = getUserStats(user.email);
                         return (
-                            <div key={user.id} className="bg-[#08080a] border border-white/5 p-6 rounded-3xl group hover:border-white/10 transition-all">
+                            <div key={user.id} className="bg-[#0a100e] border border-white/5 p-6 rounded-3xl group hover:border-white/10 transition-all">
                                 <div className="flex flex-col lg:flex-row gap-8 items-center">
                                     <div className="flex items-center gap-6 flex-1 w-full">
                                         <div className="w-16 h-16 rounded-[2rem] bg-gradient-to-br from-blue-500/10 to-blue-500/20 border border-blue-500/20 flex items-center justify-center text-blue-500 font-black text-2xl shrink-0">
@@ -161,7 +161,7 @@ export default function AdminUsersPage() {
                             initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                            className="relative bg-[#08080a] border border-white/10 w-full max-w-2xl rounded-[2.5rem] overflow-hidden shadow-2xl"
+                            className="relative bg-[#0a100e] border border-white/10 w-full max-w-2xl rounded-[2.5rem] overflow-hidden shadow-2xl"
                         >
 
                             <div className="p-8 border-b border-white/5 flex items-center justify-between bg-gradient-to-r from-blue-500/10 to-transparent">
@@ -220,8 +220,8 @@ export default function AdminUsersPage() {
                                             onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value as any })}
                                             className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-blue-500/50 transition-all font-bold appearance-none"
                                         >
-                                            <option value="user" className="bg-[#08080a]">Üye</option>
-                                            <option value="admin" className="bg-[#08080a]">Yönetici</option>
+                                            <option value="user" className="bg-[#0a100e]">Üye</option>
+                                            <option value="admin" className="bg-[#0a100e]">Yönetici</option>
                                         </select>
                                     </div>
                                     <div className="md:col-span-2 pt-2">

@@ -102,7 +102,7 @@ export default function HomepageLayoutPage() {
                             onDragOver={(e) => handleDragOver(e, index)}
                             onDragEnd={handleDragEnd}
                             className={`
-                                glass p-6 rounded-2xl border-white/10 bg-[#08080a] 
+                                glass p-6 rounded-2xl border-white/10 bg-[#0a100e] 
                                 cursor-move hover:border-primary/50 transition-all
                                 ${draggedIndex === index ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}
                             `}

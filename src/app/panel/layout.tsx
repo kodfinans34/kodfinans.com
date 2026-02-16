@@ -36,9 +36,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     };
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white flex grain">
+        <div className="min-h-screen bg-[#070d0b] text-white flex grain">
             {/* Sidebar - Hidden on Mobile */}
-            <aside className="hidden lg:flex w-72 border-r border-white/5 bg-[#08080a]/50 backdrop-blur-3xl flex-col fixed top-0 bottom-0 left-0 z-50">
+            <aside className="hidden lg:flex w-72 border-r border-white/5 bg-[#0a100e]/50 backdrop-blur-3xl flex-col fixed top-0 bottom-0 left-0 z-50">
                 <div className="h-24 flex items-center px-8 border-b border-white/5">
                     <Link href="/" className="flex items-center gap-2 group">
                         <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center text-primary border border-primary/20 group-hover:scale-110 transition-transform">

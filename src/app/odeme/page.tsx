@@ -150,7 +150,7 @@ export default function CheckoutPage() {
     // Show loading while checking auth
     if (isChecking) {
         return (
-            <div className="min-h-screen bg-[#050506] flex items-center justify-center">
+            <div className="min-h-screen bg-[#070d0b] flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-white/40 text-sm font-bold">Yetkilendiriliyor...</p>
@@ -161,7 +161,7 @@ export default function CheckoutPage() {
 
     if (success) {
         return (
-            <div className="min-h-screen bg-[#050506] text-white font-inter flex flex-col">
+            <div className="min-h-screen bg-[#070d0b] text-white font-inter flex flex-col">
                 <Navbar />
                 <div className="flex-1 flex items-center justify-center p-4">
                     <div className="max-w-md w-full glass p-8 rounded-[2.5rem] border-white/10 text-center space-y-6">
@@ -186,7 +186,7 @@ export default function CheckoutPage() {
     }
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white font-inter selection:bg-primary/30">
+        <div className="min-h-screen bg-[#070d0b] text-white font-inter selection:bg-primary/30">
             <Navbar />
             <main className="pt-32 md:pt-48 pb-24 relative overflow-hidden">
                 {/* Dynamic Background */}

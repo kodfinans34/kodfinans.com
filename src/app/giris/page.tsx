@@ -37,7 +37,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white flex flex-col relative overflow-hidden">
+        <div className="min-h-screen bg-[#070d0b] text-white flex flex-col relative overflow-hidden">
             <Navbar />
 
             {/* Background Effects */}
@@ -86,7 +86,7 @@ export default function LoginPage() {
                     {/* Right Side - Login Form */}
                     <div className="relative">
                         <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-[2.5rem] blur-xl" />
-                        <div className="bg-[#08080a] border border-white/10 p-8 md:p-12 rounded-[2.5rem] space-y-8 relative shadow-2xl">
+                        <div className="bg-[#0a100e] border border-white/10 p-8 md:p-12 rounded-[2.5rem] space-y-8 relative shadow-2xl">
                             <div className="text-center space-y-2">
                                 <h2 className="text-2xl font-black text-white uppercase tracking-tight">Hoş Geldiniz</h2>
                                 <p className="text-white/40 font-medium text-sm">Devam etmek için giriş yapın.</p>
@@ -155,7 +155,7 @@ export default function LoginPage() {
                                 <div className="absolute inset-0 flex items-center">
                                     <div className="w-full border-t border-white/5"></div>
                                 </div>
-                                <span className="relative z-10 bg-[#08080a] px-4 text-[10px] font-black text-white/20 uppercase tracking-widest">VEYA</span>
+                                <span className="relative z-10 bg-[#0a100e] px-4 text-[10px] font-black text-white/20 uppercase tracking-widest">VEYA</span>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">

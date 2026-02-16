@@ -69,7 +69,7 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
 
     if (isLoading && !product) {
         return (
-            <div className="min-h-screen bg-[#050506] flex items-center justify-center">
+            <div className="min-h-screen bg-[#070d0b] flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
             </div>
         );
@@ -77,7 +77,7 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
 
     if (!product) {
         return (
-            <div className="min-h-screen bg-[#050506] flex flex-col">
+            <div className="min-h-screen bg-[#070d0b] flex flex-col">
                 <Navbar />
                 <div className="flex-1 flex items-center justify-center p-4 pt-32">
                     <div className="text-center space-y-4">
@@ -118,7 +118,7 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
     };
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white font-inter selection:bg-primary/30">
+        <div className="min-h-screen bg-[#070d0b] text-white font-inter selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-28 md:pt-36 pb-24 px-4 overflow-hidden">
@@ -145,7 +145,7 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
                                 className="w-full h-full object-contain p-6 md:p-10"
                             />
                             {/* Gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#050506]/80 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#070d0b]/80 via-transparent to-transparent" />
 
                             {/* Badge */}
                             <div className="absolute top-4 left-4 flex items-center gap-2">

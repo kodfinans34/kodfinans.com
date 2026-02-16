@@ -35,7 +35,7 @@ export default function SettingsPage() {
 
             <div className="grid gap-8">
                 {/* Profile Info */}
-                <div className="bg-[#08080a] border border-white/5 rounded-[2rem] p-8 space-y-6">
+                <div className="bg-[#0a100e] border border-white/5 rounded-[2rem] p-8 space-y-6">
                     <div className="flex items-center gap-4 mb-4">
                         <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
                             <User size={32} />
@@ -90,7 +90,7 @@ export default function SettingsPage() {
                 </div>
 
                 {/* Password Change */}
-                <div className="bg-[#08080a] border border-white/5 rounded-[2rem] p-8 space-y-6 opacity-50 cursor-not-allowed pointer-events-none grayscale">
+                <div className="bg-[#0a100e] border border-white/5 rounded-[2rem] p-8 space-y-6 opacity-50 cursor-not-allowed pointer-events-none grayscale">
                     <div className="flex items-center gap-4 mb-4">
                         <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-white/40">
                             <ShieldCheck size={32} />

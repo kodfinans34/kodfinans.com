@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white flex flex-col relative overflow-hidden">
+        <div className="min-h-screen bg-[#070d0b] text-white flex flex-col relative overflow-hidden">
             <Navbar />
 
             {/* Background Effects */}
@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
                 <div className="w-full max-w-md">
                     <div className="relative">
                         <div className="absolute inset-0 bg-gradient-to-b from-red-500/10 to-transparent rounded-[2.5rem] blur-xl" />
-                        <div className="bg-[#08080a] border border-red-500/20 p-8 md:p-12 rounded-[2.5rem] space-y-8 relative shadow-2xl">
+                        <div className="bg-[#0a100e] border border-red-500/20 p-8 md:p-12 rounded-[2.5rem] space-y-8 relative shadow-2xl">
 
                             {/* Header */}
                             <div className="text-center space-y-4">

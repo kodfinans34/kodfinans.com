@@ -41,7 +41,7 @@ export default function BakiyeEklePage() {
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
                                 placeholder="0.00"
-                                className="w-full h-24 pl-16 bg-[#08080a] border border-white/10 rounded-[2rem] text-4xl font-black text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all font-mono"
+                                className="w-full h-24 pl-16 bg-[#0a100e] border border-white/10 rounded-[2rem] text-4xl font-black text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all font-mono"
                             />
                         </div>
                         <div className="flex flex-wrap gap-3">
@@ -66,7 +66,7 @@ export default function BakiyeEklePage() {
                                     "p-6 rounded-[2rem] border transition-all flex flex-col items-center gap-4 text-center group relative overflow-hidden",
                                     method === "card"
                                         ? "bg-primary/10 border-primary text-primary shadow-[0_0_30px_rgba(74,188,241,0.2)]"
-                                        : "bg-[#08080a] border-white/10 text-white/40 hover:bg-white/5 hover:text-white"
+                                        : "bg-[#0a100e] border-white/10 text-white/40 hover:bg-white/5 hover:text-white"
                                 )}
                             >
                                 <CreditCard size={32} className="relative z-10" />
@@ -80,7 +80,7 @@ export default function BakiyeEklePage() {
                                     "p-6 rounded-[2rem] border transition-all flex flex-col items-center gap-4 text-center group relative overflow-hidden",
                                     method === "transfer"
                                         ? "bg-secondary/10 border-secondary text-secondary shadow-[0_0_30px_rgba(168,85,247,0.2)]"
-                                        : "bg-[#08080a] border-white/10 text-white/40 hover:bg-white/5 hover:text-white"
+                                        : "bg-[#0a100e] border-white/10 text-white/40 hover:bg-white/5 hover:text-white"
                                 )}
                             >
                                 <Landmark size={32} className="relative z-10" />
@@ -101,7 +101,7 @@ export default function BakiyeEklePage() {
                 </div>
 
                 <div className="space-y-6">
-                    <div className="bg-[#08080a] border border-white/5 rounded-[2.5rem] p-8 space-y-6 relative overflow-hidden">
+                    <div className="bg-[#0a100e] border border-white/5 rounded-[2.5rem] p-8 space-y-6 relative overflow-hidden">
                         <div className="flex items-start gap-4">
                             <ShieldCheck size={32} className="text-green-500 shrink-0" />
                             <div>

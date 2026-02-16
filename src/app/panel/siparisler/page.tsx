@@ -35,13 +35,13 @@ export default function MyOrdersPage() {
 
             <div className="grid gap-4">
                 {filteredOrders.length === 0 ? (
-                    <div className="text-center py-20 bg-[#08080a] border border-white/5 rounded-2xl">
+                    <div className="text-center py-20 bg-[#0a100e] border border-white/5 rounded-2xl">
                         <ShoppingBag className="w-12 h-12 text-white/20 mx-auto mb-4" />
                         <p className="text-white/40 font-bold">Herhangi bir sipariş bulunamadı.</p>
                     </div>
                 ) : (
                     filteredOrders.map((order) => (
-                        <div key={order.id} className="bg-[#08080a] border border-white/10 p-6 rounded-2xl md:flex md:items-center justify-between group hover:border-white/20 transition-all gap-4">
+                        <div key={order.id} className="bg-[#0a100e] border border-white/10 p-6 rounded-2xl md:flex md:items-center justify-between group hover:border-white/20 transition-all gap-4">
                             <div className="flex flex-col md:flex-row md:items-center gap-6 flex-1">
                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold shrink-0
                                     ${order.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500' :

@@ -33,13 +33,13 @@ export default function AdminBozumlarPage() {
 
             <div className="grid gap-4">
                 {filteredRequests.length === 0 ? (
-                    <div className="text-center py-20 bg-[#08080a] border border-white/5 rounded-2xl">
+                    <div className="text-center py-20 bg-[#0a100e] border border-white/5 rounded-2xl">
                         <AlertCircle className="w-12 h-12 text-white/20 mx-auto mb-4" />
                         <p className="text-white/40 font-bold">Talep bulunamadı.</p>
                     </div>
                 ) : (
                     filteredRequests.map((req) => (
-                        <div key={req.id} className="bg-[#08080a] border border-white/10 p-6 rounded-2xl flex items-center justify-between group hover:border-white/20 transition-all">
+                        <div key={req.id} className="bg-[#0a100e] border border-white/10 p-6 rounded-2xl flex items-center justify-between group hover:border-white/20 transition-all">
                             <div className="flex items-center gap-6">
                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold
                                     ${req.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500' :

@@ -22,28 +22,28 @@ export default function AdminPage() {
             <h1 className="text-3xl font-black text-white uppercase tracking-tight">Admin Dashboard</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="bg-[#08080a] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
+                <div className="bg-[#0a100e] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="text-6xl font-black text-primary/30">S</span>
                     </div>
                     <h3 className="text-primary text-[10px] font-black uppercase tracking-[0.2em] mb-2">Toplam Satış</h3>
                     <p className="text-4xl font-black text-white">₺{totalSales.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
                 </div>
-                <div className="bg-[#08080a] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
+                <div className="bg-[#0a100e] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="text-6xl font-black text-blue-500">B</span>
                     </div>
                     <h3 className="text-blue-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Bekleyen Bozum</h3>
                     <p className="text-4xl font-black text-white">{pendingRequests}</p>
                 </div>
-                <div className="bg-[#08080a] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
+                <div className="bg-[#0a100e] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="text-6xl font-black text-green-500">Ç</span>
                     </div>
                     <h3 className="text-green-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Bekleyen Çekim</h3>
                     <p className="text-4xl font-black text-white">{pendingWithdrawals}</p>
                 </div>
-                <div className="bg-[#08080a] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
+                <div className="bg-[#0a100e] border border-white/[0.08] p-6 rounded-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="text-6xl font-black text-yellow-500">I</span>
                     </div>
@@ -54,7 +54,7 @@ export default function AdminPage() {
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 {/* Orders */}
-                <div className="bg-[#08080a] border border-white/[0.08] rounded-2xl p-8 flex flex-col">
+                <div className="bg-[#0a100e] border border-white/[0.08] rounded-2xl p-8 flex flex-col">
                     <h2 className="text-lg font-black text-white uppercase tracking-tight mb-6 flex items-center gap-2">
                         <span className="w-2 h-6 bg-primary rounded-full"></span>
                         Son Siparişler
@@ -84,7 +84,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* Bozum */}
-                <div className="bg-[#08080a] border border-white/[0.08] rounded-2xl p-8 flex flex-col">
+                <div className="bg-[#0a100e] border border-white/[0.08] rounded-2xl p-8 flex flex-col">
                     <h2 className="text-lg font-black text-white uppercase tracking-tight mb-6 flex items-center gap-2">
                         <span className="w-2 h-6 bg-blue-500 rounded-full"></span>
                         Son Bozum Talepleri
@@ -114,7 +114,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* Withdrawals */}
-                <div className="bg-[#08080a] border border-white/[0.08] rounded-2xl p-8 flex flex-col">
+                <div className="bg-[#0a100e] border border-white/[0.08] rounded-2xl p-8 flex flex-col">
                     <h2 className="text-lg font-black text-white uppercase tracking-tight mb-6 flex items-center gap-2">
                         <span className="w-2 h-6 bg-green-500 rounded-full"></span>
                         Son Çekim Talepleri

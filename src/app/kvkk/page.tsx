@@ -4,7 +4,7 @@ import { Shield, Lock, Eye, FileText, CheckCircle2, AlertTriangle } from "lucide
 
 export default function KVKKPage() {
     return (
-        <div className="min-h-screen bg-[#050506] text-white">
+        <div className="min-h-screen bg-[#070d0b] text-white">
             <Navbar />
             <main className="pt-32 pb-24 relative overflow-hidden">
                 {/* Background */}

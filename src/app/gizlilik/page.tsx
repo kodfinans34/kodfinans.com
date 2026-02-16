@@ -4,7 +4,7 @@ import { Lock, Eye, Shield, Server, UserCheck, FileText, AlertCircle } from "luc
 
 export default function GizlilikPage() {
     return (
-        <div className="min-h-screen bg-[#050506] text-white">
+        <div className="min-h-screen bg-[#070d0b] text-white">
             <Navbar />
             <main className="pt-32 pb-24 relative overflow-hidden">
                 {/* Background */}

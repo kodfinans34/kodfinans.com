@@ -36,9 +36,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     ];
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white flex">
+        <div className="min-h-screen bg-[#070d0b] text-white flex">
             {/* Mobile Header */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#030304]/95 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4">
+            <div className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#050b09]/95 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4">
                 <Link href="/admin" className="flex items-center gap-2">
                     <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
                         <ShieldCheck size={14} />
@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
             {/* Sidebar */}
             <aside className={cn(
-                "w-64 border-r border-white/[0.06] bg-[#030304] flex flex-col fixed top-0 bottom-0 left-0 z-50 transition-transform duration-300",
+                "w-64 border-r border-white/[0.06] bg-[#050b09] flex flex-col fixed top-0 bottom-0 left-0 z-50 transition-transform duration-300",
                 sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
             )}>
                 <div className="h-16 flex items-center px-5 border-b border-white/[0.06]">

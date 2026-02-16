@@ -64,7 +64,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#050506] text-white flex flex-col relative overflow-hidden">
+        <div className="min-h-screen bg-[#070d0b] text-white flex flex-col relative overflow-hidden">
             <Navbar />
 
             {/* Background Effects */}
@@ -113,7 +113,7 @@ export default function RegisterPage() {
                     {/* Right Side - Register Form */}
                     <div className="relative order-1 md:order-2">
                         <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent rounded-[2.5rem] blur-xl" />
-                        <div className="bg-[#08080a] border border-white/10 p-8 md:p-12 rounded-[2.5rem] space-y-8 relative shadow-2xl">
+                        <div className="bg-[#0a100e] border border-white/10 p-8 md:p-12 rounded-[2.5rem] space-y-8 relative shadow-2xl">
                             <div className="text-center space-y-2">
                                 <h2 className="text-2xl font-black text-white uppercase tracking-tight">Hesap Oluştur</h2>
                                 <p className="text-white/40 font-medium text-sm">Formu doldurarak aramıza katılın.</p>

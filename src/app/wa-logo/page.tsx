@@ -3,10 +3,10 @@ import { Command } from "lucide-react";
 
 export default function WhatsAppLogoPage() {
     return (
-        <div className="min-h-screen bg-[#050506] flex items-center justify-center p-4">
+        <div className="min-h-screen bg-[#070d0b] flex items-center justify-center p-4">
             <div
                 id="whatsapp-logo"
-                className="w-[800px] h-[800px] bg-[#050506] flex flex-col items-center justify-center gap-12 border border-white/5 relative overflow-hidden"
+                className="w-[800px] h-[800px] bg-[#070d0b] flex flex-col items-center justify-center gap-12 border border-white/5 relative overflow-hidden"
             >
                 {/* Background Glows matching brand */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full" />
@@ -26,7 +26,7 @@ export default function WhatsAppLogoPage() {
                 </div>
 
                 {/* Decorative border internal */}
-                <div className="absolute inset-0 border-[20px] border-[#050506] pointer-events-none z-20" />
+                <div className="absolute inset-0 border-[20px] border-[#070d0b] pointer-events-none z-20" />
             </div>
         </div>
     );

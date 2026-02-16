@@ -227,7 +227,7 @@ export const AllProductsGrid = () => {
                                 transition={{ duration: 0.3, delay: i * 0.02 }}
                             >
                                 <div className="absolute -inset-[1px] bg-gradient-to-b from-primary/20 to-transparent rounded-[2rem] blur-sm opacity-0 group-hover:opacity-100 transition duration-500" />
-                                <div className="relative h-full glass p-3 md:p-4 rounded-[2rem] border-white/5 bg-[#08080a] flex flex-col justify-between overflow-hidden group-hover:bg-white/[0.02] transition-colors">
+                                <div className="relative h-full glass p-3 md:p-4 rounded-[2rem] border-white/5 bg-[#0a100e] flex flex-col justify-between overflow-hidden group-hover:bg-white/[0.02] transition-colors">
 
                                     {/* Image */}
                                     <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] mb-4 shadow-lg">
@@ -237,7 +237,7 @@ export const AllProductsGrid = () => {
                                             alt={item.name}
                                             className="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-110"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#050506] via-transparent to-transparent opacity-80" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#070d0b] via-transparent to-transparent opacity-80" />
 
                                         {/* Badge */}
                                         <div className="absolute top-3 left-3 px-3 py-1 bg-primary/90 backdrop-blur-md rounded-full">

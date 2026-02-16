@@ -5,7 +5,7 @@ import { Wallet2, Zap, Lock, BarChart3 } from "lucide-react";
 
 export default function CalculatorPage() {
     return (
-        <div className="min-h-screen bg-[#050506] text-white font-inter selection:bg-primary/30">
+        <div className="min-h-screen bg-[#070d0b] text-white font-inter selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-32 pb-24 relative overflow-hidden">

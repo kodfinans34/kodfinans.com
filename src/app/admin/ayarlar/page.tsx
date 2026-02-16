@@ -48,7 +48,7 @@ export default function AdminSettingsPage() {
 
             <div className="grid gap-8">
                 {/* General/SEO */}
-                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                     <h2 className="text-lg font-black text-white uppercase tracking-wider mb-4 border-b border-white/5 pb-2">Genel & SEO</h2>
 
                     <div className="space-y-4">
@@ -83,7 +83,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {/* Homepage Content */}
-                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                     <h2 className="text-lg font-black text-white uppercase tracking-wider mb-4 border-b border-white/5 pb-2">Anasayfa İçerik</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -109,7 +109,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {/* Theme Color */}
-                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                     <div className="flex items-center gap-3 mb-4 border-b border-white/5 pb-2">
                         <Palette size={20} className="text-white/40" />
                         <h2 className="text-lg font-black text-white uppercase tracking-wider">Tema Rengi</h2>
@@ -131,7 +131,7 @@ export default function AdminSettingsPage() {
                                 <div
                                     className={cn(
                                         "w-10 h-10 rounded-full shadow-lg transition-all",
-                                        localSettings.themeColor === theme.id && "ring-2 ring-offset-2 ring-offset-[#08080a]"
+                                        localSettings.themeColor === theme.id && "ring-2 ring-offset-2 ring-offset-[#0a100e]"
                                     )}
                                     style={{ backgroundColor: theme.color, boxShadow: localSettings.themeColor === theme.id ? `0 0 16px ${theme.color}50` : "none" }}
                                 />
@@ -150,7 +150,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {/* Contact */}
-                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                     <h2 className="text-lg font-black text-white uppercase tracking-wider mb-4 border-b border-white/5 pb-2">İletişim</h2>
 
                     <div>
@@ -170,7 +170,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {/* Email / SMTP */}
-                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                     <h2 className="text-lg font-black text-white uppercase tracking-wider mb-4 border-b border-white/5 pb-2">E-Posta Bildirim Ayarları (SMTP)</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -229,7 +229,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {/* Email Test */}
-                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                     <h2 className="text-lg font-black text-white uppercase tracking-wider mb-4 border-b border-white/5 pb-2">E-Posta Testi</h2>
                     <p className="text-xs text-white/40">SMTP ayarlarınızı kaydettikten sonra, çalışıp çalışmadığını kontrol etmek için bir test e-postası gönderebilirsiniz.</p>
 
@@ -291,7 +291,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {/* Custom Codes & CSS */}
-                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                     <h2 className="text-lg font-black text-white uppercase tracking-wider mb-4 border-b border-white/5 pb-2">Özel Kodlar & CSS</h2>
 
                     <div className="space-y-6">
@@ -332,7 +332,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {/* PayTR */}
-                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                     <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
                         <h2 className="text-lg font-black text-white uppercase tracking-wider">PayTR Ödeme Altyapısı</h2>
                         <div className="flex items-center gap-2">

@@ -30,13 +30,13 @@ export default function AdminWithdrawalsPage() {
                             placeholder="Talep Ara..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-[#08080a] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-primary/50 outline-none w-64"
+                            className="bg-[#0a100e] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-primary/50 outline-none w-64"
                         />
                     </div>
                 </div>
             </div>
 
-            <div className="flex gap-2 bg-[#08080a] p-1 rounded-xl w-fit border border-white/5">
+            <div className="flex gap-2 bg-[#0a100e] p-1 rounded-xl w-fit border border-white/5">
                 {(["all", "pending", "approved", "rejected"] as const).map(f => (
                     <button
                         key={f}
@@ -53,13 +53,13 @@ export default function AdminWithdrawalsPage() {
 
             <div className="space-y-4">
                 {filteredRequests.length === 0 ? (
-                    <div className="text-center py-20 bg-[#08080a] border border-white/5 rounded-2xl border-dashed">
+                    <div className="text-center py-20 bg-[#0a100e] border border-white/5 rounded-2xl border-dashed">
                         <Wallet className="w-12 h-12 text-white/20 mx-auto mb-4" />
                         <p className="text-white/40 font-bold uppercase tracking-widest text-xs">Çekim Talebi Bulunamadı</p>
                     </div>
                 ) : (
                     filteredRequests.map((req) => (
-                        <div key={req.id} className="bg-[#08080a] border border-white/5 p-6 rounded-2xl group hover:border-white/10 transition-all">
+                        <div key={req.id} className="bg-[#0a100e] border border-white/5 p-6 rounded-2xl group hover:border-white/10 transition-all">
                             <div className="flex flex-col lg:flex-row gap-8">
                                 <div className="flex-1 space-y-4">
                                     <div className="flex items-center gap-4">

@@ -33,7 +33,7 @@ export const CartDrawer = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={toggleCart}
-                        className="fixed inset-0 bg-[#050506]/90 backdrop-blur-sm z-[150]"
+                        className="fixed inset-0 bg-[#070d0b]/90 backdrop-blur-sm z-[150]"
                     />
 
                     {/* Drawer */}
@@ -42,7 +42,7 @@ export const CartDrawer = () => {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#08080a] border-l border-white/5 z-[160] shadow-2xl flex flex-col"
+                        className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#0a100e] border-l border-white/5 z-[160] shadow-2xl flex flex-col"
                     >
                         {/* Header */}
                         <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
@@ -123,7 +123,7 @@ export const CartDrawer = () => {
 
                         {/* Footer */}
                         {cart.length > 0 && (
-                            <div className="p-6 bg-[#050506] border-t border-white/5 space-y-6">
+                            <div className="p-6 bg-[#070d0b] border-t border-white/5 space-y-6">
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center text-white/40 text-xs font-bold uppercase tracking-widest">
                                         <span>Ara Toplam</span>

@@ -16,7 +16,7 @@ export const LiveSupport = () => {
                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="bg-[#08080a] border border-white/10 rounded-2xl w-80 shadow-2xl overflow-hidden mb-2"
+                        className="bg-[#0a100e] border border-white/10 rounded-2xl w-80 shadow-2xl overflow-hidden mb-2"
                     >
                         {/* Header */}
                         <div className="bg-gradient-to-r from-[#25D366] to-[#128C7E] p-4 flex items-center justify-between">
@@ -35,7 +35,7 @@ export const LiveSupport = () => {
                         </div>
 
                         {/* Content */}
-                        <div className="p-4 space-y-4 bg-[#08080a]">
+                        <div className="p-4 space-y-4 bg-[#0a100e]">
                             <div className="bg-white/5 p-3 rounded-xl rounded-tl-none border border-white/5">
                                 <p className="text-xs text-white/80 leading-relaxed">
                                     Merhaba! 👋 <br />
@@ -64,7 +64,7 @@ export const LiveSupport = () => {
                 {isOpen ? <X size={24} /> : <MessageCircle size={28} />}
 
                 {!isOpen && (
-                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-[#050506]"></span>
+                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-[#070d0b]"></span>
                 )}
             </motion.button>
         </div>
