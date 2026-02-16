@@ -3,8 +3,16 @@
 import React, { useState, useEffect } from "react";
 import { useSystem } from "@/context/SystemContext";
 import { Button } from "@/components/ui/Button";
-import { Save, Loader2 } from "lucide-react";
+import { Save, Loader2, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const THEME_OPTIONS = [
+    { id: "green", label: "Yeşil (Gaming)", color: "#10b981", ring: "ring-emerald-500" },
+    { id: "indigo", label: "İndigo", color: "#6366f1", ring: "ring-indigo-500" },
+    { id: "red", label: "Kırmızı", color: "#ef4444", ring: "ring-red-500" },
+    { id: "blue", label: "Mavi", color: "#3b82f6", ring: "ring-blue-500" },
+    { id: "orange", label: "Turuncu", color: "#f59e0b", ring: "ring-amber-500" },
+];
 
 export default function AdminSettingsPage() {
     const { settings, updateSettings } = useSystem();
@@ -97,6 +105,47 @@ export default function AdminSettingsPage() {
                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500/50 focus:outline-none transition-colors"
                             />
                         </div>
+                    </div>
+                </div>
+
+                {/* Theme Color */}
+                <div className="bg-[#08080a] border border-white/10 p-8 rounded-2xl space-y-6">
+                    <div className="flex items-center gap-3 mb-4 border-b border-white/5 pb-2">
+                        <Palette size={20} className="text-white/40" />
+                        <h2 className="text-lg font-black text-white uppercase tracking-wider">Tema Rengi</h2>
+                    </div>
+                    <p className="text-xs text-white/30 -mt-2">Sitenin ana renk temasını seçin. Değişiklik kaydettikten sonra uygulanır.</p>
+
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        {THEME_OPTIONS.map((theme) => (
+                            <button
+                                key={theme.id}
+                                onClick={() => setLocalSettings(prev => ({ ...prev, themeColor: theme.id }))}
+                                className={cn(
+                                    "relative flex flex-col items-center gap-3 p-5 rounded-xl border-2 transition-all",
+                                    localSettings.themeColor === theme.id
+                                        ? "border-white/30 bg-white/5 scale-[1.02]"
+                                        : "border-white/5 bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
+                                )}
+                            >
+                                <div
+                                    className={cn(
+                                        "w-10 h-10 rounded-full shadow-lg transition-all",
+                                        localSettings.themeColor === theme.id && "ring-2 ring-offset-2 ring-offset-[#08080a]"
+                                    )}
+                                    style={{ backgroundColor: theme.color, boxShadow: localSettings.themeColor === theme.id ? `0 0 16px ${theme.color}50` : "none" }}
+                                />
+                                <span className={cn(
+                                    "text-xs font-semibold transition-colors",
+                                    localSettings.themeColor === theme.id ? "text-white" : "text-white/30"
+                                )}>
+                                    {theme.label}
+                                </span>
+                                {localSettings.themeColor === theme.id && (
+                                    <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-green-400" />
+                                )}
+                            </button>
+                        ))}
                     </div>
                 </div>
 

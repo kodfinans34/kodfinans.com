@@ -111,6 +111,8 @@ export interface SiteSettings {
     paytrMerchantKey?: string;
     paytrMerchantSalt?: string;
     paytrTestMode?: boolean;
+    // Theme
+    themeColor?: string; // 'green' | 'indigo' | 'red' | 'blue' | 'orange'
     // Scripts & CSS
     googleAnalyticsId?: string;
     customHeadCode?: string; // For Google Ads verification, etc.

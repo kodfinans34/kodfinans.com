@@ -147,6 +147,7 @@ const defaultSettings: SiteSettings = {
     paytrMerchantKey: "",
     paytrMerchantSalt: "",
     paytrTestMode: true,
+    themeColor: "green",
 };
 
 const SystemContext = createContext<SystemContextType | undefined>(undefined);
