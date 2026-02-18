@@ -615,6 +615,19 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             blogs,
             addBlog,
             updateBlog,
+            deleteBlog,
+
+            orders,
+            addOrder,
+            updateOrderStatus,
+            deleteOrder,
+
+            bozumRequests,
+            addBozumRequest,
+            updateBozumStatus,
+            deleteBozumRequest,
+
+            withdrawalRequests,
             addWithdrawalRequest,
             updateWithdrawalStatus,
 

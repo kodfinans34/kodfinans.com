@@ -28,9 +28,9 @@ function hexToGlow(hex: string, alpha: number): string {
 function applyFullTheme(settings: any) {
     if (typeof window === "undefined") return;
 
+    const { activeTheme, themeColor, lightThemeConfig, darkThemeConfig, siteMode: settingsMode } = settings;
     const body = document.body;
-    const siteMode = localStorage.getItem("kf_site_mode") || "dark";
-    const { activeTheme, themeColor, lightThemeConfig, darkThemeConfig } = settings;
+    const siteMode = settingsMode || "dark";
 
     console.log(`[ThemeApplier] 🎨 Applying: ${activeTheme} theme (${themeColor}) in ${siteMode} mode.`);
 

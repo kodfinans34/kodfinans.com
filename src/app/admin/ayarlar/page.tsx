@@ -209,7 +209,7 @@ export default function AdminSettingsPage() {
                                         <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Aktif Site Modu</label>
                                         <div className="grid grid-cols-2 gap-3">
                                             {[
-                                                { id: "light", label: "Beyaz Tema", icon: Sun },
+                                                { id: "white", label: "Beyaz Tema", icon: Sun },
                                                 { id: "dark", label: "Siyah Tema", icon: Moon }
                                             ].map(m => (
                                                 <button
