@@ -78,7 +78,7 @@ export const Hero = () => {
                     <div className="space-y-4">
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-inter leading-[1.05] tracking-tight text-white">
                             {settings.heroHeadline} <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-violet-400 to-secondary">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary">
                                 {settings.heroSubheadline}
                             </span>
                         </h1>

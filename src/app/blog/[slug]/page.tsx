@@ -1,11 +1,10 @@
-
 import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Calendar, User, Clock, ArrowLeft, Share2 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/Button"; // Check if Button is client component, usually yes.
-import { blogs } from "@/lib/blogs";
+import { Button } from "@/components/ui/Button";
+import { getBlogs } from "@/lib/firebase-blogs";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -16,6 +15,7 @@ interface BlogPostPageProps {
 // SEO Metadata Generation
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
     const { slug } = await params;
+    const blogs = await getBlogs();
     const blog = blogs.find(b => b.slug === slug);
 
     if (!blog) {
@@ -38,6 +38,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params;
+    const blogs = await getBlogs();
     const blog = blogs.find(b => b.slug === slug);
 
     if (!blog) {
@@ -45,7 +46,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     }
 
     return (
-        <div className="min-h-screen bg-[#080809] text-white font-poppins selection:bg-primary/30">
+        <div className="min-h-screen bg-background text-foreground font-poppins selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-32 pb-32 relative overflow-hidden">

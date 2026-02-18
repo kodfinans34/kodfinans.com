@@ -20,7 +20,7 @@ export default function BlogPage() {
     })).filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
-        <div className="min-h-screen bg-[#080809] text-white font-inter selection:bg-primary/30">
+        <div className="min-h-screen bg-background text-foreground font-inter selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-32 md:pt-48 pb-24 relative overflow-hidden">
@@ -38,7 +38,7 @@ export default function BlogPage() {
                         <h1 className="text-5xl md:text-8xl font-black leading-[0.9] tracking-tighter">
                             DİJİTAL <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-secondary italic">FİNANS BLOG</span>
                         </h1>
-                        <p className="text-white/40 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
+                        <p className="text-foreground/40 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
                             En güncel bozum rehberleri, piyasa analizleri ve güvenlik ipuçları.
                         </p>
                     </div>

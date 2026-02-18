@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -36,9 +36,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     ];
 
     return (
-        <div className="min-h-screen bg-[#070d0b] text-white flex">
+        <div className="min-h-screen bg-background text-foreground flex">
             {/* Mobile Header */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#050b09]/95 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4">
+            <div className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-background/95 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4">
                 <Link href="/admin" className="flex items-center gap-2">
                     <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
                         <ShieldCheck size={14} />
@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
             {/* Sidebar */}
             <aside className={cn(
-                "w-64 border-r border-white/[0.06] bg-[#050b09] flex flex-col fixed top-0 bottom-0 left-0 z-50 transition-transform duration-300",
+                "w-64 border-r border-white/[0.06] bg-card flex flex-col fixed top-0 bottom-0 left-0 z-50 transition-transform duration-300",
                 sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
             )}>
                 <div className="h-16 flex items-center px-5 border-b border-white/[0.06]">
@@ -92,6 +92,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </div>
 
                 <div className="p-3 border-t border-white/[0.06]">
+                    <a
+                        href="/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-primary/70 hover:text-primary hover:bg-primary/5 transition-all mb-2 border border-primary/10"
+                    >
+                        <ExternalLink size={15} />
+                        Siteye Git
+                    </a>
                     <div className="flex items-center gap-3 px-3.5 py-3 rounded-xl bg-white/[0.02] border border-white/[0.04] mb-2">
                         <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center text-primary">
                             <ShieldCheck size={14} />

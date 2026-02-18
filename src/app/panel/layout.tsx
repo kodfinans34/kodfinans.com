@@ -36,9 +36,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     };
 
     return (
-        <div className="min-h-screen bg-[#070d0b] text-white flex grain">
+        <div className="min-h-screen bg-background text-foreground flex grain">
             {/* Sidebar - Hidden on Mobile */}
-            <aside className="hidden lg:flex w-72 border-r border-white/5 bg-[#0a100e]/50 backdrop-blur-3xl flex-col fixed top-0 bottom-0 left-0 z-50">
+            <aside className="hidden lg:flex w-72 border-r border-white/5 bg-card/50 backdrop-blur-3xl flex-col fixed top-0 bottom-0 left-0 z-50">
                 <div className="h-24 flex items-center px-8 border-b border-white/5">
                     <Link href="/" className="flex items-center gap-2 group">
                         <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center text-primary border border-primary/20 group-hover:scale-110 transition-transform">
@@ -113,6 +113,26 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                     )}
                 </div>
             </main>
+            {/* Mobile Bottom Bar */}
+            <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-t border-white/5 px-2 py-3 flex items-center justify-around">
+                {sidebarLinks.map((link) => {
+                    const Icon = link.icon;
+                    const isActive = pathname === link.href;
+                    return (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className={cn(
+                                "flex flex-col items-center gap-1 p-2 rounded-xl transition-all",
+                                isActive ? "text-primary bg-primary/10 px-4" : "text-foreground/40"
+                            )}
+                        >
+                            <Icon size={20} />
+                            <span className="text-[10px] font-bold uppercase tracking-widest">{link.name.split(' ')[0]}</span>
+                        </Link>
+                    );
+                })}
+            </nav>
         </div>
     );
 }

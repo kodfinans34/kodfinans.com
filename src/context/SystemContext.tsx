@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 
 
 import {
@@ -166,10 +166,12 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
     const [users, setUsers] = useState<SystemUser[]>([]);
 
     const [isLoaded, setIsLoaded] = useState(false);
+    const hasLoaded = useRef(false);
 
     // --- Load Data ---
     useEffect(() => {
-        if (typeof window !== "undefined") {
+        if (typeof window !== "undefined" && !hasLoaded.current) {
+            hasLoaded.current = true;
             const loadData = async () => {
                 // Initialize LocalStorage Data
 
@@ -452,6 +454,10 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         setSettings(updated);
         try {
             await updateSettingsInFirestore(updated);
+            // Dispatch update event for ThemeApplier
+            if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("kf_theme_update"));
+            }
         } catch (error) {
             console.error("Failed to save settings to Firestore", error);
         }

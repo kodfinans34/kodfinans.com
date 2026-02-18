@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSystem } from "@/context/SystemContext";
 import { useRouter } from "next/navigation";
+import { products as staticProducts } from "@/lib/products";
+import { Product } from "@/lib/types";
 
 const getVariants = (category: string) => {
     switch (category) {
@@ -66,12 +68,13 @@ export const SalesGrid = () => {
         router.push("/odeme");
     };
 
-    const salesProducts = (products || []).filter(p => p.productType === "satis" || (!p.productType && !p.slug.includes("bozum")));
+    const currentProducts = (products || []).length > 0 ? products : staticProducts;
+    const salesProducts = currentProducts.filter((p: Product) => p.productType === "satis" || (!p.productType && !p.slug.includes("bozum")));
 
     // Explode products into variants
-    const explodedItems = salesProducts.flatMap(product => {
+    const explodedItems = salesProducts.flatMap((product: Product) => {
         if (product.variants && product.variants.length > 0) {
-            return product.variants.map(variant => ({
+            return product.variants.map((variant: any) => ({
                 ...product,
                 variantId: variant.id,
                 variantName: variant.name,
@@ -91,13 +94,17 @@ export const SalesGrid = () => {
     });
 
     const [displayItems, setDisplayItems] = useState<any[]>([]);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        const items = explodedItems.sort(() => Math.random() - 0.5).slice(0, 12);
+        setMounted(true);
+        // Shuffle only on client side to avoid hydration mismatch
+        const items = [...explodedItems].sort(() => Math.random() - 0.5).slice(0, 12);
         setDisplayItems(items);
     }, [products]);
 
-    const finalItems = displayItems.length > 0 ? displayItems : explodedItems.slice(0, 12);
+    // Use a stable slice for SSR, then shuffle on client
+    const finalItems = mounted ? displayItems : explodedItems.slice(0, 12);
 
     return (
         <section className="py-20 md:py-28 relative" id="sales">
@@ -225,7 +232,7 @@ export const SalesGrid = () => {
                             <motion.div
                                 key={item.uniqueId}
                                 className="group/card relative cursor-pointer snap-start shrink-0 w-[260px] md:w-[calc(25%-12px)]"
-                                onClick={() => router.push(`/urun/${item.slug}`)}
+                                onClick={() => router.push(`/urun/${item.variantSlug || item.slug}`)}
                             >
                                 <div className="absolute -inset-[1px] bg-gradient-to-b from-primary/15 to-transparent rounded-2xl blur-sm opacity-0 group-hover/card:opacity-100 transition duration-500" />
                                 <div className="relative h-full bg-white/[0.02] p-3 rounded-2xl border border-white/[0.06] flex flex-col justify-between overflow-hidden group-hover/card:border-primary/15 transition-colors">

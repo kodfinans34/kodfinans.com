@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSystem } from "@/context/SystemContext";
 import { useRouter } from "next/navigation";
+import { products as staticProducts } from "@/lib/products";
+import { Product } from "@/lib/types";
 
 const categories = [
     { id: "all", name: "Tümü", icon: LayoutGrid },
@@ -20,11 +22,12 @@ export const ProductGrid = () => {
     const [activeTab, setActiveTab] = useState("all");
     const router = useRouter();
 
-    const bozumProducts = (products || []).filter(p => p.productType === "bozum" || p.slug.includes("bozum") || p.slug.includes("bozdurma"));
+    const currentProducts = (products || []).length > 0 ? products : staticProducts;
+    const bozumProducts = currentProducts.filter((p: Product) => p.productType === "bozum" || (p.slug && p.slug.includes("bozum")) || (p.slug && p.slug.includes("bozdurma")));
 
     const filteredProducts = activeTab === "all"
         ? bozumProducts
-        : bozumProducts.filter(p => p.category === activeTab);
+        : bozumProducts.filter((p: Product) => p.category === activeTab);
 
     return (
         <section className="py-16 md:py-24 relative" id="products">
@@ -76,10 +79,21 @@ export const ProductGrid = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.3, delay: i * 0.04 }}
                                 viewport={{ once: true }}
-                                className="group relative"
+                                className="group relative cursor-pointer"
+                                onClick={() => {
+                                    if ((product as any).linkedSalesSlug) {
+                                        router.push(`/urun/${(product as any).linkedSalesSlug}`);
+                                        return;
+                                    }
+                                    // Try to find matching sales product
+                                    const search = product.name.split(' ')[0].toLowerCase();
+                                    const found = currentProducts.find((p: Product) => p.productType === "satis" && p.name.toLowerCase().includes(search));
+                                    const target = found?.slug || product.slug.replace("-bozum", "").replace("-bozdurma", "");
+                                    router.push(`/urun/${target}`);
+                                }}
                             >
                                 <div className="absolute -inset-[1px] bg-gradient-to-b from-primary/15 to-transparent rounded-2xl blur-sm opacity-0 group-hover:opacity-100 transition duration-500" />
-                                <div className="relative h-full bg-white/[0.02] p-3 rounded-2xl border border-white/[0.06] flex flex-col justify-between overflow-hidden group-hover:border-primary/15 transition-colors">
+                                <div className="relative h-full bg-white/[0.02] p-3 rounded-2xl border border-white/[0.06] flex flex-col justify-between overflow-hidden group-hover:border-primary/20 transition-colors">
 
                                     {/* Image */}
                                     <div className="relative aspect-[4/5] overflow-hidden rounded-xl mb-3">
@@ -88,7 +102,7 @@ export const ProductGrid = () => {
                                             alt={product.name}
                                             className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-transparent to-transparent opacity-70" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-70" />
 
                                         {product.badge && (
                                             <div className="absolute top-2.5 left-2.5 z-20">
@@ -98,7 +112,7 @@ export const ProductGrid = () => {
                                             </div>
                                         )}
 
-                                        <div className="absolute bottom-2.5 right-2.5 z-20 w-7 h-7 bg-[#0f0f14] border border-white/[0.08] rounded-lg p-1 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                                        <div className="absolute bottom-2.5 right-2.5 z-20 w-7 h-7 bg-card border border-white/[0.08] rounded-lg p-1 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                                             {product.logo && <img src={product.logo} alt="logo" className="w-full h-full object-contain brightness-0 invert" />}
                                         </div>
                                     </div>
@@ -127,18 +141,25 @@ export const ProductGrid = () => {
                                             </div>
 
                                             <div className="flex gap-2">
-                                                <Button onClick={() => router.push(`/bozum?product=${product.slug}`)} className="flex-1 py-3 h-auto rounded-xl text-[10px] font-medium transition-all bg-white/[0.03] border border-white/[0.06] text-white hover:bg-white/[0.06] hover:border-primary/20" variant="ghost">
+                                                <Button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        router.push(`/bozum?product=${product.slug}`);
+                                                    }}
+                                                    className="flex-1 py-3 h-auto rounded-xl text-[10px] font-medium transition-all bg-white/[0.03] border border-white/[0.06] text-white hover:bg-white/[0.06] hover:border-primary/20"
+                                                    variant="ghost"
+                                                >
                                                     <span className="flex items-center justify-center gap-1">Bozdur</span>
                                                 </Button>
                                                 <Button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        if (product.linkedSalesSlug) {
-                                                            router.push(`/urun/${product.linkedSalesSlug}`);
+                                                        if ((product as any).linkedSalesSlug) {
+                                                            router.push(`/urun/${(product as any).linkedSalesSlug}`);
                                                             return;
                                                         }
                                                         const search = product.name.split(' ')[0].toLowerCase();
-                                                        const found = products.find(p => p.productType === "satis" && p.name.toLowerCase().includes(search));
+                                                        const found = currentProducts.find((p: Product) => p.productType === "satis" && p.name.toLowerCase().includes(search));
                                                         const target = found?.slug || product.slug.replace("-bozum", "").replace("-bozdurma", "");
                                                         router.push(`/urun/${target}`);
                                                     }}

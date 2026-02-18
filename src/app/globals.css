@@ -62,75 +62,99 @@
   --accent-glow: rgba(251, 191, 36, 0.3);
 }
 
+/* White (Light) Theme - Premium Revamp */
+.theme-white {
+  --background: #f8fafc;
+  /* Soft Slate White */
+  --foreground: #0f172a;
+  /* Deep Slate for contrast */
+  --primary-glow: rgba(var(--primary-rgb), 0.15);
+  --secondary-glow: rgba(var(--secondary-rgb), 0.1);
+  --accent-glow: rgba(var(--accent-rgb), 0.1);
+  --card: #ffffff;
+  --card-border: rgba(15, 23, 42, 0.06);
+  --card-hover: rgba(15, 23, 42, 0.04);
+}
+
+/* Black (AMOLED) Theme */
+.theme-black {
+  --background: #000000;
+  --foreground: #f1f5f9;
+  --card: rgba(10, 10, 10, 0.98);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --card-hover: rgba(255, 255, 255, 0.08);
+}
+
 @theme {
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
   --color-success: var(--success);
   --color-dark: #0a0f0d;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
   --color-card: var(--card);
 
-  --font-inter: var(--font-inter);
   --font-inter: var(--font-inter);
 
   --animate-gradient-x: gradient-x 15s ease infinite;
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+}
 
-  @keyframes gradient-x {
+@keyframes gradient-x {
 
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-
-    50% {
-      background-position: 100% 50%;
-    }
+  0%,
+  100% {
+    background-position: 0% 50%;
   }
 
-  @keyframes float {
+  50% {
+    background-position: 100% 50%;
+  }
+}
 
-    0%,
-    100% {
-      transform: translateY(0);
-    }
+@keyframes float {
 
-    50% {
-      transform: translateY(-20px);
-    }
+  0%,
+  100% {
+    transform: translateY(0);
   }
 
-  @keyframes pulse-slow {
+  50% {
+    transform: translateY(-20px);
+  }
+}
 
-    0%,
-    100% {
-      opacity: 0.4;
-    }
+@keyframes pulse-slow {
 
-    50% {
-      opacity: 1;
-    }
+  0%,
+  100% {
+    opacity: 0.4;
   }
 
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
+  50% {
+    opacity: 1;
+  }
+}
 
-    100% {
-      background-position: 200% 0;
-    }
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
   }
 
-  @keyframes slide-logos {
-    0% {
-      transform: translateX(0);
-    }
+  100% {
+    background-position: 200% 0;
+  }
+}
 
-    100% {
-      transform: translateX(-50%);
-    }
+@keyframes slide-logos {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
   }
 }
 
@@ -148,6 +172,152 @@
     background-attachment: fixed;
     overflow-x: hidden;
     max-width: 100vw;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* White theme overrides for common dark-bg elements */
+  .theme-white {
+    --scrollbar-track: #f0f0f0;
+  }
+
+  .theme-white .glass {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(0, 0, 0, 0.06);
+  }
+
+  .theme-white .premium-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 245, 255, 0.9) 100%);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  /* White theme: override hardcoded dark backgrounds */
+  .theme-white,
+  .theme-white body {
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+  }
+
+  .theme-white .bg-\[\#080809\],
+  .theme-white .bg-\[\#0a0f0d\],
+  .theme-white .bg-\[\#070d0b\],
+  .theme-white .bg-\[\#050b09\],
+  .theme-white .bg-\[\#0c0c10\],
+  .theme-white .bg-\[\#0f0f14\],
+  .theme-white .bg-\[\#0f0f11\],
+  .theme-white .bg-\[\#0a100e\],
+  .theme-white .bg-\[\#08080a\] {
+    background-color: var(--background) !important;
+  }
+
+  /* Glass and Card Overrides */
+  .theme-white .glass,
+  .theme-white .bg-white\/\[0\.02\],
+  .theme-white .bg-white\/\[0\.03\],
+  .theme-white .bg-white\/\[0\.04\],
+  .theme-white .bg-white\/5 {
+    background-color: rgba(0, 0, 0, 0.03) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  .theme-white .bg-white\/\[0\.06\],
+  .theme-white .bg-white\/\[0\.08\],
+  .theme-white .bg-white\/10 {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  /* Text Overrides */
+  .theme-white .text-white {
+    color: #1a1a2e !important;
+  }
+
+  /* Improved White Theme Overrides */
+  .theme-white .border-white\/\[0\.08\],
+  .theme-white .border-white\/10,
+  .theme-white .border-white\/5,
+  .theme-white .border-white\/\[0\.05\],
+  .theme-white .border-white\/\[0\.04\] {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .theme-white .bg-white\/\[0\.03\],
+  .theme-white .bg-white\/\[0\.05\],
+  .theme-white .bg-white\/5,
+  .theme-white .bg-white\/\[0\.02\] {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .theme-white .bg-white\/\[0\.06\],
+  .theme-white .bg-white\/\[0\.08\],
+  .theme-white .bg-white\/10 {
+    background-color: rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .theme-white .shadow-xl,
+  .theme-white .shadow-2xl {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Specific background overrides for Hero and Sections */
+  .theme-white .bg-\[\#0a0f0d\]\/60 {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .theme-white .bg-primary\/15 {
+    background-color: var(--primary-glow) !important;
+    opacity: 0.2 !important;
+  }
+
+  .theme-white .text-white\/20,
+  .theme-white .text-white\/25,
+  .theme-white .text-white\/30,
+  .theme-white .text-white\/40,
+  .theme-white .text-white\/60 {
+    color: rgba(26, 26, 46, 0.5) !important;
+  }
+
+  .theme-white .text-primary {
+    color: var(--primary) !important;
+  }
+
+  .theme-white .text-white\/50 {
+    color: rgba(26, 26, 46, 0.6) !important;
+  }
+
+  .theme-white .text-white\/60 {
+    color: rgba(26, 26, 46, 0.7) !important;
+  }
+
+  .theme-white .text-white\/70 {
+    color: rgba(26, 26, 46, 0.8) !important;
+  }
+
+  .theme-white .text-white\/80 {
+    color: rgba(26, 26, 46, 0.9) !important;
+  }
+
+  /* Border Overrides */
+  .theme-white .border-white\/5,
+  .theme-white .border-white\/\[0\.04\],
+  .theme-white .border-white\/10,
+  .theme-white .border-white\/\[0\.06\],
+  .theme-white .border-white\/\[0\.08\],
+  .theme-white .border-white\/10 {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* Specific Component Overrides */
+  .theme-white section[class*="bg-"] {
+    background-color: var(--background) !important;
+  }
+
+  .theme-white .bg-black\/40 {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+  }
+
+  /* White theme: scrollbar */
+  .theme-white ::-webkit-scrollbar-track {
+    background: #f0f0f0;
   }
 
   /* Custom scrollbar */

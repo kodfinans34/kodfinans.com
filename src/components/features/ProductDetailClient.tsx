@@ -26,30 +26,29 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import ReviewSection from "@/components/features/ReviewSection";
 
+import { Product } from "@/lib/types";
+
 interface ProductDetailClientProps {
     slug: string;
     variantSlug?: string;
+    initialProduct?: Product;
 }
 
-export default function ProductDetailClient({ slug, variantSlug }: ProductDetailClientProps) {
-    const { products, isLoggedIn } = useSystem();
+import { products as staticProducts } from "@/lib/products";
+
+export default function ProductDetailClient({ slug, variantSlug, initialProduct }: ProductDetailClientProps) {
+    const { products, isLoggedIn, isLoaded } = useSystem();
     const { addToCart } = useCart();
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(true);
 
-    React.useEffect(() => {
-        if ((products || []).length > 0) {
-            setIsLoading(false);
-        }
-        const timer = setTimeout(() => setIsLoading(false), 2000);
-        return () => clearTimeout(timer);
-    }, [products]);
+    // Use initial product if present, then system products when loaded
+    const currentProducts = (products || []).length > 0 ? products : (initialProduct ? [initialProduct] : staticProducts);
 
-    let product = (products || []).find(p => p.slug === slug);
+    let product = currentProducts.find(p => p.slug === slug);
     let initialVariantId = "";
 
     if (!product) {
-        for (const p of (products || [])) {
+        for (const p of currentProducts) {
             const v = p.variants?.find(v => v.slug === slug);
             if (v) {
                 product = p;
@@ -67,7 +66,7 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
         }
     }, [product]);
 
-    if (isLoading && !product) {
+    if (!isLoaded && !product) {
         return (
             <div className="min-h-screen bg-[#070d0b] flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
@@ -194,26 +193,31 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
                                     <div
                                         key={variant.id}
                                         id={`variant-${variant.slug || variant.id}`}
+                                        onClick={() => {
+                                            if (variant.slug) {
+                                                router.push(`/urun/${variant.slug}`);
+                                            }
+                                        }}
                                         className={cn(
-                                            "bg-white/[0.02] rounded-xl md:rounded-2xl p-4 md:p-5 border transition-all flex items-center gap-4",
+                                            "bg-white/[0.02] rounded-xl md:rounded-2xl p-4 md:p-5 border transition-all flex items-center gap-4 cursor-pointer group/v",
                                             (initialVariantId === variant.id || variant.slug === slug)
-                                                ? "border-primary/30 bg-primary/[0.04] ring-1 ring-primary/10"
-                                                : "border-white/[0.06] hover:border-white/[0.1]"
+                                                ? "border-primary/50 bg-primary/[0.04] ring-1 ring-primary/20"
+                                                : "border-white/[0.06] hover:border-white/[0.15] hover:bg-white/[0.04]"
                                         )}
                                     >
                                         {/* Icon */}
-                                        <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0">
+                                        <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover/v:border-primary/30 transition-colors">
                                             <Package size={18} className={cn(
-                                                "text-white/20",
-                                                (initialVariantId === variant.id || variant.slug === slug) && "text-primary"
+                                                "text-white/20 transition-colors",
+                                                (initialVariantId === variant.id || variant.slug === slug) ? "text-primary" : "group-hover/v:text-white/40"
                                             )} />
                                         </div>
 
                                         {/* Name & Description */}
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="text-sm font-semibold text-white truncate">{variant.name}</h4>
+                                            <h4 className="text-sm font-semibold text-white truncate group-hover/v:text-primary transition-colors">{variant.name}</h4>
                                             {variant.description && (
-                                                <p className="text-[11px] text-white/25 font-medium truncate">{variant.description}</p>
+                                                <p className="text-[11px] text-white/25 font-medium truncate group-hover/v:text-white/40 transition-colors">{variant.description}</p>
                                             )}
                                         </div>
 
@@ -226,7 +230,7 @@ export default function ProductDetailClient({ slug, variantSlug }: ProductDetail
                                         </div>
 
                                         {/* Quantity + CTA */}
-                                        <div className="flex items-center gap-2 shrink-0">
+                                        <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
                                             <div className="hidden md:flex items-center bg-white/[0.03] border border-white/[0.06] rounded-lg overflow-hidden">
                                                 <button onClick={() => updateQuantity(variant.id, -1)} className="p-2 hover:bg-white/5 text-white/30 transition-colors">
                                                     <Minus size={13} />

@@ -5,10 +5,11 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/Button";
-import { Menu, X, ChevronRight, ShoppingBag, Zap, Wallet, Home, BookOpen, Trophy, Phone, Store } from "lucide-react";
+import { Menu, X, ChevronRight, ShoppingBag, Zap, Wallet, Home, BookOpen, Trophy, Phone, Store, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useSystem } from "@/context/SystemContext";
+import { applyFullTheme } from "@/components/ThemeApplier";
 import { User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 
 const navLinks = [
@@ -24,11 +25,34 @@ export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { cart, toggleCart } = useCart();
-    const { isLoggedIn, userBalance, logout } = useSystem();
+    const { isLoggedIn, userBalance, logout, settings } = useSystem();
     const pathname = usePathname();
     const router = useRouter();
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [siteMode, setSiteMode] = useState<"dark" | "white">("dark");
+
+    // Load saved site mode from localStorage
+    useEffect(() => {
+        const saved = localStorage.getItem("kf_site_mode");
+        if (saved === "white") setSiteMode("white");
+    }, []);
+
+    const toggleSiteMode = () => {
+        const newMode = siteMode === "dark" ? "white" : "dark";
+        setSiteMode(newMode);
+        if (newMode === "white") {
+            localStorage.setItem("kf_site_mode", "white");
+        } else {
+            localStorage.removeItem("kf_site_mode");
+        }
+
+        // Dispatch custom event for ThemeApplier
+        window.dispatchEvent(new CustomEvent("kf_theme_update"));
+
+        // Apply immediately
+        applyFullTheme(settings.themeColor || "green");
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -44,7 +68,7 @@ export const Navbar = () => {
                 className={cn(
                     "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
                     scrolled
-                        ? "bg-[#0a0f0d]/95 backdrop-blur-xl border-b border-white/5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+                        ? "bg-background/95 backdrop-blur-xl border-b border-white/5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                         : "bg-transparent"
                 )}
             >
@@ -107,6 +131,19 @@ export const Navbar = () => {
                     </nav>
 
                     <div className="flex items-center gap-2 md:gap-3 shrink-0">
+                        {/* Theme Toggle */}
+                        <button
+                            onClick={toggleSiteMode}
+                            className="hidden md:flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-all border border-white/[0.06] hover:border-white/[0.12] group"
+                            title={siteMode === "dark" ? "Beyaz Tema" : "Koyu Tema"}
+                        >
+                            {siteMode === "dark" ? (
+                                <Sun size={16} className="text-white/40 group-hover:text-yellow-400 transition-colors" />
+                            ) : (
+                                <Moon size={16} className="text-white/40 group-hover:text-indigo-400 transition-colors" />
+                            )}
+                        </button>
+
                         {/* WhatsApp Support */}
                         <Link href="https://wa.me/905517139330" className="hidden xl:flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.03] hover:bg-[#25D366]/10 transition-all border border-white/[0.06] hover:border-[#25D366]/30 group">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-opacity" />
@@ -125,7 +162,7 @@ export const Navbar = () => {
                         >
                             <ShoppingBag size={18} className="group-hover:scale-110 transition-transform" />
                             {cart.length > 0 && (
-                                <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-primary text-white text-[9px] font-bold flex items-center justify-center rounded-full border-2 border-[#0a0f0d]">
+                                <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-primary text-white text-[9px] font-bold flex items-center justify-center rounded-full border-2 border-background">
                                     {cart.length}
                                 </span>
                             )}
@@ -155,7 +192,7 @@ export const Navbar = () => {
                                                 initial={{ opacity: 0, y: 8, scale: 0.96 }}
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                                                className="absolute top-full right-0 mt-2 w-48 bg-[#0f0f14] border border-white/[0.08] rounded-2xl shadow-2xl overflow-hidden z-50"
+                                                className="absolute top-full right-0 mt-2 w-48 bg-card border border-white/[0.08] rounded-2xl shadow-2xl overflow-hidden z-50"
                                             >
                                                 <div className="p-2 space-y-1">
                                                     <Link href="/panel" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/[0.04] text-sm text-white/80 font-medium transition-colors">
@@ -232,7 +269,7 @@ export const Navbar = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed inset-0 z-[200] bg-[#0a0f0d] flex flex-col lg:hidden"
+                        className="fixed inset-0 z-[200] bg-background flex flex-col lg:hidden"
                     >
                         {/* Mobile Menu Header */}
                         <div className="flex items-center justify-between p-5 border-b border-white/[0.05]">
@@ -303,7 +340,18 @@ export const Navbar = () => {
                         </div>
 
                         {/* Footer Actions */}
-                        <div className="p-4 border-t border-white/[0.05] space-y-3 bg-[#0c0c10] pb-8">
+                        <div className="p-4 border-t border-white/[0.05] space-y-3 bg-card/10 pb-8">
+                            {/* Mobile Theme Toggle */}
+                            <button
+                                onClick={toggleSiteMode}
+                                className="w-full flex items-center justify-center gap-2 h-11 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] text-white/60 hover:text-white transition-all text-sm font-medium"
+                            >
+                                {siteMode === "dark" ? (
+                                    <><Sun size={16} className="text-yellow-400" /> Beyaz Tema</>
+                                ) : (
+                                    <><Moon size={16} className="text-indigo-400" /> Koyu Tema</>
+                                )}
+                            </button>
                             {isLoggedIn ? (
                                 <>
                                     <div className="bg-white/[0.03] p-3 rounded-xl flex items-center justify-between border border-white/[0.05]">

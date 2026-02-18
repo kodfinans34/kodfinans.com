@@ -10,6 +10,7 @@ import { SeoContent } from "@/components/sections/SeoContent";
 import { SalesGrid } from "@/components/sections/SalesGrid";
 import { TrustBanner } from "@/components/sections/TrustBanner";
 import { useSystem } from "@/context/SystemContext";
+import { cn } from "@/lib/utils";
 
 const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
   Hero,
@@ -22,16 +23,19 @@ const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
 };
 
 export default function Home() {
-  const { settings } = useSystem();
+  const { settings, isLoaded } = useSystem();
 
   const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
   const sectionOrder = settings.homepageSectionOrder || defaultOrder;
 
   return (
-    <div className="min-h-screen bg-[#080809] text-white">
+    <div className="min-h-screen bg-background text-white">
       <Navbar />
 
-      <main>
+      <main className={cn(
+        "transition-opacity duration-700 ease-in-out",
+        isLoaded ? "opacity-100" : "opacity-0"
+      )}>
         {sectionOrder.map((sectionId) => {
           const SectionComponent = SECTION_COMPONENTS[sectionId];
           return SectionComponent ? <SectionComponent key={sectionId} /> : null;
