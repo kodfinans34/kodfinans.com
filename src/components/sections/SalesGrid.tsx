@@ -153,7 +153,7 @@ export const SalesGrid = () => {
                                                     "p-3.5 rounded-xl border text-sm font-medium transition-all flex items-center justify-center",
                                                     selectedVariant === variant
                                                         ? "bg-primary/10 border-primary/30 text-primary"
-                                                        : "bg-white/[0.02] border-white/[0.06] text-white/50 hover:bg-white/[0.04] hover:text-white"
+                                                        : "bg-background border-white/[0.06] text-foreground/50 hover:bg-card hover:text-foreground"
                                                 )}
                                             >
                                                 {variant}
@@ -180,7 +180,7 @@ export const SalesGrid = () => {
 
                                 <div className="flex items-center justify-center gap-1.5 pt-1 opacity-30">
                                     <CheckCircle2 size={11} className="text-green-500" />
-                                    <span className="text-[10px] text-white font-medium">Anında Teslimat Garantisi</span>
+                                    <span className="text-[10px] text-foreground font-medium">Anında Teslimat Garantisi</span>
                                 </div>
                             </div>
                         </motion.div>
@@ -199,10 +199,10 @@ export const SalesGrid = () => {
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-emerald-400 text-xs font-medium">
                             <Store size={12} /> Oyun Mağazası
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-bold font-inter text-white leading-tight tracking-tight">
+                        <h2 className="text-3xl md:text-5xl font-bold font-inter text-foreground leading-tight tracking-tight">
                             Popüler <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">Ürünler</span>
                         </h2>
-                        <p className="text-white/30 max-w-lg text-sm leading-relaxed">
+                        <p className="text-foreground/30 max-w-lg text-sm leading-relaxed">
                             Oyun kodları, hediye kartları ve dijital ürünleri en uygun fiyatlarla satın alın.
                         </p>
                     </div>
@@ -212,14 +212,14 @@ export const SalesGrid = () => {
                 <div className="relative group">
                     <button
                         onClick={() => scroll('left')}
-                        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-xl bg-[#0f0f14]/90 backdrop-blur border border-white/[0.08] items-center justify-center text-white/30 hover:text-white hover:border-primary/30 transition-all opacity-0 group-hover:opacity-100"
+                        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-xl bg-card/90 backdrop-blur border border-white/[0.08] items-center justify-center text-foreground/30 hover:text-foreground hover:border-primary/30 transition-all opacity-0 group-hover:opacity-100"
                     >
                         <ChevronLeft size={20} />
                     </button>
 
                     <button
                         onClick={() => scroll('right')}
-                        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-xl bg-[#0f0f14]/90 backdrop-blur border border-white/[0.08] items-center justify-center text-white/30 hover:text-white hover:border-primary/30 transition-all opacity-0 group-hover:opacity-100"
+                        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-xl bg-card/90 backdrop-blur border border-white/[0.08] items-center justify-center text-foreground/30 hover:text-foreground hover:border-primary/30 transition-all opacity-0 group-hover:opacity-100"
                     >
                         <ChevronRight size={20} />
                     </button>
@@ -231,11 +231,11 @@ export const SalesGrid = () => {
                         {finalItems.map((item: any) => (
                             <motion.div
                                 key={item.uniqueId}
-                                className="group/card relative cursor-pointer snap-start shrink-0 w-[260px] md:w-[calc(25%-12px)]"
+                                className="group/card relative cursor-pointer snap-start shrink-0 w-[160px] md:w-[calc(25%-12px)]"
                                 onClick={() => router.push(`/urun/${item.variantSlug || item.slug}`)}
                             >
                                 <div className="absolute -inset-[1px] bg-gradient-to-b from-primary/15 to-transparent rounded-2xl blur-sm opacity-0 group-hover/card:opacity-100 transition duration-500" />
-                                <div className="relative h-full bg-white/[0.02] p-3 rounded-2xl border border-white/[0.06] flex flex-col justify-between overflow-hidden group-hover/card:border-primary/15 transition-colors">
+                                <div className="relative h-full bg-card/40 p-3 rounded-2xl border border-white/[0.06] flex flex-col justify-between overflow-hidden group-hover/card:border-primary/15 transition-colors">
 
                                     {/* Image */}
                                     <div className="relative h-[220px] w-full overflow-hidden rounded-xl mb-3">
@@ -244,7 +244,7 @@ export const SalesGrid = () => {
                                             alt={item.name}
                                             className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover/card:scale-105"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-transparent to-transparent opacity-70" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-70" />
 
                                         {item.badge && (
                                             <div className="absolute top-2.5 left-2.5 z-20">
@@ -258,8 +258,8 @@ export const SalesGrid = () => {
                                     {/* Content */}
                                     <div className="space-y-2.5 flex-1 flex flex-col">
                                         <div>
-                                            <h3 className="text-sm font-semibold text-white leading-tight line-clamp-2 group-hover/card:text-primary transition-colors">
-                                                {item.name} {item.variantName && <span className="text-white/30 block text-[10px] mt-0.5 font-normal">{item.variantName}</span>}
+                                            <h3 className="text-sm font-semibold text-foreground leading-tight line-clamp-2 group-hover/card:text-primary transition-colors">
+                                                {item.name} {item.variantName && <span className="text-foreground/30 block text-[10px] mt-0.5 font-normal">{item.variantName}</span>}
                                             </h3>
                                         </div>
 
@@ -267,14 +267,14 @@ export const SalesGrid = () => {
                                             <div className="flex flex-col">
                                                 {item.discountPrice ? (
                                                     <>
-                                                        <span className="text-[10px] line-through text-white/15 font-medium">₺{item.price}</span>
-                                                        <span className="text-base font-bold text-white tracking-tight">₺{item.variantPrice}</span>
+                                                        <span className="text-[10px] line-through text-foreground/15 font-medium">₺{item.price}</span>
+                                                        <span className="text-base font-bold text-foreground tracking-tight">₺{item.variantPrice}</span>
                                                     </>
                                                 ) : (
-                                                    <span className="text-base font-bold text-white tracking-tight">₺{item.variantPrice}</span>
+                                                    <span className="text-base font-bold text-foreground tracking-tight">₺{item.variantPrice}</span>
                                                 )}
                                             </div>
-                                            <div className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/20 group-hover/card:bg-primary group-hover/card:text-white group-hover/card:border-primary transition-all duration-500">
+                                            <div className="w-9 h-9 rounded-lg bg-card/60 border border-white/[0.06] flex items-center justify-center text-foreground/20 group-hover/card:bg-primary group-hover/card:text-white group-hover/card:border-primary transition-all duration-500">
                                                 <ShoppingCart size={15} />
                                             </div>
                                         </div>

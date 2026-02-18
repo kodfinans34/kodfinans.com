@@ -76,8 +76,8 @@ export const GlobalSearch = () => {
         <div ref={searchRef} className="relative w-full max-w-2xl mx-auto">
             <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-[2rem] blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
-                <div className="relative flex items-center bg-[#0a0a0c]/80 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-2 transition-all group-focus-within:border-primary/50 group-focus-within:bg-[#0c0c0e]">
-                    <div className="pl-4 text-white/30 group-focus-within:text-primary transition-colors">
+                <div className="relative flex items-center bg-card/80 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-2 transition-all group-focus-within:border-primary/50 group-focus-within:bg-card">
+                    <div className="pl-4 text-foreground/30 group-focus-within:text-primary transition-colors">
                         <SearchIcon size={20} />
                     </div>
                     <input
@@ -89,12 +89,12 @@ export const GlobalSearch = () => {
                         }}
                         onFocus={() => setIsOpen(true)}
                         placeholder={placeholder || "Ara..."}
-                        className="w-full bg-transparent border-none outline-none px-4 py-3 text-white placeholder:text-white/30 font-medium text-sm md:text-base"
+                        className="w-full bg-transparent border-none outline-none px-4 py-3 text-foreground placeholder:text-foreground/30 font-medium text-sm md:text-base"
                     />
                     {query && (
                         <button
                             onClick={() => setQuery("")}
-                            className="p-2 hover:bg-white/5 rounded-full text-white/20 hover:text-white transition-all mr-2"
+                            className="p-2 hover:bg-card/50 rounded-full text-foreground/20 hover:text-foreground transition-all mr-2"
                         >
                             <X size={16} />
                         </button>
@@ -108,23 +108,23 @@ export const GlobalSearch = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="absolute top-full left-0 right-0 mt-4 bg-[#0a0a0c] border border-white/10 rounded-[2rem] shadow-2xl overflow-hidden z-[100] backdrop-blur-3xl"
+                        className="absolute top-full left-0 right-0 mt-4 bg-card border border-white/10 rounded-[2rem] shadow-2xl overflow-hidden z-[100] backdrop-blur-3xl"
                     >
                         <div className="p-2">
                             {results.length > 0 ? (
                                 <div className="space-y-1">
-                                    <div className="px-4 py-2 text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Sonuçlar</div>
+                                    <div className="px-4 py-2 text-[10px] font-black text-foreground/20 uppercase tracking-[0.2em]">Sonuçlar</div>
                                     {results.map((product) => (
                                         <button
                                             key={product.id}
                                             onClick={() => handleSelect(product.slug, product.productType || "sales")}
-                                            className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-white/[0.03] transition-all group relative overflow-hidden"
+                                            className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-card/40 transition-all group relative overflow-hidden"
                                         >
                                             <div className="w-12 h-12 rounded-xl bg-white/5 overflow-hidden shrink-0 border border-white/5">
                                                 <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                                             </div>
                                             <div className="flex-1 text-left">
-                                                <h4 className="text-white font-bold text-sm uppercase tracking-tight group-hover:text-primary transition-colors">{product.name}</h4>
+                                                <h4 className="text-foreground font-bold text-sm uppercase tracking-tight group-hover:text-primary transition-colors">{product.name}</h4>
                                                 <div className="flex items-center gap-2 mt-1">
                                                     <span className={cn(
                                                         "text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest",
@@ -134,32 +134,32 @@ export const GlobalSearch = () => {
                                                     )}>
                                                         {product.productType === "bozum" || product.slug.includes("boz") ? "Bozum" : "Satın Al"}
                                                     </span>
-                                                    <span className="text-white/30 text-[10px] font-medium">{product.category === "gift" ? "Hediye Kartı" : "Oyun Parası"}</span>
+                                                    <span className="text-foreground/30 text-[10px] font-medium">{product.category === "gift" ? "Hediye Kartı" : "Oyun Parası"}</span>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <p className="text-white font-black text-sm italic tracking-tighter">
+                                                <p className="text-foreground font-black text-sm italic tracking-tighter">
                                                     {product.productType === "bozum" || product.slug.includes("boz") ? `%${product.price}` : `₺${product.price}`}
                                                 </p>
-                                                <ArrowRight size={14} className="text-white/10 group-hover:text-primary group-hover:translate-x-1 transition-all ml-auto mt-1" />
+                                                <ArrowRight size={14} className="text-foreground/10 group-hover:text-primary group-hover:translate-x-1 transition-all ml-auto mt-1" />
                                             </div>
                                         </button>
                                     ))}
                                 </div>
                             ) : (
                                 <div className="p-10 text-center space-y-3">
-                                    <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto text-white/20">
+                                    <div className="w-12 h-12 rounded-full bg-card/60 flex items-center justify-center mx-auto text-foreground/20">
                                         <SearchIcon size={24} />
                                     </div>
-                                    <p className="text-white/40 text-sm font-bold uppercase tracking-widest">Sonuç bulunamadı</p>
-                                    <p className="text-white/20 text-xs">Farklı bir kelime deneyebilirsiniz.</p>
+                                    <p className="text-foreground/40 text-sm font-bold uppercase tracking-widest">Sonuç bulunamadı</p>
+                                    <p className="text-foreground/20 text-xs">Farklı bir kelime deneyebilirsiniz.</p>
                                 </div>
                             )}
                         </div>
 
                         {results.length > 0 && (
-                            <div className="p-4 bg-white/[0.01] border-t border-white/5 flex justify-center">
-                                <button className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] hover:text-white transition-colors">Sitedeki Tüm Sonuçları Gör</button>
+                            <div className="p-4 bg-card/20 border-t border-white/5 flex justify-center">
+                                <button className="text-[10px] font-black text-foreground/30 uppercase tracking-[0.2em] hover:text-foreground transition-colors">Sitedeki Tüm Sonuçları Gör</button>
                             </div>
                         )}
                     </motion.div>

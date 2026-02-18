@@ -1,10 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import { ShieldCheck, Zap, Facebook, Twitter, Instagram, Youtube, Send, Mail, Phone, MapPin, Wallet, Lock, CreditCard } from "lucide-react";
+import { useSystem } from "@/context/SystemContext";
 
 export const Footer = () => {
+    const { settings } = useSystem();
     return (
-        <footer className="relative bg-[#0a0f0d] pt-20 pb-8 border-t border-white/[0.05] overflow-hidden">
+        <footer className="relative bg-background pt-20 pb-8 border-t border-white/[0.05] overflow-hidden">
             {/* Top gradient line */}
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/[0.03] blur-[120px] rounded-full -z-10" />
@@ -15,19 +17,25 @@ export const Footer = () => {
                     {/* Brand Info */}
                     <div className="space-y-6">
                         <Link href="/" className="flex items-center gap-2.5 group">
-                            <div className="relative w-10 h-10 flex items-center justify-center bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-xl border border-primary/20 group-hover:border-primary/40 transition-all duration-500">
-                                <Wallet size={20} className="text-primary relative z-10" />
-                            </div>
-                            <div className="flex flex-col leading-none">
-                                <span className="text-xl font-bold font-inter tracking-tight flex items-center">
-                                    <span className="text-white">Kod</span>
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Finans</span>
-                                </span>
-                                <span className="text-[8px] font-medium text-white/25 tracking-[0.15em] uppercase ml-0.5">Digital Wallet & Store</span>
-                            </div>
+                            {settings.footerLogo ? (
+                                <img src={settings.footerLogo} alt="Logo" className="h-10 w-auto object-contain" />
+                            ) : (
+                                <>
+                                    <div className="relative w-10 h-10 flex items-center justify-center bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-xl border border-primary/20 group-hover:border-primary/40 transition-all duration-500">
+                                        <Wallet size={20} className="text-primary relative z-10" />
+                                    </div>
+                                    <div className="flex flex-col leading-none">
+                                        <span className="text-xl font-bold font-inter tracking-tight flex items-center">
+                                            <span className="text-foreground">Kod</span>
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Finans</span>
+                                        </span>
+                                        <span className="text-[8px] font-medium text-foreground/25 tracking-[0.15em] uppercase ml-0.5">Digital Wallet & Store</span>
+                                    </div>
+                                </>
+                            )}
                         </Link>
-                        <p className="text-white/35 text-sm leading-relaxed max-w-xs">
-                            Dijital kodlarınızı güvenle nakite çevirin, oyun ürünlerini en uygun fiyatlarla satın alın. Türkiye&apos;nin güvenilir dijital finans platformu.
+                        <p className="text-foreground/35 text-sm leading-relaxed max-w-xs">
+                            {settings.homepageDescription}
                         </p>
                         <div className="flex gap-2.5">
                             {[Facebook, Twitter, Instagram, Youtube].map((Icon, i) => (
@@ -40,7 +48,7 @@ export const Footer = () => {
 
                     {/* Quick Links */}
                     <div className="lg:pl-8">
-                        <h4 className="text-white font-semibold mb-6 text-sm">Hızlı Linkler</h4>
+                        <h4 className="text-foreground font-semibold mb-6 text-sm">Hızlı Linkler</h4>
                         <ul className="space-y-3.5">
                             {[
                                 { href: "/urunler", label: "Mağaza" },
@@ -50,8 +58,8 @@ export const Footer = () => {
                                 { href: "/panel/siparisler", label: "İşlem Geçmişi" },
                             ].map((link) => (
                                 <li key={link.href}>
-                                    <Link href={link.href} className="text-white/30 hover:text-primary transition-colors text-sm font-medium flex items-center gap-2.5 group">
-                                        <div className="w-1 h-1 rounded-full bg-white/10 group-hover:bg-primary transition-colors" />
+                                    <Link href={link.href} className="text-foreground/30 hover:text-primary transition-colors text-sm font-medium flex items-center gap-2.5 group">
+                                        <div className="w-1 h-1 rounded-full bg-foreground/10 group-hover:bg-primary transition-colors" />
                                         {link.label}
                                     </Link>
                                 </li>
@@ -61,35 +69,35 @@ export const Footer = () => {
 
                     {/* Contact Details */}
                     <div>
-                        <h4 className="text-white font-semibold mb-6 text-sm">İletişim</h4>
+                        <h4 className="text-foreground font-semibold mb-6 text-sm">İletişim</h4>
                         <ul className="space-y-4">
                             <li>
-                                <a href="https://wa.me/905517139330" className="flex gap-3 group">
-                                    <div className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/30 group-hover:text-green-400 group-hover:border-green-500/20 transition-all shrink-0">
+                                <a href={`https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}`} className="flex gap-3 group">
+                                    <div className="w-9 h-9 rounded-lg bg-card/60 border border-white/[0.06] flex items-center justify-center text-foreground/30 group-hover:text-green-400 group-hover:border-green-500/20 transition-all shrink-0">
                                         <Phone size={16} />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] text-white/20 font-medium tracking-wide mb-0.5">WhatsApp Destek</p>
-                                        <p className="text-sm font-medium text-white/50 group-hover:text-green-400 transition-colors">0551 713 93 30</p>
+                                        <p className="text-[10px] text-foreground/20 font-medium tracking-wide mb-0.5">WhatsApp Destek</p>
+                                        <p className="text-sm font-medium text-foreground/50 group-hover:text-green-400 transition-colors">{settings.whatsappNumber}</p>
                                     </div>
                                 </a>
                             </li>
                             <li className="flex gap-3">
-                                <div className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/30 shrink-0">
+                                <div className="w-9 h-9 rounded-lg bg-card/60 border border-white/[0.06] flex items-center justify-center text-foreground/30 shrink-0">
                                     <Mail size={16} />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] text-white/20 font-medium tracking-wide mb-0.5">E-Posta</p>
-                                    <p className="text-sm font-medium text-white/50">destek@kodfinans.com</p>
+                                    <p className="text-[10px] text-foreground/20 font-medium tracking-wide mb-0.5">E-Posta</p>
+                                    <p className="text-sm font-medium text-foreground/50">{settings.smtpFrom}</p>
                                 </div>
                             </li>
                             <li className="flex gap-3">
-                                <div className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/30 shrink-0">
+                                <div className="w-9 h-9 rounded-lg bg-card/60 border border-white/[0.06] flex items-center justify-center text-foreground/30 shrink-0">
                                     <MapPin size={16} />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] text-white/20 font-medium tracking-wide mb-0.5">Merkez Ofis</p>
-                                    <p className="text-sm font-medium text-white/50">Maslak, İstanbul / TR</p>
+                                    <p className="text-[10px] text-foreground/20 font-medium tracking-wide mb-0.5">Merkez Ofis</p>
+                                    <p className="text-sm font-medium text-foreground/50">Maslak, İstanbul / TR</p>
                                 </div>
                             </li>
                         </ul>
@@ -97,15 +105,15 @@ export const Footer = () => {
 
                     {/* Newsletter & Trust */}
                     <div className="space-y-6 lg:pl-4">
-                        <div className="bg-white/[0.02] p-6 rounded-2xl border border-white/[0.06] space-y-4 relative overflow-hidden">
+                        <div className="bg-card/40 p-6 rounded-2xl border border-white/[0.06] space-y-4 relative overflow-hidden">
                             <div className="absolute -top-10 -right-10 w-20 h-20 bg-primary/[0.06] blur-2xl rounded-full" />
-                            <h5 className="text-white font-semibold text-sm">Bülten</h5>
-                            <p className="text-white/30 text-xs leading-relaxed">Özel kampanya ve güncel kurlardan haberdar ol.</p>
+                            <h5 className="text-foreground font-semibold text-sm">Bülten</h5>
+                            <p className="text-foreground/30 text-xs leading-relaxed">Özel kampanya ve güncel kurlardan haberdar ol.</p>
                             <div className="relative mt-3">
                                 <input
                                     type="email"
                                     placeholder="E-posta adresin..."
-                                    className="w-full bg-white/[0.03] border border-white/[0.06] rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/15 focus:outline-none focus:border-primary/30 transition-all font-medium"
+                                    className="w-full bg-card/60 border border-white/[0.06] rounded-lg px-4 py-2.5 text-xs text-foreground placeholder:text-foreground/15 focus:outline-none focus:border-primary/30 transition-all font-medium"
                                 />
                                 <button className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-md bg-primary text-white flex items-center justify-center hover:bg-primary/80 transition-colors">
                                     <Send size={12} />
@@ -130,10 +138,10 @@ export const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="flex flex-col md:flex-row items-center justify-between border-t border-white/[0.04] pt-8 gap-6">
                     <div className="flex flex-col md:flex-row items-center gap-4">
-                        <p className="text-white/15 text-xs font-medium">
+                        <p className="text-foreground/15 text-xs font-medium">
                             © {new Date().getFullYear()} KodFinans. Tüm Hakları Saklıdır.
                         </p>
-                        <div className="flex gap-5 text-xs text-white/20">
+                        <div className="flex gap-5 text-xs text-foreground/20">
                             <Link href="/kvkk" className="hover:text-primary/80 transition-colors">KVKK</Link>
                             <Link href="/gizlilik" className="hover:text-primary/80 transition-colors">Gizlilik</Link>
                             <Link href="/cerezler" className="hover:text-primary/80 transition-colors">Çerezler</Link>

@@ -2,6 +2,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -13,15 +14,6 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-if (typeof window !== "undefined") {
-    console.log("Firebase Config Check:", {
-        hasApiKey: !!firebaseConfig.apiKey,
-        projectId: firebaseConfig.projectId
-    });
-}
-
-// Check if we have the minimum required config. 
-// During build (SSR) on Vercel, some variables might be missing if not properly configured.
 const isConfigValid = !!firebaseConfig.apiKey && firebaseConfig.apiKey !== "undefined";
 
 // Initialize Firebase
@@ -31,6 +23,7 @@ const app = isConfigValid
 
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 let analytics: any;
 if (typeof window !== "undefined" && isConfigValid) {
@@ -45,4 +38,4 @@ if (typeof window !== "undefined" && isConfigValid) {
     });
 }
 
-export { app, db, auth, analytics };
+export { app, db, auth, storage, analytics };

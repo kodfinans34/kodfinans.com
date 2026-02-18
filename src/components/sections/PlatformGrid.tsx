@@ -21,13 +21,13 @@ export const PlatformGrid = () => {
 
             <div className="max-w-7xl mx-auto px-4">
                 <div className="mb-10 space-y-3 text-center md:text-left">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-primary text-xs font-medium">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-card/60 border border-white/[0.06] text-primary text-xs font-medium">
                         <Zap size={12} className="fill-primary" /> Popüler Platformlar
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold font-inter text-white leading-tight tracking-tight">
+                    <h2 className="text-3xl md:text-5xl font-bold font-inter text-foreground leading-tight tracking-tight">
                         Bozum <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Kurları</span>
                     </h2>
-                    <p className="text-white/30 text-sm max-w-lg">Dijital kodlarınızı en güncel kurlarla anında nakite çevirin.</p>
+                    <p className="text-foreground/30 text-sm max-w-lg">Dijital kodlarınızı en güncel kurlarla anında nakite çevirin.</p>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
@@ -41,7 +41,7 @@ export const PlatformGrid = () => {
                             onClick={() => router.push(`/bozum?product=${product.slug}`)}
                             className="group cursor-pointer w-full"
                         >
-                            <div className="relative h-36 md:h-52 overflow-hidden rounded-2xl bg-white/[0.02] border border-white/[0.06] p-4 md:p-5 flex flex-col justify-end transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary/20 group-hover:shadow-[0_16px_32px_rgba(99,102,241,0.08)]">
+                            <div className="relative h-36 md:h-52 overflow-hidden rounded-2xl bg-card border border-white/[0.06] p-4 md:p-5 flex flex-col justify-end transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary/20 group-hover:shadow-[0_16px_32px_rgba(99,102,241,0.08)]">
                                 {/* Image */}
                                 <div className="absolute inset-0 z-0">
                                     <img
@@ -49,17 +49,17 @@ export const PlatformGrid = () => {
                                         alt={product.name}
                                         className="w-full h-full object-cover opacity-20 group-hover:opacity-30 group-hover:scale-105 transition-all duration-700"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-[#0a0f0d]/70 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
                                 </div>
 
                                 <div className="relative z-10 space-y-2">
                                     <div className="flex items-center gap-1 px-2 py-0.5 bg-primary/15 backdrop-blur rounded-md border border-primary/15 w-fit">
                                         <Zap size={8} className="text-primary fill-primary" />
-                                        <span className="text-[8px] md:text-[9px] font-medium text-white/80">{product.speed || "Anında"}</span>
+                                        <span className="text-[8px] md:text-[9px] font-medium text-foreground/80">{product.speed || "Anında"}</span>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-sm md:text-base font-semibold text-white group-hover:text-primary transition-colors leading-tight line-clamp-2">
+                                        <h3 className="text-sm md:text-base font-semibold text-foreground group-hover:text-primary transition-colors leading-tight line-clamp-2">
                                             {product.name}
                                         </h3>
                                         <p className="text-xs font-semibold text-primary/80 mt-1">
@@ -69,7 +69,7 @@ export const PlatformGrid = () => {
                                 </div>
 
                                 {/* Logo */}
-                                <div className="absolute top-3 right-3 md:top-4 md:right-4 w-7 h-7 md:w-9 md:h-9 rounded-lg bg-white/[0.04] border border-white/[0.08] p-1.5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                                <div className="absolute top-3 right-3 md:top-4 md:right-4 w-7 h-7 md:w-9 md:h-9 rounded-lg bg-card/60 border border-white/[0.08] p-1.5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                                     <img src={product.logo || "/logo.png"} alt="logo" className="w-full h-full object-contain brightness-0 invert" />
                                 </div>
                             </div>

@@ -206,8 +206,17 @@
   .theme-white .bg-\[\#0f0f14\],
   .theme-white .bg-\[\#0f0f11\],
   .theme-white .bg-\[\#0a100e\],
-  .theme-white .bg-\[\#08080a\] {
+  .theme-white .bg-\[\#08080a\],
+  .theme-white .bg-\[\#050506\],
+  .theme-white .bg-\[\#09090b\] {
     background-color: var(--background) !important;
+  }
+
+  .theme-white .from-\[\#0a0f0d\],
+  .theme-white .to-\[\#0a0f0d\],
+  .theme-white .via-\[\#0a0f0d\] {
+    --tw-gradient-from: var(--background) !important;
+    --tw-gradient-to: transparent !important;
   }
 
   /* Glass and Card Overrides */
@@ -228,7 +237,12 @@
 
   /* Text Overrides */
   .theme-white .text-white {
-    color: #1a1a2e !important;
+    color: #0f172a !important;
+    /* Force high contrast dark slate */
+  }
+
+  .theme-white .text-foreground {
+    color: #0f172a !important;
   }
 
   /* Improved White Theme Overrides */

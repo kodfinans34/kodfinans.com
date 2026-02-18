@@ -101,7 +101,7 @@ export const AllProductsGrid = () => {
                             animate={{ scale: 1, y: 0 }}
                             exit={{ scale: 0.9, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-[#0a0a0c] border border-white/10 rounded-[2.5rem] max-w-md w-full p-8 relative overflow-hidden"
+                            className="bg-card border border-white/10 rounded-[2.5rem] max-w-md w-full p-8 relative overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -z-10" />
 
@@ -118,12 +118,12 @@ export const AllProductsGrid = () => {
                                 </div>
 
                                 <div>
-                                    <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-2">{selectedProduct.name}</h3>
-                                    <p className="text-white/40 text-sm">{selectedProduct.description}</p>
+                                    <h3 className="text-2xl font-black text-foreground uppercase tracking-tight mb-2">{selectedProduct.name}</h3>
+                                    <p className="text-foreground/40 text-sm">{selectedProduct.description}</p>
                                 </div>
 
                                 <div className="space-y-3">
-                                    <label className="text-white/40 text-xs font-bold uppercase tracking-wider">Paket Seç</label>
+                                    <label className="text-foreground/40 text-xs font-bold uppercase tracking-wider">Paket Seç</label>
                                     <div className="grid grid-cols-2 gap-2">
                                         {["25 TL", "50 TL", "100 TL", "250 TL"].map((variant) => (
                                             <button
@@ -174,13 +174,13 @@ export const AllProductsGrid = () => {
                     {/* Title and Search Row */}
                     <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 md:gap-8">
                         <div className="space-y-3 md:space-y-4 w-full lg:w-auto">
-                            <div className="inline-flex items-center gap-2 px-3 md:px-4 lg:px-5 py-1 md:py-1.5 lg:py-2 rounded-full bg-white/[0.03] border border-white/5 text-primary text-[8px] md:text-[9px] lg:text-[10px] font-black tracking-wider md:tracking-[0.2em] lg:tracking-[0.3em] uppercase">
+                            <div className="inline-flex items-center gap-2 px-3 md:px-4 lg:px-5 py-1 md:py-1.5 lg:py-2 rounded-full bg-card/60 border border-white/5 text-primary text-[8px] md:text-[9px] lg:text-[10px] font-black tracking-wider md:tracking-[0.2em] lg:tracking-[0.3em] uppercase">
                                 Dijital Kodlar
                             </div>
-                            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-inter text-white leading-[0.95] md:leading-[0.9] tracking-tight md:tracking-tighter uppercase md:italic">
+                            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-inter text-foreground leading-[0.95] md:leading-[0.9] tracking-tight md:tracking-tighter uppercase md:italic">
                                 KOD <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">ÜRÜNLERİ</span>
                             </h2>
-                            <p className="text-white/30 max-w-xl text-xs md:text-sm lg:text-base xl:text-lg leading-relaxed font-medium">
+                            <p className="text-foreground/30 max-w-xl text-xs md:text-sm lg:text-base xl:text-lg leading-relaxed font-medium">
                                 En popüler oyun ve platform kodlarını en uygun fiyatlarla satın alın.
                             </p>
                         </div>
@@ -201,7 +201,7 @@ export const AllProductsGrid = () => {
                                     "flex items-center justify-center gap-3 px-8 py-4 rounded-[2rem] text-[13px] font-black transition-all duration-500 whitespace-nowrap",
                                     activeTab === cat.id
                                         ? "bg-gradient-to-tr from-primary to-secondary text-white shadow-[0_10px_25px_rgba(74,188,241,0.4)] scale-105"
-                                        : "text-white/20 hover:text-white hover:bg-white/5"
+                                        : "text-foreground/20 hover:text-foreground hover:bg-card/40"
                                 )}
                             >
                                 <cat.icon size={18} />
@@ -227,7 +227,7 @@ export const AllProductsGrid = () => {
                                 transition={{ duration: 0.3, delay: i * 0.02 }}
                             >
                                 <div className="absolute -inset-[1px] bg-gradient-to-b from-primary/20 to-transparent rounded-[2rem] blur-sm opacity-0 group-hover:opacity-100 transition duration-500" />
-                                <div className="relative h-full glass p-3 md:p-4 rounded-[2rem] border-white/5 bg-[#0a100e] flex flex-col justify-between overflow-hidden group-hover:bg-white/[0.02] transition-colors">
+                                <div className="relative h-full glass p-3 md:p-4 rounded-[2rem] border-white/5 bg-card/60 flex flex-col justify-between overflow-hidden group-hover:bg-card/80 transition-colors">
 
                                     {/* Image */}
                                     <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] mb-4 shadow-lg">
@@ -237,7 +237,7 @@ export const AllProductsGrid = () => {
                                             alt={item.name}
                                             className="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-110"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#070d0b] via-transparent to-transparent opacity-80" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
 
                                         {/* Badge */}
                                         <div className="absolute top-3 left-3 px-3 py-1 bg-primary/90 backdrop-blur-md rounded-full">
@@ -248,18 +248,18 @@ export const AllProductsGrid = () => {
                                     {/* Info */}
                                     <div className="space-y-3">
                                         <div>
-                                            <h3 className="text-white font-black text-sm md:text-base uppercase tracking-tight line-clamp-1 group-hover:text-primary transition-colors">
+                                            <h3 className="text-foreground font-black text-sm md:text-base uppercase tracking-tight line-clamp-1 group-hover:text-primary transition-colors">
                                                 {item.name}
                                             </h3>
                                             {item.variantName && (
-                                                <p className="text-white/40 text-[10px] font-bold uppercase tracking-wider mt-1">{item.variantName}</p>
+                                                <p className="text-foreground/40 text-[10px] font-bold uppercase tracking-wider mt-1">{item.variantName}</p>
                                             )}
                                         </div>
 
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-[9px] font-black text-white/20 uppercase tracking-widest">Fiyat</p>
-                                                <p className="text-white font-black text-lg md:text-xl italic tracking-tighter">₺{item.variantPrice || item.price}</p>
+                                                <p className="text-[9px] font-black text-foreground/20 uppercase tracking-widest">Fiyat</p>
+                                                <p className="text-foreground font-black text-lg md:text-xl italic tracking-tighter">₺{item.variantPrice || item.price}</p>
                                             </div>
                                             <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
                                                 <ShoppingCart size={18} />

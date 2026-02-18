@@ -91,6 +91,17 @@ export interface WithdrawalRequest {
     userEmail?: string;
 }
 
+export interface ThemeConfig {
+    background: string;
+    foreground: string;
+    card: string;
+    primary: string;
+    secondary: string;
+    accent: string;
+    muted: string;
+    border: string;
+}
+
 // Site Settings Type
 export interface SiteSettings {
     homepageTitle: string;
@@ -113,6 +124,14 @@ export interface SiteSettings {
     paytrTestMode?: boolean;
     // Theme
     themeColor?: string; // 'green' | 'indigo' | 'red' | 'blue' | 'orange'
+    siteMode?: "white" | "dark";
+    activeTheme?: "standard" | "special";
+    lightThemeConfig?: ThemeConfig;
+    darkThemeConfig?: ThemeConfig;
+    // Logos
+    headerLogo?: string;
+    footerLogo?: string;
+    adminLogo?: string;
     // Scripts & CSS
     googleAnalyticsId?: string;
     customHeadCode?: string; // For Google Ads verification, etc.

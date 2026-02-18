@@ -60,15 +60,15 @@ export default function BlogPage() {
                                             </div>
                                         </div>
                                         <div className="space-y-6">
-                                            <div className="flex items-center gap-4 text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">
+                                            <div className="flex items-center gap-4 text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">
                                                 <span className="text-primary flex items-center gap-2"><Calendar size={12} /> {posts[0].date}</span>
-                                                <span className="w-1 h-1 rounded-full bg-white/10" />
+                                                <span className="w-1 h-1 rounded-full bg-foreground/10" />
                                                 <span>{posts[0].read} Okuma</span>
                                             </div>
-                                            <h2 className="text-3xl md:text-5xl font-black text-white leading-[0.95] group-hover:text-primary transition-colors italic uppercase tracking-tight">
+                                            <h2 className="text-3xl md:text-5xl font-black text-foreground leading-[0.95] group-hover:text-primary transition-colors italic uppercase tracking-tight">
                                                 {posts[0].title}
                                             </h2>
-                                            <p className="text-white/40 text-lg leading-relaxed font-medium line-clamp-3">
+                                            <p className="text-foreground/40 text-lg leading-relaxed font-medium line-clamp-3">
                                                 {posts[0].desc}
                                             </p>
                                             <div className="pt-4 flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-primary group-hover:gap-4 transition-all">
@@ -92,15 +92,15 @@ export default function BlogPage() {
                                                     </div>
                                                 </div>
                                                 <div className="p-8 flex flex-col flex-1 space-y-4">
-                                                    <div className="flex items-center gap-3 text-[9px] font-black text-white/30 uppercase tracking-widest">
+                                                    <div className="flex items-center gap-3 text-[9px] font-black text-foreground/30 uppercase tracking-widest">
                                                         <span>{post.date}</span>
-                                                        <span className="w-1 h-1 rounded-full bg-white/10" />
+                                                        <span className="w-1 h-1 rounded-full bg-foreground/10" />
                                                         <span>{post.read}</span>
                                                     </div>
-                                                    <h3 className="text-xl font-black text-white group-hover:text-primary transition-colors leading-tight uppercase font-inter">
+                                                    <h3 className="text-xl font-black text-foreground group-hover:text-primary transition-colors leading-tight uppercase font-inter">
                                                         {post.title}
                                                     </h3>
-                                                    <p className="text-white/40 text-xs leading-relaxed line-clamp-2 font-medium">
+                                                    <p className="text-foreground/40 text-xs leading-relaxed line-clamp-2 font-medium">
                                                         {post.desc}
                                                     </p>
                                                 </div>
@@ -112,12 +112,12 @@ export default function BlogPage() {
                                 {/* Pagination */}
                                 <div className="flex justify-center pt-8">
                                     <div className="glass rounded-full p-2 flex items-center gap-2 border border-white/5">
-                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-white/10" disabled><ArrowRight className="rotate-180" size={16} /></Button>
-                                        <Button size="icon" className="rounded-full w-10 h-10 bg-primary text-black font-bold">1</Button>
-                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-white/10 text-white/40 font-bold">2</Button>
-                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-white/10 text-white/40 font-bold">3</Button>
-                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-white/10 font-bold">...</Button>
-                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-white/10"><ArrowRight size={16} /></Button>
+                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-card/60" disabled><ArrowRight className="rotate-180" size={16} /></Button>
+                                        <Button size="icon" className="rounded-full w-10 h-10 bg-primary text-white font-bold">1</Button>
+                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-card/60 text-foreground/40 font-bold">2</Button>
+                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-card/60 text-foreground/40 font-bold">3</Button>
+                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-card/60 font-bold">...</Button>
+                                        <Button size="icon" variant="ghost" className="rounded-full w-10 h-10 hover:bg-card/60"><ArrowRight size={16} /></Button>
                                     </div>
                                 </div>
                             </div>
@@ -126,23 +126,23 @@ export default function BlogPage() {
                             <div className="hidden lg:block space-y-8 sticky top-32 h-fit">
 
                                 {/* Search Widget */}
-                                <div className="glass p-2 rounded-[2rem] border-white/5 flex items-center shadow-xl">
-                                    <div className="pl-6 text-white/30"><Search size={20} /></div>
+                                <div className="glass p-2 rounded-[2rem] border-white/5 flex items-center shadow-xl bg-card">
+                                    <div className="pl-6 text-foreground/30"><Search size={20} /></div>
                                     <input
                                         type="text"
                                         placeholder="İçerik Ara..."
-                                        className="w-full bg-transparent border-none py-4 px-4 text-sm font-bold text-white focus:outline-none placeholder:text-white/20"
+                                        className="w-full bg-transparent border-none py-4 px-4 text-sm font-bold text-foreground focus:outline-none placeholder:text-foreground/20"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
-                                    <Button size="icon" className="w-12 h-12 rounded-[1.5rem] bg-white/5 hover:bg-white/10"><ArrowRight size={18} /></Button>
+                                    <Button size="icon" className="w-12 h-12 rounded-[1.5rem] bg-card/60 hover:bg-card"><ArrowRight size={18} /></Button>
                                 </div>
 
                                 {/* Market Data Widget (Mock) */}
-                                <div className="glass rounded-[2.5rem] border-white/5 overflow-hidden shadow-2xl relative group">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+                                <div className="glass rounded-[2.5rem] border-white/5 overflow-hidden shadow-2xl relative group bg-card">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-foreground/5 to-transparent pointer-events-none" />
                                     <div className="p-8 border-b border-white/5 flex items-center justify-between">
-                                        <h3 className="text-sm font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
+                                        <h3 className="text-sm font-black text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
                                             <TrendingUp className="text-primary" size={16} /> PİYASA
                                         </h3>
                                         <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_#22c55e]" />
@@ -154,15 +154,15 @@ export default function BlogPage() {
                                             { pair: "BTC/USDT", price: "98,420", change: "+2.45%", icon: Bitcoin, color: "text-green-400" },
                                             { pair: "XAU/GR", price: "3,150", change: "-0.50%", icon: BarChart3, color: "text-red-400" },
                                         ].map((item, i) => (
-                                            <div key={i} className="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-colors group/item">
+                                            <div key={i} className="flex items-center justify-between p-4 hover:bg-card/60 rounded-2xl transition-colors group/item">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 group-hover/item:text-white transition-colors">
+                                                    <div className="w-8 h-8 rounded-full bg-card/40 flex items-center justify-center text-foreground/40 group-hover/item:text-foreground transition-colors">
                                                         <item.icon size={14} />
                                                     </div>
-                                                    <span className="font-bold text-xs text-white/80">{item.pair}</span>
+                                                    <span className="font-bold text-xs text-foreground/80">{item.pair}</span>
                                                 </div>
                                                 <div className="text-right">
-                                                    <p className="font-bold text-white text-xs">{item.price}</p>
+                                                    <p className="font-bold text-foreground text-xs">{item.price}</p>
                                                     <p className={`text-[9px] font-black ${item.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>{item.change}</p>
                                                 </div>
                                             </div>
@@ -171,8 +171,8 @@ export default function BlogPage() {
                                 </div>
 
                                 {/* Categories Widget */}
-                                <div className="glass rounded-[2.5rem] border-white/5 p-8 space-y-6">
-                                    <h3 className="text-sm font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
+                                <div className="glass rounded-[2.5rem] border-white/5 p-8 space-y-6 bg-card">
+                                    <h3 className="text-sm font-black text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
                                         <Hash className="text-primary" size={16} /> KATEGORİLER
                                     </h3>
                                     <div className="flex flex-col gap-2">
@@ -188,30 +188,30 @@ export default function BlogPage() {
                                 </div>
 
                                 {/* Newsletter Widget */}
-                                <div className="relative glass p-8 rounded-[2.5rem] border-white/5 overflow-hidden text-center space-y-6">
+                                <div className="relative glass p-8 rounded-[2.5rem] border-white/5 overflow-hidden text-center space-y-6 bg-card">
                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-purple-600" />
-                                    <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto text-primary">
+                                    <div className="w-16 h-16 rounded-2xl bg-card border border-white/5 flex items-center justify-center mx-auto text-primary">
                                         <Zap size={32} />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-black text-white uppercase italic">Abone Ol</h3>
-                                        <p className="text-white/40 text-xs font-bold mt-2 leading-relaxed">En yeni bozum fırsatlarını ve kampanyaları ilk sen öğren.</p>
+                                        <h3 className="text-lg font-black text-foreground uppercase italic">Abone Ol</h3>
+                                        <p className="text-foreground/40 text-xs font-bold mt-2 leading-relaxed">En yeni bozum fırsatlarını ve kampanyaları ilk sen öğren.</p>
                                     </div>
                                     <div className="space-y-3">
-                                        <input type="email" placeholder="E-Posta Adresi" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-primary/50 focus:outline-none font-bold placeholder:text-white/20" />
-                                        <Button className="w-full rounded-xl py-6 font-black uppercase text-xs tracking-widest bg-white text-black hover:bg-white/90">Kayıt Ol</Button>
+                                        <input type="email" placeholder="E-Posta Adresi" className="w-full bg-card border border-white/10 rounded-xl px-4 py-3 text-xs text-foreground focus:border-primary/50 focus:outline-none font-bold placeholder:text-foreground/20" />
+                                        <Button className="w-full rounded-xl py-6 font-black uppercase text-xs tracking-widest bg-primary text-white hover:bg-primary/90">Kayıt Ol</Button>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                     ) : (
-                        <div className="text-center py-24 glass rounded-[2rem] border-white/5 mx-auto max-w-2xl">
-                            <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6 text-white/20">
+                        <div className="text-center py-24 glass rounded-[2rem] border-white/5 mx-auto max-w-2xl bg-card">
+                            <div className="w-20 h-20 rounded-full bg-card/60 flex items-center justify-center mx-auto mb-6 text-foreground/20">
                                 <BookOpen size={32} />
                             </div>
-                            <h2 className="text-2xl font-black text-white/40 uppercase tracking-widest">Henüz Yazı Eklenmedi</h2>
-                            <p className="text-white/20 mt-4 font-medium text-sm">Blog yazıları çok yakında burada olacak. Takipte kalın!</p>
+                            <h2 className="text-2xl font-black text-foreground/40 uppercase tracking-widest">Henüz Yazı Eklenmedi</h2>
+                            <p className="text-foreground/20 mt-4 font-medium text-sm">Blog yazıları çok yakında burada olacak. Takipte kalın!</p>
                         </div>
                     )}
 
@@ -225,10 +225,10 @@ export default function BlogPage() {
                                 <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-2xl shadow-primary/30">
                                     <Zap size={40} fill="currentColor" />
                                 </div>
-                                <h2 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tight italic">
+                                <h2 className="text-4xl md:text-7xl font-black text-foreground uppercase tracking-tight italic">
                                     Hemen <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Nakit</span>e Çevir
                                 </h2>
-                                <p className="text-white/40 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
+                                <p className="text-foreground/40 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
                                     Binlerce mutlu müşterimiz gibi sen de dijital varlıklarını en güvenli şekilde değerlendir.
                                     <br className="hidden md:block" /> 7/24 Canlı Destek ve Anında Ödeme garantisiyle.
                                 </p>

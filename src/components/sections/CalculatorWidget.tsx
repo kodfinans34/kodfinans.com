@@ -45,11 +45,11 @@ export const CalculatorWidget = () => {
                             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-primary text-xs font-medium">
                                 <Calculator size={12} /> Hesaplama Aracı
                             </div>
-                            <h2 className="text-3xl md:text-5xl font-bold font-inter text-white leading-tight tracking-tight">
+                            <h2 className="text-3xl md:text-5xl font-bold font-inter text-foreground leading-tight tracking-tight">
                                 Kazancınızı <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Hesaplayın</span>
                             </h2>
-                            <p className="text-white/30 text-sm leading-relaxed max-w-md mx-auto lg:mx-0">
+                            <p className="text-foreground/30 text-sm leading-relaxed max-w-md mx-auto lg:mx-0">
                                 Platform seçin, tutarı girin, anında ne kadar kazanacağınızı görün.
                             </p>
                         </div>
@@ -62,13 +62,13 @@ export const CalculatorWidget = () => {
                                 { icon: ShieldCheck, label: "Güvenli İşlem", desc: "SSL korumalı altyapı" },
                                 { icon: Star, label: "VIP Avantajı", desc: "+5000₺ üzeri özel oranlar" },
                             ].map((feat, i) => (
-                                <div key={i} className="flex items-start gap-3.5 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04] group hover:border-primary/15 transition-all">
-                                    <div className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/20 group-hover:text-primary group-hover:bg-primary/10 group-hover:border-primary/20 transition-all shrink-0">
+                                <div key={i} className="flex items-start gap-3.5 p-4 rounded-xl bg-card border border-white/[0.04] group hover:border-primary/15 transition-all">
+                                    <div className="w-9 h-9 rounded-lg bg-card/60 border border-white/[0.06] flex items-center justify-center text-foreground/20 group-hover:text-primary group-hover:bg-primary/10 group-hover:border-primary/20 transition-all shrink-0">
                                         <feat.icon size={16} />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-semibold text-white mb-0.5">{feat.label}</p>
-                                        <p className="text-[10px] text-white/25 font-medium">{feat.desc}</p>
+                                        <p className="text-xs font-semibold text-foreground mb-0.5">{feat.label}</p>
+                                        <p className="text-[10px] text-foreground/25 font-medium">{feat.desc}</p>
                                     </div>
                                 </div>
                             ))}
@@ -83,7 +83,7 @@ export const CalculatorWidget = () => {
                     >
                         <div className="absolute -inset-6 bg-primary/[0.06] blur-[60px] rounded-3xl -z-10" />
 
-                        <div className="bg-white/[0.02] rounded-3xl border border-white/[0.08] overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.3)]">
+                        <div className="bg-card rounded-3xl border border-white/[0.08] overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.3)]">
                             {/* Card Header */}
                             <div className="bg-gradient-to-r from-primary/10 to-secondary/10 px-6 py-5 border-b border-white/[0.04]">
                                 <div className="flex items-center justify-between">
@@ -92,8 +92,8 @@ export const CalculatorWidget = () => {
                                             <Wallet size={20} />
                                         </div>
                                         <div>
-                                            <h4 className="text-sm font-bold text-white">Bozum Hesaplayıcı</h4>
-                                            <p className="text-[10px] text-white/30 font-medium">Canlı kurlarla hesaplayın</p>
+                                            <h4 className="text-sm font-bold text-foreground">Bozum Hesaplayıcı</h4>
+                                            <p className="text-[10px] text-foreground/30 font-medium">Canlı kurlarla hesaplayın</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20">
@@ -106,33 +106,33 @@ export const CalculatorWidget = () => {
                             <div className="p-6 space-y-5">
                                 {/* Platform Select */}
                                 <div className="space-y-2">
-                                    <label className="text-xs text-white/25 font-medium ml-1">Platform</label>
+                                    <label className="text-xs text-foreground/25 font-medium ml-1">Platform</label>
                                     <div className="relative">
                                         <button
                                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                            className="w-full flex items-center justify-between bg-white/[0.03] border border-white/[0.06] p-3.5 rounded-xl text-sm font-medium text-white hover:border-primary/20 transition-all"
+                                            className="w-full flex items-center justify-between bg-card border border-white/[0.06] p-3.5 rounded-xl text-sm font-medium text-foreground hover:border-primary/20 transition-all"
                                         >
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.06] p-1 flex items-center justify-center overflow-hidden">
+                                                <div className="w-8 h-8 rounded-lg bg-card/60 border border-white/[0.06] p-1 flex items-center justify-center overflow-hidden">
                                                     <img src={current.image} alt={current.name} className="w-full h-full object-contain" />
                                                 </div>
                                                 <span>{current.name}</span>
                                             </div>
-                                            <ChevronDown size={16} className={cn("text-white/25 transition-transform", isDropdownOpen && "rotate-180")} />
+                                            <ChevronDown size={16} className={cn("text-foreground/25 transition-transform", isDropdownOpen && "rotate-180")} />
                                         </button>
 
                                         {isDropdownOpen && (
-                                            <div className="absolute top-full left-0 right-0 mt-2 bg-[#0f0f14] border border-white/[0.08] rounded-xl shadow-2xl z-40 max-h-48 overflow-y-auto no-scrollbar">
+                                            <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-white/[0.08] rounded-xl shadow-2xl z-40 max-h-48 overflow-y-auto no-scrollbar">
                                                 {platforms.map((p, i) => (
                                                     <button
                                                         key={i}
                                                         onClick={() => { setSelectedPlatform(i); setIsDropdownOpen(false); }}
                                                         className={cn(
-                                                            "flex items-center gap-3 w-full p-3 text-sm hover:bg-white/[0.04] transition-colors",
-                                                            selectedPlatform === i ? "bg-primary/5 text-primary" : "text-white/60"
+                                                            "flex items-center gap-3 w-full p-3 text-sm hover:bg-card/40 transition-colors",
+                                                            selectedPlatform === i ? "bg-primary/5 text-primary" : "text-foreground/60"
                                                         )}
                                                     >
-                                                        <div className="w-7 h-7 rounded-lg bg-white/[0.04] p-1 overflow-hidden">
+                                                        <div className="w-7 h-7 rounded-lg bg-card/60 p-1 overflow-hidden">
                                                             <img src={p.image} alt={p.name} className="w-full h-full object-contain" />
                                                         </div>
                                                         <span className="font-medium">{p.name}</span>
@@ -146,28 +146,28 @@ export const CalculatorWidget = () => {
 
                                 {/* Amount Input */}
                                 <div className="space-y-2">
-                                    <label className="text-xs text-white/25 font-medium ml-1">Tutar (₺)</label>
+                                    <label className="text-xs text-foreground/25 font-medium ml-1">Tutar (₺)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             value={amount}
                                             onChange={(e) => setAmount(Number(e.target.value) || 0)}
-                                            className="w-full bg-white/[0.03] border border-white/[0.06] px-4 py-3.5 rounded-xl text-xl font-bold text-white placeholder:text-white/10 focus:outline-none focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/10"
+                                            className="w-full bg-card border border-white/[0.06] px-4 py-3.5 rounded-xl text-xl font-bold text-foreground placeholder:text-foreground/10 focus:outline-none focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/10"
                                             placeholder="100"
                                         />
-                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/15 text-sm font-medium">TL</span>
+                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/15 text-sm font-medium">TL</span>
                                     </div>
                                 </div>
 
                                 {/* Result */}
                                 <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-5 border border-primary/10 space-y-3">
-                                    <div className="flex justify-between items-center text-xs text-white/30 font-medium">
+                                    <div className="flex justify-between items-center text-xs text-foreground/30 font-medium">
                                         <span>Kur Oranı</span>
                                         <span className="text-primary font-semibold">%{current.rate}</span>
                                     </div>
                                     <div className="flex justify-between items-center">
-                                        <span className="text-xs text-white/30 font-medium">Tahmini Ödeme</span>
-                                        <span className="text-3xl font-bold text-white tracking-tight font-mono">
+                                        <span className="text-xs text-foreground/30 font-medium">Tahmini Ödeme</span>
+                                        <span className="text-3xl font-bold text-foreground tracking-tight font-mono">
                                             ₺{result.toFixed(2)}
                                         </span>
                                     </div>
@@ -181,7 +181,7 @@ export const CalculatorWidget = () => {
                                     Hemen Bozdur <ArrowRight size={16} />
                                 </button>
 
-                                <p className="text-center text-[10px] text-white/15 font-medium">
+                                <p className="text-center text-[10px] text-foreground/15 font-medium">
                                     * Gösterilen tutar tahminidir. Gerçek tutar işlem anındaki kura göre değişiklik gösterebilir.
                                 </p>
                             </div>

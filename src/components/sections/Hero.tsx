@@ -51,7 +51,7 @@ export const Hero = () => {
                     transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
                 />
                 {/* Dark overlay to keep text readable */}
-                <div className="absolute inset-0 bg-[#0a0f0d]/60" />
+                <div className="absolute inset-0 bg-background/60" />
             </div>
 
             {/* Subtle grid lines */}
@@ -106,7 +106,7 @@ export const Hero = () => {
                         <Button
                             variant="secondary"
                             size="lg"
-                            className="h-14 w-full sm:w-auto px-8 rounded-xl glass border-white/[0.08] font-semibold text-sm hover:bg-white/[0.05] transition-all"
+                            className="h-14 w-full sm:w-auto px-8 rounded-xl bg-card/20 border-white/[0.08] font-semibold text-sm hover:bg-card/40 transition-all text-foreground"
                             onClick={() => router.push("/bozum")}
                         >
                             <Zap size={18} className="mr-2" /> Kod Bozdur <ArrowRight size={16} className="ml-1.5 opacity-40" />
@@ -122,8 +122,8 @@ export const Hero = () => {
                             { label: "Ort. Hız", value: "45sn" },
                         ].map((stat, i) => (
                             <div key={i} className="space-y-1">
-                                <p className="text-[10px] text-white/20 font-medium tracking-wide">{stat.label}</p>
-                                <p className="text-xl font-bold text-white">{stat.value}</p>
+                                <p className="text-[10px] text-foreground/20 font-medium tracking-wide">{stat.label}</p>
+                                <p className="text-xl font-bold text-foreground">{stat.value}</p>
                             </div>
                         ))}
                     </div>
@@ -139,14 +139,14 @@ export const Hero = () => {
                     <div className="relative group">
                         <div className="absolute -inset-10 bg-primary/[0.1] blur-[80px] opacity-20 group-hover:opacity-30 transition-opacity duration-1000 -z-10" />
 
-                        <div className="relative glass p-3 rounded-[2.5rem] border-white/[0.08] shadow-[0_24px_64px_rgba(0,0,0,0.4)] bg-white/[0.02]">
+                        <div className="relative glass p-3 rounded-[2.5rem] border-white/[0.08] shadow-[0_24px_64px_rgba(0,0,0,0.4)] bg-card/10">
                             <div className="relative aspect-square rounded-[2rem] overflow-hidden">
                                 <img
                                     src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200"
                                     alt="Premium Gaming & Finance"
                                     className="object-cover w-full h-full scale-105 group-hover:scale-100 transition-transform duration-[2s]"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-[#0a0f0d]/30 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
 
                                 {/* Floating Labels */}
                                 <div className="absolute top-8 left-8 space-y-2.5">
@@ -155,8 +155,8 @@ export const Hero = () => {
                                             <Zap size={12} className="fill-primary" /> LİVE EXCHANGE
                                         </span>
                                     </div>
-                                    <div className="bg-white/[0.04] backdrop-blur-2xl px-3.5 py-2 rounded-xl border border-white/[0.08]">
-                                        <span className="text-[10px] font-medium text-white/30 tracking-wide">SSL SECURED</span>
+                                    <div className="bg-card/40 backdrop-blur-2xl px-3.5 py-2 rounded-xl border border-white/[0.08]">
+                                        <span className="text-[10px] font-medium text-foreground/30 tracking-wide">SSL SECURED</span>
                                     </div>
                                 </div>
 
@@ -164,8 +164,8 @@ export const Hero = () => {
                                     <div className="space-y-4">
                                         <div className="flex gap-1.5">
                                             <span className="w-10 h-0.5 bg-primary rounded-full shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
-                                            <span className="w-3 h-0.5 bg-white/10 rounded-full" />
-                                            <span className="w-3 h-0.5 bg-white/10 rounded-full" />
+                                            <span className="w-3 h-0.5 bg-foreground/10 rounded-full" />
+                                            <span className="w-3 h-0.5 bg-foreground/10 rounded-full" />
                                         </div>
                                         <h4 className="text-3xl font-bold text-white tracking-tight">
                                             Güvenli işlem, <br />en iyi kurlar.
@@ -185,8 +185,8 @@ export const Hero = () => {
                                         <TrendingUp size={24} />
                                     </div>
                                     <div className="space-y-0.5">
-                                        <p className="text-[10px] text-white/25 font-medium tracking-wide">{featuredBozum.name}</p>
-                                        <p className="text-2xl font-bold text-white tracking-tight">%{featuredBozum.price}</p>
+                                        <p className="text-[10px] text-foreground/25 font-medium tracking-wide">{featuredBozum.name}</p>
+                                        <p className="text-2xl font-bold text-foreground tracking-tight">%{featuredBozum.price}</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -195,15 +195,15 @@ export const Hero = () => {
                             <motion.div
                                 animate={{ y: [0, 16, 0] }}
                                 transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-                                className="absolute -bottom-10 -left-10 glass p-6 rounded-2xl border-white/[0.1] shadow-xl backdrop-blur-2xl bg-white/[0.03]"
+                                className="absolute -bottom-10 -left-10 glass p-6 rounded-2xl border-white/[0.1] shadow-xl backdrop-blur-2xl bg-card/60"
                             >
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-xl bg-white/[0.04] flex items-center justify-center text-primary border border-white/[0.08]">
+                                    <div className="w-12 h-12 rounded-xl bg-card/40 flex items-center justify-center text-primary border border-white/[0.08]">
                                         <ShieldCheck size={24} />
                                     </div>
                                     <div className="space-y-0.5">
-                                        <p className="text-[10px] text-white/25 font-medium tracking-wide">Güvenlik</p>
-                                        <p className="text-base font-semibold text-white">Tam Koruma</p>
+                                        <p className="text-[10px] text-foreground/25 font-medium tracking-wide">Güvenlik</p>
+                                        <p className="text-base font-semibold text-foreground">Tam Koruma</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -221,15 +221,15 @@ export const Hero = () => {
                             <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center text-primary">
                                 <Zap size={16} className="fill-primary" />
                             </div>
-                            <span className="text-xs font-semibold text-white/60 whitespace-nowrap">Anlık Kurlar</span>
+                            <span className="text-xs font-semibold text-foreground/60 whitespace-nowrap">Anlık Kurlar</span>
                         </div>
                         {tickerProducts.map((cat, i) => (
-                            <button key={i} onClick={() => router.push(`/bozum?product=${cat.slug}`)} className="whitespace-nowrap flex items-center gap-3 px-5 py-2.5 rounded-xl md:rounded-full hover:bg-white/[0.04] transition-all group/btn border border-transparent hover:border-white/[0.06] shrink-0">
+                            <button key={i} onClick={() => router.push(`/bozum?product=${cat.slug}`)} className="whitespace-nowrap flex items-center gap-3 px-5 py-2.5 rounded-xl md:rounded-full hover:bg-card/40 transition-all group/btn border border-transparent hover:border-white/[0.06] shrink-0">
                                 <div className="w-6 h-6 flex items-center justify-center group-hover/btn:scale-110 transition-transform overflow-hidden rounded-md">
                                     <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
                                 </div>
                                 <div className="flex flex-col items-start leading-none gap-0.5">
-                                    <span className="text-[10px] font-medium text-white/25 group-hover/btn:text-white/60 transition-colors">{cat.name}</span>
+                                    <span className="text-[10px] font-medium text-foreground/25 group-hover/btn:text-foreground/60 transition-colors">{cat.name}</span>
                                     <span className="text-xs font-semibold text-primary">%{cat.price}</span>
                                 </div>
                             </button>

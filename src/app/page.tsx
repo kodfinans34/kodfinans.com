@@ -29,7 +29,7 @@ export default function Home() {
   const sectionOrder = settings.homepageSectionOrder || defaultOrder;
 
   return (
-    <div className="min-h-screen bg-background text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
       <main className={cn(

@@ -14,7 +14,7 @@ const partners = [
 
 export const TrustBanner = () => {
     return (
-        <section className="py-8 md:py-12 border-y border-white/[0.03] bg-white/[0.01] relative overflow-hidden">
+        <section className="py-8 md:py-12 border-y border-white/[0.03] bg-card/20 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                     {/* Trust Label */}
@@ -23,8 +23,8 @@ export const TrustBanner = () => {
                             <ShieldCheck size={18} />
                         </div>
                         <div>
-                            <p className="text-xs font-semibold text-white">Güvenli Altyapı</p>
-                            <p className="text-[10px] text-white/25 font-medium">Lisanslı ödeme ortakları</p>
+                            <p className="text-xs font-semibold text-foreground">Güvenli Altyapı</p>
+                            <p className="text-[10px] text-foreground/25 font-medium">Lisanslı ödeme ortakları</p>
                         </div>
                     </div>
 
@@ -35,8 +35,8 @@ export const TrustBanner = () => {
                         <div className="flex gap-10 md:gap-16 items-center slide-logos" style={{ width: "max-content" }}>
                             {[...partners, ...partners].map((p, i) => (
                                 <div key={i} className="flex items-center gap-2.5 shrink-0 opacity-20 hover:opacity-50 transition-opacity duration-500">
-                                    <img src={p.src} alt={p.name} className="h-5 md:h-6 object-contain brightness-0 invert" />
-                                    <span className="text-xs font-medium text-white/40 hidden md:block">{p.name}</span>
+                                    <img src={p.src} alt={p.name} className="h-5 md:h-6 object-contain brightness-0 dark:invert" />
+                                    <span className="text-xs font-medium text-foreground/40 hidden md:block">{p.name}</span>
                                 </div>
                             ))}
                         </div>

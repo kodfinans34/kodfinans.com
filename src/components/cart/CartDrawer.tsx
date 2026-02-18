@@ -33,7 +33,7 @@ export const CartDrawer = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={toggleCart}
-                        className="fixed inset-0 bg-[#070d0b]/90 backdrop-blur-sm z-[150]"
+                        className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[150]"
                     />
 
                     {/* Drawer */}
@@ -42,7 +42,7 @@ export const CartDrawer = () => {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#0a100e] border-l border-white/5 z-[160] shadow-2xl flex flex-col"
+                        className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-card border-l border-white/5 z-[160] shadow-2xl flex flex-col"
                     >
                         {/* Header */}
                         <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
@@ -51,8 +51,8 @@ export const CartDrawer = () => {
                                     <ShoppingCart size={20} />
                                 </div>
                                 <div>
-                                    <h2 className="text-lg font-black text-white uppercase tracking-tight">Sepetim</h2>
-                                    <p className="text-xs text-white/40 font-bold uppercase tracking-widest">{cart.length} Ürün</p>
+                                    <h2 className="text-lg font-black text-foreground uppercase tracking-tight">Sepetim</h2>
+                                    <p className="text-xs text-foreground/40 font-bold uppercase tracking-widest">{cart.length} Ürün</p>
                                 </div>
                             </div>
                             <button
@@ -91,14 +91,14 @@ export const CartDrawer = () => {
                                             </div>
 
                                             <div className="flex items-center justify-between mt-2">
-                                                <div className="flex items-center gap-3 bg-white/5 rounded-lg p-1">
+                                                <div className="flex items-center gap-3 bg-foreground/5 rounded-lg p-1">
                                                     <button
                                                         onClick={() => item.quantity > 1 ? addToCart({ ...item, quantity: -1 }) : removeFromCart(item.id, item.variant)}
-                                                        className="w-6 h-6 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-colors"
+                                                        className="w-6 h-6 rounded bg-foreground/5 hover:bg-foreground/10 flex items-center justify-center text-foreground transition-colors"
                                                     >
                                                         <Minus size={12} />
                                                     </button>
-                                                    <span className="text-xs font-bold text-white w-4 text-center">{item.quantity}</span>
+                                                    <span className="text-xs font-bold text-foreground w-4 text-center">{item.quantity}</span>
                                                     <button
                                                         onClick={() => addToCart({ ...item, quantity: 1 })}
                                                         className="w-6 h-6 rounded bg-primary/20 hover:bg-primary/40 text-primary flex items-center justify-center transition-colors"
@@ -123,7 +123,7 @@ export const CartDrawer = () => {
 
                         {/* Sticky Footer - Live Total */}
                         {cart.length > 0 && (
-                            <div className="border-t border-white/5 bg-[#070d0b]/95 backdrop-blur-xl">
+                            <div className="border-t border-white/5 bg-background/95 backdrop-blur-xl">
                                 {/* Item Summary */}
                                 <div className="px-6 pt-5 pb-3 space-y-2">
                                     {cart.map((item) => (
@@ -141,15 +141,15 @@ export const CartDrawer = () => {
                                 <div className="px-6 pb-3">
                                     <div className="flex justify-between items-end">
                                         <div>
-                                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest">Toplam Tutar</p>
-                                            <p className="text-xs text-white/40 mt-0.5">{cart.reduce((s, i) => s + i.quantity, 0)} ürün</p>
+                                            <p className="text-[10px] text-foreground/30 font-bold uppercase tracking-widest">Toplam Tutar</p>
+                                            <p className="text-xs text-foreground/40 mt-0.5">{cart.reduce((s, i) => s + i.quantity, 0)} ürün</p>
                                         </div>
                                         <motion.div
                                             key={total}
                                             initial={{ scale: 1.15, color: "rgb(16, 185, 129)" }}
-                                            animate={{ scale: 1, color: "rgb(255, 255, 255)" }}
+                                            animate={{ scale: 1, color: "var(--foreground)" }}
                                             transition={{ duration: 0.4 }}
-                                            className="text-3xl font-black tracking-tight"
+                                            className="text-3xl font-black tracking-tight text-foreground"
                                         >
                                             ₺{total.toFixed(2)}
                                         </motion.div>

@@ -11,6 +11,7 @@ import {
     BozumRequest,
     WithdrawalRequest,
     SiteSettings,
+    ThemeConfig,
     BlogPost,
     SystemUser
 } from "@/lib/types";
@@ -131,6 +132,28 @@ interface SystemContextType {
     isLoaded: boolean;
 }
 
+const defaultLightTheme: ThemeConfig = {
+    background: "#ffffff",
+    foreground: "#000000",
+    card: "#f9fafb",
+    primary: "#ed1c24",
+    secondary: "#10b981",
+    accent: "#3b82f6",
+    muted: "#6b7280",
+    border: "rgba(0,0,0,0.05)"
+};
+
+const defaultDarkTheme: ThemeConfig = {
+    background: "#0a0f0d",
+    foreground: "#ffffff",
+    card: "#070d0b",
+    primary: "#ed1c24",
+    secondary: "#10b981",
+    accent: "#3b82f6",
+    muted: "#9ca3af",
+    border: "rgba(255,255,255,0.05)"
+};
+
 const defaultSettings: SiteSettings = {
     homepageTitle: "KodFinans | Dijital Cüzdan & Oyun Mağazası",
     homepageDescription: "Dijital kodlarınızı güvenle nakite çevirin, oyun ürünlerini en uygun fiyatlarla satın alın.",
@@ -148,6 +171,13 @@ const defaultSettings: SiteSettings = {
     paytrMerchantSalt: "",
     paytrTestMode: true,
     themeColor: "green",
+    siteMode: "dark",
+    activeTheme: "standard",
+    lightThemeConfig: defaultLightTheme,
+    darkThemeConfig: defaultDarkTheme,
+    headerLogo: "/logo.png",
+    footerLogo: "/logo.png",
+    adminLogo: "/logo.png"
 };
 
 const SystemContext = createContext<SystemContextType | undefined>(undefined);
@@ -183,7 +213,6 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
 
                 // Load Firestore Data
                 try {
-                    console.log("SystemContext: Starting to load Firestore data...");
 
                     // Users request
                     const dbUsers = await getUsersFromFirestore();

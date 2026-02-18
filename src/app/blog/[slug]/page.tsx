@@ -57,12 +57,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div className="max-w-4xl mx-auto px-4 relative z-10">
                     {/* Breadcrumbs & Back */}
                     <div className="flex items-center justify-between mb-12">
-                        <Link href="/blog" className="inline-flex items-center gap-2 text-white/40 hover:text-primary transition-all group font-bold text-xs uppercase tracking-widest">
+                        <Link href="/blog" className="inline-flex items-center gap-2 text-foreground/40 hover:text-primary transition-all group font-bold text-xs uppercase tracking-widest">
                             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Blog Listesine Dön
                         </Link>
                         {/* Share Button (Mock) */}
                         <div className="flex gap-2">
-                            <button className="w-10 h-10 rounded-full glass border border-white/5 flex items-center justify-center text-white/40 hover:text-white transition-all">
+                            <button className="w-10 h-10 rounded-full glass border border-white/5 flex items-center justify-center text-foreground/40 hover:text-foreground transition-all">
                                 <Share2 size={16} />
                             </button>
                         </div>
@@ -71,16 +71,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <article className="space-y-12">
                         {/* Header Section */}
                         <div className="space-y-8">
-                            <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">
+                            <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-foreground/30 uppercase tracking-[0.2em]">
                                 <span className="flex items-center gap-2 text-primary">
                                     <Calendar size={14} /> {blog.date}
                                 </span>
-                                <span className="w-1 h-1 rounded-full bg-white/10" />
-                                <span className="flex items-center gap-2">
+                                <span className="w-1 h-1 rounded-full bg-foreground/10" />
+                                <span className="flex items-center gap-2 text-foreground/40">
                                     <User size={14} /> {blog.author}
                                 </span>
-                                <span className="w-1 h-1 rounded-full bg-white/10" />
-                                <span className="flex items-center gap-2">
+                                <span className="w-1 h-1 rounded-full bg-foreground/10" />
+                                <span className="flex items-center gap-2 text-foreground/40">
                                     <Clock size={14} /> {blog.readTime}
                                 </span>
                             </div>
@@ -93,7 +93,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 <span className="bg-primary/10 border border-primary/20 text-primary text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">
                                     {blog.category}
                                 </span>
-                                <span className="bg-white/5 border border-white/10 text-white/40 text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">
+                                <span className="bg-card border border-white/10 text-foreground/40 text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">
                                     Rehber
                                 </span>
                             </div>
@@ -114,14 +114,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                         {/* Content Section */}
                         <div
-                            className="prose prose-invert prose-lg max-w-none text-white/70 leading-relaxed font-medium 
-                            prose-headings:text-white prose-headings:font-black prose-headings:italic prose-headings:uppercase prose-headings:tracking-tighter
+                            className="prose prose-lg max-w-none text-foreground/70 leading-relaxed font-medium 
+                            prose-headings:text-foreground prose-headings:font-black prose-headings:italic prose-headings:uppercase prose-headings:tracking-tighter
                             prose-h2:text-3xl md:prose-h2:text-5xl prose-h2:mt-16 prose-h2:mb-8
                             prose-h3:text-xl md:prose-h3:text-3xl prose-h3:mt-12 prose-h3:mb-6
                             prose-p:mb-8 prose-strong:text-primary prose-a:text-primary hover:prose-a:underline
                             prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6
-                            prose-li:mb-2 prose-li:text-white/80
-                            prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-white/5 prose-blockquote:p-8 prose-blockquote:rounded-2xl prose-blockquote:italic prose-blockquote:text-white/80"
+                            prose-li:mb-2 prose-li:text-foreground/80
+                            prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-card prose-blockquote:p-8 prose-blockquote:rounded-2xl prose-blockquote:italic prose-blockquote:text-foreground/80"
                             dangerouslySetInnerHTML={{ __html: blog.content }}
                         />
 
@@ -129,17 +129,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         <div className="pt-24 border-t border-white/5 mt-32">
                             <div className="relative group">
                                 <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-10 blur-3xl rounded-[3rem]" />
-                                <div className="relative glass p-10 md:p-16 rounded-[4rem] border-white/10 flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left overflow-hidden">
+                                <div className="relative glass p-10 md:p-16 rounded-[4rem] border-white/10 flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left overflow-hidden bg-card">
                                     <div className="space-y-4">
-                                        <h3 className="text-3xl md:text-5xl font-black text-white italic uppercase tracking-tighter leading-none">
+                                        <h3 className="text-3xl md:text-5xl font-black text-foreground italic uppercase tracking-tighter leading-none">
                                             KAZANCINI <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">KATLAMAYA </span> BAŞLA!
                                         </h3>
-                                        <p className="text-white/40 font-bold uppercase tracking-widest text-xs">
+                                        <p className="text-foreground/40 font-bold uppercase tracking-widest text-xs">
                                             Siz de kodlarınızı en yüksek oranlarla hemen nakite çevirin.
                                         </p>
                                     </div>
                                     <Link href="/bozum-hesapla">
-                                        <Button className="h-20 px-12 rounded-[2rem] bg-white text-black font-black text-sm uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all w-full md:w-auto">
+                                        <Button className="h-20 px-12 rounded-[2rem] bg-primary text-white font-black text-sm uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all w-full md:w-auto">
                                             HEMEN BOZDUR
                                         </Button>
                                     </Link>

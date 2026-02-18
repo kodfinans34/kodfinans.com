@@ -121,20 +121,20 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
 
     if (success) {
         return (
-            <div className="min-h-screen bg-[#070d0b] text-white font-inter flex flex-col">
+            <div className="min-h-screen bg-background text-foreground font-inter flex flex-col">
                 <Navbar />
                 <div className="flex-1 flex items-center justify-center p-4">
                     <div className="max-w-md w-full glass p-8 rounded-[2.5rem] border-white/10 text-center space-y-6">
                         <div className="w-20 h-20 mx-auto rounded-full bg-green-500/20 flex items-center justify-center text-green-500 mb-4 animate-pulse">
                             <ShieldCheck size={40} />
                         </div>
-                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">İşlem Başlatıldı!</h2>
-                        <p className="text-white/60 text-sm font-medium leading-relaxed">
+                        <h2 className="text-2xl font-black text-foreground uppercase tracking-tight">İşlem Başlatıldı!</h2>
+                        <p className="text-foreground/60 text-sm font-medium leading-relaxed">
                             Bozum talebiniz başarıyla alındı. Yönetici onayı sonrası bakiyeniz hesabınıza anında tanımlanacaktır.
                         </p>
-                        <div className="p-4 bg-white/5 rounded-2xl border border-white/5 space-y-2">
-                            <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Tahmini Süre</p>
-                            <p className="text-2xl font-black text-white italic">{"<"} 10 Dakika</p>
+                        <div className="p-4 bg-card rounded-2xl border border-white/5 space-y-2">
+                            <p className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Tahmini Süre</p>
+                            <p className="text-2xl font-black text-foreground italic">{"<"} 10 Dakika</p>
                         </div>
                         <Button
                             onClick={() => router.push(isLoggedIn ? "/panel" : "/")}
@@ -149,7 +149,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
     }
 
     return (
-        <div className="min-h-screen bg-[#070d0b] text-white font-inter selection:bg-primary/30">
+        <div className="min-h-screen bg-background text-foreground font-inter selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-32 pb-24 relative overflow-hidden">
@@ -159,10 +159,10 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
 
                 <div className="max-w-4xl mx-auto px-4">
                     <div className="text-center mb-12">
-                        <h1 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter mb-4">
+                        <h1 className="text-4xl md:text-5xl font-black text-foreground uppercase italic tracking-tighter mb-4">
                             {selectedProduct?.name || "Bozum İşlemi"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Bozum</span>
                         </h1>
-                        <p className="text-white/40 max-w-xl mx-auto text-sm font-medium">
+                        <p className="text-foreground/40 max-w-xl mx-auto text-sm font-medium">
                             {selectedProduct?.description || "Dijital kodlarınızı en iyi kur garantisiyle saniyeler içinde nakite çevirin."}
                         </p>
                     </div>
@@ -178,7 +178,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
 
                                     {/* Type Selection */}
                                     <div className="space-y-4">
-                                        <label className="text-xs font-black text-white/40 uppercase tracking-[0.2em] ml-2 block">Kod Türü</label>
+                                        <label className="text-xs font-black text-foreground/40 uppercase tracking-[0.2em] ml-2 block">Kod Türü</label>
                                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                             {bozumProducts.map((product) => (
                                                 <button
@@ -188,8 +188,8 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
                                                     className={cn(
                                                         "p-4 rounded-2xl border transition-all flex flex-col items-center gap-3 group relative overflow-hidden",
                                                         selectedProduct?.id === product.id
-                                                            ? `bg-white/10 border-white/20 text-white shadow-xl ring-1 ring-primary/50`
-                                                            : "bg-white/5 border-white/5 text-white/30 hover:bg-white/10 hover:border-white/10"
+                                                            ? `bg-primary/5 border-primary/30 text-primary shadow-xl ring-1 ring-primary/50`
+                                                            : "bg-card border-white/5 text-foreground/30 hover:bg-card hover:border-white/10"
                                                     )}
                                                 >
                                                     <div className="w-12 h-12 rounded-xl overflow-hidden mb-2 relative">
@@ -204,21 +204,21 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
                                     {/* Inputs */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-4">
-                                            <label className="text-xs font-black text-white/40 uppercase tracking-[0.2em] ml-2 block">Kod Tutarı (TL)</label>
+                                            <label className="text-xs font-black text-foreground/40 uppercase tracking-[0.2em] ml-2 block">Kod Tutarı (TL)</label>
                                             <div className="relative group">
                                                 <input
                                                     type="number"
                                                     placeholder="0.00"
                                                     value={amount}
                                                     onChange={(e) => setAmount(e.target.value)}
-                                                    className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-5 text-2xl font-black text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all font-mono"
+                                                    className="w-full bg-card border border-white/10 rounded-2xl px-6 py-5 text-2xl font-black text-foreground placeholder:text-foreground/10 focus:outline-none focus:border-primary/50 transition-all font-mono"
                                                     required
                                                 />
-                                                <span className="absolute right-6 top-1/2 -translate-y-1/2 text-white/20 font-bold">TL</span>
+                                                <span className="absolute right-6 top-1/2 -translate-y-1/2 text-foreground/20 font-bold">TL</span>
                                             </div>
                                         </div>
                                         <div className="space-y-4">
-                                            <label className="text-xs font-black text-white/40 uppercase tracking-[0.2em] ml-2 block">Hesaplanacak Tutar</label>
+                                            <label className="text-xs font-black text-foreground/40 uppercase tracking-[0.2em] ml-2 block">Hesaplanacak Tutar</label>
                                             <div className="relative group opacity-80 cursor-not-allowed">
                                                 <div className="w-full bg-primary/10 border border-primary/20 rounded-2xl px-6 py-5 text-2xl font-black text-primary font-mono flex items-center">
                                                     {calculatedAmount}
@@ -232,39 +232,39 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
 
                                     {isLoggedIn && (
                                         <div className="space-y-4">
-                                            <label className="text-xs font-black text-white/40 uppercase tracking-[0.2em] ml-2 block">Dijital Kod</label>
+                                            <label className="text-xs font-black text-foreground/40 uppercase tracking-[0.2em] ml-2 block">Dijital Kod</label>
                                             <input
                                                 type="text"
                                                 placeholder="XXXX-XXXX-XXXX-XXXX"
                                                 value={digitalCode}
                                                 onChange={(e) => setDigitalCode(e.target.value)}
-                                                className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 transition-all font-mono tracking-widest"
+                                                className="w-full bg-card border border-white/10 rounded-2xl px-6 py-4 text-foreground placeholder:text-foreground/20 focus:outline-none focus:border-primary/50 transition-all font-mono tracking-widest"
                                                 required={isLoggedIn}
                                             />
-                                            <p className="text-[10px] text-white/30 ml-2">Bozmak istediğiniz kodu buraya giriniz.</p>
+                                            <p className="text-[10px] text-foreground/30 ml-2">Bozmak istediğiniz kodu buraya giriniz.</p>
                                         </div>
                                     )}
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-4">
-                                            <label className="text-xs font-black text-white/40 uppercase tracking-[0.2em] ml-2 block">E-Posta Adresi</label>
+                                            <label className="text-xs font-black text-foreground/40 uppercase tracking-[0.2em] ml-2 block">E-Posta Adresi</label>
                                             <input
                                                 type="email"
                                                 placeholder="ornek@mail.com"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                                className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 transition-all"
+                                                className="w-full bg-card border border-white/10 rounded-2xl px-6 py-4 text-foreground placeholder:text-foreground/20 focus:outline-none focus:border-primary/50 transition-all"
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-4">
-                                            <label className="text-xs font-black text-white/40 uppercase tracking-[0.2em] ml-2 block">Telefon Numarası</label>
+                                            <label className="text-xs font-black text-foreground/40 uppercase tracking-[0.2em] ml-2 block">Telefon Numarası</label>
                                             <input
                                                 type="tel"
                                                 placeholder="05XX XXX XX XX"
                                                 value={phone}
                                                 onChange={(e) => setPhone(e.target.value)}
-                                                className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 transition-all"
+                                                className="w-full bg-card border border-white/10 rounded-2xl px-6 py-4 text-foreground placeholder:text-foreground/20 focus:outline-none focus:border-primary/50 transition-all"
                                                 required
                                             />
                                         </div>
@@ -292,7 +292,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
                                         </Button>
 
                                         {!isLoggedIn && (
-                                            <p className="text-center text-xs text-white/40 font-medium">
+                                            <p className="text-center text-xs text-foreground/40 font-medium">
                                                 İşlemlerinizi takip etmek için <Link href="/giris" className="text-primary hover:underline">Giriş Yapın</Link>
                                             </p>
                                         )}
@@ -304,33 +304,33 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
 
                         {/* Info Side */}
                         <div className="md:col-span-12 lg:col-span-4 space-y-6">
-                            <div className="glass p-8 rounded-[2.5rem] border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
-                                <h3 className="text-lg font-black text-white uppercase tracking-tight mb-4">Bilgilendirme</h3>
+                            <div className="glass p-8 rounded-[2.5rem] border-white/5 bg-gradient-to-br from-card to-transparent">
+                                <h3 className="text-lg font-black text-foreground uppercase tracking-tight mb-4">Bilgilendirme</h3>
                                 <div className="space-y-4">
                                     <div className="flex items-start gap-4">
-                                        <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary shrink-0">
+                                        <div className="w-10 h-10 rounded-xl bg-card border border-white/5 flex items-center justify-center text-primary shrink-0">
                                             <Zap size={20} />
                                         </div>
                                         <div>
-                                            <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-1">Anında Teslimat</h4>
-                                            <p className="text-white/40 text-[11px] leading-relaxed">İşlem başlatıldığında yönetici onayı ile bakiyeniz anında hesabınıza yansır.</p>
+                                            <h4 className="text-foreground font-bold text-xs uppercase tracking-wider mb-1">Anında Teslimat</h4>
+                                            <p className="text-foreground/40 text-[11px] leading-relaxed">İşlem başlatıldığında yönetici onayı ile bakiyeniz anında hesabınıza yansır.</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-4">
-                                        <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-secondary shrink-0">
+                                        <div className="w-10 h-10 rounded-xl bg-card border border-white/5 flex items-center justify-center text-secondary shrink-0">
                                             <ShieldCheck size={20} />
                                         </div>
                                         <div>
-                                            <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-1">%100 Güvenlik</h4>
-                                            <p className="text-white/40 text-[11px] leading-relaxed">Tüm işlemler SSL sertifikalı güvenli altyapımız üzerinden gerçekleşir.</p>
+                                            <h4 className="text-foreground font-bold text-xs uppercase tracking-wider mb-1">%100 Güvenlik</h4>
+                                            <p className="text-foreground/40 text-[11px] leading-relaxed">Tüm işlemler SSL sertifikalı güvenli altyapımız üzerinden gerçekleşir.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="p-8 rounded-[2.5rem] bg-white/[0.02] border border-white/5 space-y-2 text-center">
-                                <p className="text-xs font-bold text-white/30 uppercase tracking-widest">Tahmini İşlem Süresi</p>
-                                <p className="text-3xl font-black text-white italic">{"<"} 10 Dk</p>
+                            <div className="p-8 rounded-[2.5rem] bg-card border border-white/5 space-y-2 text-center">
+                                <p className="text-xs font-bold text-foreground/30 uppercase tracking-widest">Tahmini İşlem Süresi</p>
+                                <p className="text-3xl font-black text-foreground italic">{"<"} 10 Dk</p>
                             </div>
                         </div>
 

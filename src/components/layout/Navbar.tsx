@@ -9,7 +9,6 @@ import { Menu, X, ChevronRight, ShoppingBag, Zap, Wallet, Home, BookOpen, Trophy
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useSystem } from "@/context/SystemContext";
-import { applyFullTheme } from "@/components/ThemeApplier";
 import { User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 
 const navLinks = [
@@ -25,33 +24,14 @@ export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { cart, toggleCart } = useCart();
-    const { isLoggedIn, userBalance, logout, settings } = useSystem();
+    const { isLoggedIn, userBalance, logout, settings, updateSettings } = useSystem();
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
 
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const [siteMode, setSiteMode] = useState<"dark" | "white">("dark");
-
-    // Load saved site mode from localStorage
-    useEffect(() => {
-        const saved = localStorage.getItem("kf_site_mode");
-        if (saved === "white") setSiteMode("white");
-    }, []);
-
     const toggleSiteMode = () => {
-        const newMode = siteMode === "dark" ? "white" : "dark";
-        setSiteMode(newMode);
-        if (newMode === "white") {
-            localStorage.setItem("kf_site_mode", "white");
-        } else {
-            localStorage.removeItem("kf_site_mode");
-        }
-
-        // Dispatch custom event for ThemeApplier
-        window.dispatchEvent(new CustomEvent("kf_theme_update"));
-
-        // Apply immediately
-        applyFullTheme(settings.themeColor || "green");
+        const newMode = settings.siteMode === "dark" ? "white" : "dark";
+        updateSettings({ siteMode: newMode });
     };
 
     useEffect(() => {
@@ -94,16 +74,24 @@ export const Navbar = () => {
                 )}>
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2.5 group relative z-[110] shrink-0">
-                        <div className="relative w-9 h-9 flex items-center justify-center bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-xl border border-primary/20 group-hover:border-primary/40 transition-all duration-500 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            <Wallet size={18} className="text-primary relative z-10 group-hover:scale-110 transition-transform duration-500" />
-                        </div>
-                        <div className="flex flex-col leading-tight">
-                            <span className="text-lg md:text-xl font-bold font-inter tracking-tight flex items-center">
-                                <span className="text-white">Kod</span>
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Finans</span>
-                            </span>
-                            <span className="text-[8px] font-medium text-white/30 tracking-[0.15em] uppercase ml-0.5">Digital Wallet & Store</span>
+                        <div className="relative h-9 flex items-center justify-center transition-all duration-500">
+                            {settings.headerLogo ? (
+                                <img src={settings.headerLogo} alt="Logo" className="h-full w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
+                            ) : (
+                                <>
+                                    <div className="relative w-9 h-9 flex items-center justify-center bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-xl border border-primary/20 group-hover:border-primary/40 transition-all duration-500 overflow-hidden">
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        <Wallet size={18} className="text-primary relative z-10 group-hover:scale-110 transition-transform duration-500" />
+                                    </div>
+                                    <div className="flex flex-col leading-tight">
+                                        <span className="text-lg md:text-xl font-bold font-inter tracking-tight flex items-center">
+                                            <span className="text-white">Kod</span>
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Finans</span>
+                                        </span>
+                                        <span className="text-[8px] font-medium text-white/30 tracking-[0.15em] uppercase ml-0.5">Digital Wallet & Store</span>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </Link>
 
@@ -135,9 +123,9 @@ export const Navbar = () => {
                         <button
                             onClick={toggleSiteMode}
                             className="hidden md:flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-all border border-white/[0.06] hover:border-white/[0.12] group"
-                            title={siteMode === "dark" ? "Beyaz Tema" : "Koyu Tema"}
+                            title={settings.siteMode === "dark" ? "Beyaz Tema" : "Koyu Tema"}
                         >
-                            {siteMode === "dark" ? (
+                            {settings.siteMode === "dark" ? (
                                 <Sun size={16} className="text-white/40 group-hover:text-yellow-400 transition-colors" />
                             ) : (
                                 <Moon size={16} className="text-white/40 group-hover:text-indigo-400 transition-colors" />
@@ -145,7 +133,7 @@ export const Navbar = () => {
                         </button>
 
                         {/* WhatsApp Support */}
-                        <Link href="https://wa.me/905517139330" className="hidden xl:flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.03] hover:bg-[#25D366]/10 transition-all border border-white/[0.06] hover:border-[#25D366]/30 group">
+                        <Link href={`https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}`} className="hidden xl:flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.03] hover:bg-[#25D366]/10 transition-all border border-white/[0.06] hover:border-[#25D366]/30 group">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-opacity" />
                         </Link>
 
@@ -274,10 +262,16 @@ export const Navbar = () => {
                         {/* Mobile Menu Header */}
                         <div className="flex items-center justify-between p-5 border-b border-white/[0.05]">
                             <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-                                <div className="w-9 h-9 bg-primary/10 flex items-center justify-center rounded-xl border border-primary/20">
-                                    <Wallet size={18} className="text-primary" />
-                                </div>
-                                <span className="text-xl font-bold font-inter text-white tracking-tight">Kod<span className="text-primary">Finans</span></span>
+                                {settings.headerLogo ? (
+                                    <img src={settings.headerLogo} alt="Logo" className="h-8 w-auto object-contain" />
+                                ) : (
+                                    <>
+                                        <div className="w-9 h-9 bg-primary/10 flex items-center justify-center rounded-xl border border-primary/20">
+                                            <Wallet size={18} className="text-primary" />
+                                        </div>
+                                        <span className="text-xl font-bold font-inter text-white tracking-tight">Kod<span className="text-primary">Finans</span></span>
+                                    </>
+                                )}
                             </Link>
                             <button
                                 onClick={() => setIsOpen(false)}
@@ -346,7 +340,7 @@ export const Navbar = () => {
                                 onClick={toggleSiteMode}
                                 className="w-full flex items-center justify-center gap-2 h-11 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] text-white/60 hover:text-white transition-all text-sm font-medium"
                             >
-                                {siteMode === "dark" ? (
+                                {settings.siteMode === "dark" ? (
                                     <><Sun size={16} className="text-yellow-400" /> Beyaz Tema</>
                                 ) : (
                                     <><Moon size={16} className="text-indigo-400" /> Koyu Tema</>

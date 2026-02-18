@@ -20,7 +20,7 @@ export const MobileNav = () => {
     return (
         <div className="fixed bottom-0 left-0 right-0 z-[100] md:hidden px-4 pb-4 pointer-events-none">
             <div className="max-w-md mx-auto pointer-events-auto">
-                <div className="glass rounded-[2rem] border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-2 grid grid-cols-5 place-items-center bg-black/40 backdrop-blur-2xl">
+                <div className="glass rounded-[2rem] border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-2 grid grid-cols-5 place-items-center bg-card/80 backdrop-blur-2xl">
                     {navItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href;
@@ -31,15 +31,15 @@ export const MobileNav = () => {
                                 href={item.href}
                                 target={item.isExternal ? "_blank" : undefined}
                                 className={cn(
-                                    "flex flex-col items-center justify-center gap-1.5 px-4 py-3 rounded-2xl transition-all duration-300 relative group",
-                                    isActive ? "text-primary" : "text-white/40 hover:text-white"
+                                    "flex flex-col items-center justify-center gap-1.5 px-3 py-3 rounded-2xl transition-all duration-300 relative group",
+                                    isActive ? "text-primary" : "text-foreground/40 hover:text-foreground"
                                 )}
                             >
                                 {isActive && (
                                     <div className="absolute inset-0 bg-primary/10 rounded-2xl -z-10 animate-pulse" />
                                 )}
                                 <Icon size={20} className={cn("transition-transform group-hover:scale-110", isActive && "text-primary fill-primary/20")} />
-                                <span className="text-[9px] font-black uppercase tracking-widest leading-none">
+                                <span className="text-[8px] font-black uppercase tracking-widest leading-none">
                                     {item.name}
                                 </span>
                             </Link>
