@@ -1,3 +1,4 @@
+"use client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Lock, Eye, Shield, Server, UserCheck, FileText, AlertCircle } from "lucide-react";
