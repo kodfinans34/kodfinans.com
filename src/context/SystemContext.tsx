@@ -203,61 +203,84 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         if (typeof window !== "undefined" && !hasLoaded.current) {
             hasLoaded.current = true;
             const loadData = async () => {
-                // Initialize LocalStorage Data
-
+                // 1. Initialize from LocalStorage IMMEDIATELY for zero-flicker
                 const savedReviews = localStorage.getItem("kf_reviews");
                 const savedSettings = localStorage.getItem("kf_settings");
                 const savedUsers = localStorage.getItem("kf_users");
                 const savedBalance = localStorage.getItem("userBalance");
                 const savedUser = localStorage.getItem("userProfile");
 
-                // Load Firestore Data
-                try {
+                if (savedSettings) {
+                    try {
+                        const parsed = JSON.parse(savedSettings);
+                        setSettings(prev => ({ ...prev, ...parsed }));
+                    } catch (e) { }
+                }
 
+                if (savedReviews) {
+                    try {
+                        setReviews(JSON.parse(savedReviews).map((rv: any) => ({ ...rv, timestamp: new Date(rv.timestamp) })));
+                    } catch (e) { }
+                }
+
+                if (savedUsers) {
+                    try {
+                        setUsers(JSON.parse(savedUsers));
+                    } catch (e) { }
+                }
+
+                if (savedBalance) setUserBalance(parseFloat(savedBalance));
+                if (savedUser) {
+                    try {
+                        setUser(JSON.parse(savedUser));
+                    } catch (e) { }
+                }
+
+                // 2. Load Fresh Firestore Data in the background
+                try {
                     // Users request
                     const dbUsers = await getUsersFromFirestore();
-                    setUsers(dbUsers);
+                    if (dbUsers && dbUsers.length > 0) setUsers(dbUsers);
 
                     // Products request
                     const dbProducts = await getProducts();
-                    setProducts(dbProducts);
+                    if (dbProducts && dbProducts.length > 0) setProducts(dbProducts);
 
                     // Withdrawals request
                     const dbWithdrawals = await getWithdrawalsFromFirestore();
-                    setWithdrawalRequests(dbWithdrawals);
+                    if (dbWithdrawals) setWithdrawalRequests(dbWithdrawals);
 
                     // Orders request
                     const dbOrders = await getOrdersFromFirestore();
-                    setOrders(dbOrders);
+                    if (dbOrders) setOrders(dbOrders);
 
                     // Bozum Requests
                     const dbBozum = await getBozumRequestsFromFirestore();
-                    setBozumRequests(dbBozum);
+                    if (dbBozum) setBozumRequests(dbBozum);
 
                     // Blogs request
                     const dbBlogs = await getBlogs();
-                    if (dbBlogs) {
-                        setBlogs(dbBlogs);
-                    }
+                    if (dbBlogs && dbBlogs.length > 0) setBlogs(dbBlogs);
 
                     // Settings request
                     const dbSettings = await getSettings();
                     if (dbSettings) {
                         setSettings(dbSettings);
+                        localStorage.setItem("kf_settings", JSON.stringify(dbSettings));
+                    }
+
+                    // Sync current logged in user balance if they exist in dbUsers
+                    if (savedUser) {
+                        const current = JSON.parse(savedUser);
+                        const freshUser = dbUsers.find(u => u.email === current.email);
+                        if (freshUser) {
+                            setUserBalance(freshUser.balance);
+                            localStorage.setItem("userBalance", freshUser.balance.toString());
+                        }
                     }
 
                 } catch (error) {
                     console.error("SystemContext: Error loading Firestore data:", error);
-                }
-
-                if (savedReviews) setReviews(JSON.parse(savedReviews).map((rv: any) => ({ ...rv, timestamp: new Date(rv.timestamp) })));
-                // Users are now fully managed by Firestore, no local overwrite needed except maybe for session check
-                if (savedBalance) setUserBalance(parseFloat(savedBalance));
-                if (savedUser) {
-                    const parsedUser = JSON.parse(savedUser);
-                    setUser(parsedUser);
-                    // Update session with fresh data from Firestore if available
-                    // We will do this via a separate effect or just trust localStorage for now
                 }
 
                 setIsLoaded(true);
