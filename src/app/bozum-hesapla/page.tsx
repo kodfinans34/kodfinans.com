@@ -1,3 +1,4 @@
+"use client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CalculatorWidget } from "@/components/sections/CalculatorWidget";
@@ -31,7 +32,7 @@ export default function CalculatorPage() {
 
                     {/* Calculator Section */}
                     <div className="mb-24">
-                        <CalculatorWidget compact={true} />
+                        <CalculatorWidget />
                     </div>
 
                     {/* Features / SEO Section */}
