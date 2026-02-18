@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { ShieldCheck, Zap, Facebook, Twitter, Instagram, Youtube, Send, Mail, Phone, MapPin, Wallet, Lock, CreditCard } from "lucide-react";
