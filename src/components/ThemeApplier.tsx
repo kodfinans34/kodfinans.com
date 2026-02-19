@@ -45,9 +45,26 @@ function applyFullTheme(settings: any, pathname: string = "") {
     body.style.removeProperty("color");
 
     // 3) Decide mode class + config
+    const whiteDefaults = {
+        background: "#ffffff",
+        foreground: "#09090b",
+        card: "#ffffff",
+        cardForeground: "#09090b",
+        primary: "#16a34a", // Green shade compatible with white
+        primaryForeground: "#ffffff",
+        secondary: "#f4f4f5",
+        secondaryForeground: "#18181b",
+        muted: "#f4f4f5",
+        mutedForeground: "#71717a",
+        accent: "#f4f4f5",
+        accentForeground: "#18181b",
+        border: "#e4e4e7",
+        input: "#e4e4e7",
+        ring: "#16a34a",
+    };
     const config: ThemeConfig = siteMode === "dark"
         ? (darkThemeConfig || { background: "#0a0f0d", foreground: "#ffffff", card: "#070d0b", primary: "#ed1c24", secondary: "#10b981", accent: "#3b82f6", muted: "#9ca3af", border: "rgba(255,255,255,0.05)" })
-        : (lightThemeConfig || { background: "#ffffff", foreground: "#000000", card: "#f9fafb", primary: "#ed1c24", secondary: "#10b981", accent: "#3b82f6", muted: "#6b7280", border: "rgba(0,0,0,0.05)" });
+        : (lightThemeConfig || whiteDefaults);
 
     if (siteMode === "dark") {
         body.classList.add("theme-black");
