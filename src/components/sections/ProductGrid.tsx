@@ -134,22 +134,23 @@ export const ProductGrid = () => {
                                             </h3>
                                         </div>
 
-                                        <div className="mt-auto space-y-2.5">
+                                        <div className="mt-auto space-y-2">
                                             <div className="flex items-center justify-between p-2 rounded-lg bg-white/[0.02] border border-white/[0.04] group-hover:border-primary/15 transition-colors">
                                                 <span className="text-[9px] text-white/25 font-medium">Kur</span>
                                                 <span className="text-sm font-bold text-white tracking-tight">{product.price}</span>
                                             </div>
 
-                                            <div className="flex gap-2">
+                                            <div className="flex gap-1.5">
                                                 <Button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         router.push(`/bozum?product=${product.slug}`);
                                                     }}
-                                                    className="flex-1 py-3 h-auto rounded-xl text-[10px] font-medium transition-all bg-white/[0.03] border border-white/[0.06] text-white hover:bg-white/[0.06] hover:border-primary/20"
+                                                    className="flex-1 min-w-0 py-2.5 h-auto rounded-lg text-[9px] sm:text-[10px] font-medium transition-all bg-white/[0.03] border border-white/[0.06] text-white hover:bg-white/[0.06] hover:border-primary/20 px-1"
                                                     variant="ghost"
+                                                    size="sm"
                                                 >
-                                                    <span className="flex items-center justify-center gap-1">Bozdur</span>
+                                                    <span className="truncate">Bozdur</span>
                                                 </Button>
                                                 <Button
                                                     onClick={(e) => {
@@ -163,10 +164,11 @@ export const ProductGrid = () => {
                                                         const target = found?.slug || product.slug.replace("-bozum", "").replace("-bozdurma", "");
                                                         router.push(`/urun/${target}`);
                                                     }}
-                                                    className="flex-1 py-3 h-auto rounded-xl text-[10px] font-medium transition-all bg-primary/10 border border-primary/15 text-primary hover:bg-primary hover:text-white"
+                                                    className="flex-1 min-w-0 py-2.5 h-auto rounded-lg text-[9px] sm:text-[10px] font-medium transition-all bg-primary/10 border border-primary/15 text-primary hover:bg-primary hover:text-white px-1"
                                                     variant="ghost"
+                                                    size="sm"
                                                 >
-                                                    <span className="flex items-center justify-center gap-1">Satın Al</span>
+                                                    <span className="truncate">Satın Al</span>
                                                 </Button>
                                             </div>
                                         </div>

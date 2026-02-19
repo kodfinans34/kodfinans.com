@@ -64,7 +64,7 @@
 
 /* White (Light) Theme - Premium Revamp */
 .theme-white {
-  --background: #f8fafc;
+  --background: #ffffff;
   /* Soft Slate White */
   --foreground: #0f172a;
   /* Deep Slate for contrast */
@@ -193,7 +193,7 @@
 
   /* White theme: override hardcoded dark backgrounds */
   .theme-white,
-  .theme-white body {
+  body.theme-white {
     background-color: var(--background) !important;
     color: var(--foreground) !important;
   }
@@ -282,32 +282,27 @@
     opacity: 0.2 !important;
   }
 
-  .theme-white .text-white\/20,
-  .theme-white .text-white\/25,
-  .theme-white .text-white\/30,
+  .theme-white .text-white,
+  .theme-white .text-white\/90,
+  .theme-white .text-white\/80 {
+    color: #0f172a !important;
+  }
+
+  .theme-white .text-white\/70,
+  .theme-white .text-white\/60,
+  .theme-white .text-white\/50 {
+    color: rgba(15, 23, 42, 0.7) !important;
+  }
+
   .theme-white .text-white\/40,
-  .theme-white .text-white\/60 {
-    color: rgba(26, 26, 46, 0.5) !important;
+  .theme-white .text-white\/30,
+  .theme-white .text-white\/20,
+  .theme-white .text-white\/10 {
+    color: rgba(15, 23, 42, 0.4) !important;
   }
 
   .theme-white .text-primary {
     color: var(--primary) !important;
-  }
-
-  .theme-white .text-white\/50 {
-    color: rgba(26, 26, 46, 0.6) !important;
-  }
-
-  .theme-white .text-white\/60 {
-    color: rgba(26, 26, 46, 0.7) !important;
-  }
-
-  .theme-white .text-white\/70 {
-    color: rgba(26, 26, 46, 0.8) !important;
-  }
-
-  .theme-white .text-white\/80 {
-    color: rgba(26, 26, 46, 0.9) !important;
   }
 
   /* Border Overrides */

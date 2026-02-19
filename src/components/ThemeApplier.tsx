@@ -3,14 +3,7 @@
 import { useEffect } from "react";
 import { useSystem } from "@/context/SystemContext";
 import { ThemeConfig } from "@/lib/types";
-
-const COLOR_MAP: Record<string, { primary: string; secondary: string; accent: string }> = {
-    green: { primary: "#10b981", secondary: "#059669", accent: "#34d399" },
-    indigo: { primary: "#6366f1", secondary: "#8b5cf6", accent: "#a78bfa" },
-    red: { primary: "#ef4444", secondary: "#dc2626", accent: "#f87171" },
-    blue: { primary: "#3b82f6", secondary: "#2563eb", accent: "#60a5fa" },
-    orange: { primary: "#f59e0b", secondary: "#d97706", accent: "#fbbf24" },
-};
+import { usePathname } from "next/navigation";
 
 function hexToRgb(hex: string): string {
     if (!hex || !hex.startsWith('#')) return "0, 0, 0";
@@ -25,23 +18,22 @@ function hexToGlow(hex: string, alpha: number): string {
     return `rgba(${rgb}, ${alpha})`;
 }
 
-function applyFullTheme(settings: any) {
+function applyFullTheme(settings: any, pathname: string = "") {
     if (typeof window === "undefined") return;
 
-    const { activeTheme, themeColor, lightThemeConfig, darkThemeConfig, siteMode: settingsMode } = settings;
+    const { lightThemeConfig, darkThemeConfig, siteMode: settingsMode } = settings;
     const body = document.body;
-    const siteMode = settingsMode || "dark";
 
-    console.log(`[ThemeApplier] 🎨 Applying: ${activeTheme} theme (${themeColor}) in ${siteMode} mode.`);
+    // Force DARK mode for Admin Panel regardless of settings
+    const isAdmin = pathname.startsWith("/admin");
+    const siteMode = isAdmin ? "dark" : (settingsMode || "dark");
 
-    // 1) Clear classes
-    const allPossibleClasses = [
-        "theme-green", "theme-indigo", "theme-red", "theme-blue", "theme-orange",
-        "theme-white", "theme-black"
-    ];
-    body.classList.remove(...allPossibleClasses);
+    console.log(`[ThemeApplier] 🎨 Applying theme in ${siteMode} mode. (Admin: ${isAdmin})`);
 
-    // 2) Reset styles
+    // 1) Clear old theme classes
+    body.classList.remove("theme-white", "theme-black");
+
+    // 2) Reset ALL inline style properties
     const vars = [
         "--background", "--foreground", "--card",
         "--primary", "--secondary", "--accent", "--muted", "--border",
@@ -49,58 +41,59 @@ function applyFullTheme(settings: any) {
         "--primary-rgb", "--secondary-rgb", "--accent-rgb"
     ];
     vars.forEach(v => body.style.removeProperty(v));
+    body.style.removeProperty("background-color");
+    body.style.removeProperty("color");
 
-    // 3) Apply mode class
+    // 3) Decide mode class + config
+    const config: ThemeConfig = siteMode === "dark"
+        ? (darkThemeConfig || { background: "#0a0f0d", foreground: "#ffffff", card: "#070d0b", primary: "#ed1c24", secondary: "#10b981", accent: "#3b82f6", muted: "#9ca3af", border: "rgba(255,255,255,0.05)" })
+        : (lightThemeConfig || { background: "#ffffff", foreground: "#000000", card: "#f9fafb", primary: "#ed1c24", secondary: "#10b981", accent: "#3b82f6", muted: "#6b7280", border: "rgba(0,0,0,0.05)" });
+
     if (siteMode === "dark") {
         body.classList.add("theme-black");
     } else {
         body.classList.add("theme-white");
     }
 
-    // 4) Apply Theme Colors
-    if (activeTheme === "special") {
-        const config: ThemeConfig = siteMode === "dark" ? darkThemeConfig : lightThemeConfig;
-        if (config) {
-            Object.entries(config).forEach(([key, value]) => {
-                const varName = `--${key}`;
-                body.style.setProperty(varName, value as string);
-
-                // Add RGB and Glow for primary, secondary, accent
-                if (["primary", "secondary", "accent"].includes(key)) {
-                    body.style.setProperty(`${varName}-rgb`, hexToRgb(value as string));
-                    body.style.setProperty(`${varName}-glow`, hexToGlow(value as string, siteMode === "white" ? 0.15 : 0.3));
-                }
-            });
-        }
-    } else {
-        // Standard theme
-        const color = themeColor || "green";
-        body.classList.add(`theme-${color}`);
-
-        const colors = COLOR_MAP[color] || COLOR_MAP.green;
-        body.style.setProperty("--primary", colors.primary);
-        body.style.setProperty("--secondary", colors.secondary);
-        body.style.setProperty("--accent", colors.accent);
-
-        body.style.setProperty("--primary-rgb", hexToRgb(colors.primary));
-        body.style.setProperty("--secondary-rgb", hexToRgb(colors.secondary));
-        body.style.setProperty("--accent-rgb", hexToRgb(colors.accent));
-
-        body.style.setProperty("--primary-glow", hexToGlow(colors.primary, siteMode === "white" ? 0.15 : 0.3));
-        body.style.setProperty("--secondary-glow", hexToGlow(colors.secondary, siteMode === "white" ? 0.1 : 0.25));
-        body.style.setProperty("--accent-glow", hexToGlow(colors.accent, siteMode === "white" ? 0.1 : 0.25));
+    // 4) Apply ALL config colors as CSS variables AND directly to body
+    if (config.background) {
+        body.style.setProperty("--background", config.background);
+        body.style.backgroundColor = config.background;
     }
+    if (config.foreground) {
+        body.style.setProperty("--foreground", config.foreground);
+        body.style.color = config.foreground;
+    }
+    if (config.card) body.style.setProperty("--card", config.card);
+    if (config.border) body.style.setProperty("--border", config.border);
+    if (config.primary) {
+        body.style.setProperty("--primary", config.primary);
+        body.style.setProperty("--primary-rgb", hexToRgb(config.primary));
+        body.style.setProperty("--primary-glow", hexToGlow(config.primary, siteMode === "white" ? 0.15 : 0.3));
+    }
+    if (config.secondary) {
+        body.style.setProperty("--secondary", config.secondary);
+        body.style.setProperty("--secondary-rgb", hexToRgb(config.secondary));
+        body.style.setProperty("--secondary-glow", hexToGlow(config.secondary, siteMode === "white" ? 0.1 : 0.25));
+    }
+    if (config.accent) {
+        body.style.setProperty("--accent", config.accent);
+        body.style.setProperty("--accent-rgb", hexToRgb(config.accent));
+        body.style.setProperty("--accent-glow", hexToGlow(config.accent, siteMode === "white" ? 0.1 : 0.25));
+    }
+    if (config.muted) body.style.setProperty("--muted", config.muted);
 }
 
 export { applyFullTheme };
 
 export function ThemeApplier() {
     const { settings } = useSystem();
+    const pathname = usePathname();
 
     useEffect(() => {
-        applyFullTheme(settings);
+        applyFullTheme(settings, pathname);
 
-        const handleUpdate = () => applyFullTheme(settings);
+        const handleUpdate = () => applyFullTheme(settings, pathname);
 
         window.addEventListener("storage", handleUpdate);
         window.addEventListener("kf_theme_update", handleUpdate);
@@ -108,7 +101,7 @@ export function ThemeApplier() {
             window.removeEventListener("storage", handleUpdate);
             window.removeEventListener("kf_theme_update", handleUpdate);
         };
-    }, [settings]);
+    }, [settings, pathname]);
 
     return null;
 }

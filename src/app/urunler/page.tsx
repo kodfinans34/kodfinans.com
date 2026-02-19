@@ -5,7 +5,7 @@ import { AllProductsGrid } from "@/components/sections/AllProductsGrid";
 
 export default function KodUrunlerPage() {
     return (
-        <div className="min-h-screen bg-[#080809] text-white">
+        <div className="min-h-screen bg-background text-foreground">
             <Navbar />
             <AllProductsGrid />
             <Footer />

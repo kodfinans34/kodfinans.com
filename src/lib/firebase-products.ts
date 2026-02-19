@@ -8,7 +8,7 @@ let productsCache: Product[] | null = null;
 let lastFetchTime = 0;
 const CACHE_DURATION = 0; // Disabled cache
 
-const PRODUCTS_COLLECTION = "products_v2"; // Changed collection name to force fresh start
+const PRODUCTS_COLLECTION = "products"; // Reverted to 'products' to match sync tool and user's desired data
 
 export async function getProducts(): Promise<Product[]> {
     const now = Date.now();

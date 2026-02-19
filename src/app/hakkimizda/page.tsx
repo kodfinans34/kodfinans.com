@@ -6,7 +6,7 @@ import { ShieldCheck, Zap, Users, ShieldAlert } from "lucide-react";
 
 export default function AboutPage() {
     return (
-        <div className="min-h-screen bg-[#080809] text-white">
+        <div className="min-h-screen bg-background text-foreground">
             <Navbar />
 
             <main className="pt-32 pb-20">

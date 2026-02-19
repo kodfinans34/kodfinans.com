@@ -3,7 +3,7 @@ import { Command } from "lucide-react";
 
 export default function WhatsAppLogoPage() {
     return (
-        <div className="min-h-screen bg-[#070d0b] flex items-center justify-center p-4">
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
             <div
                 id="whatsapp-logo"
                 className="w-[800px] h-[800px] bg-[#070d0b] flex flex-col items-center justify-center gap-12 border border-white/5 relative overflow-hidden"

@@ -171,8 +171,8 @@ const defaultSettings: SiteSettings = {
     paytrMerchantSalt: "",
     paytrTestMode: true,
     themeColor: "green",
-    siteMode: "dark",
-    activeTheme: "standard",
+    siteMode: "white",
+    activeTheme: "special",
     lightThemeConfig: defaultLightTheme,
     darkThemeConfig: defaultDarkTheme,
     headerLogo: "/logo.png",
@@ -290,6 +290,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, []);
 
+
     // Persistence Hooks
     useEffect(() => {
         if (isLoaded) localStorage.setItem("kf_reviews", JSON.stringify(reviews));
@@ -304,12 +305,14 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
     }, [userBalance, isLoaded]);
 
     useEffect(() => {
+        if (isLoaded) localStorage.setItem("kf_settings", JSON.stringify(settings));
+    }, [settings, isLoaded]);
+
+    useEffect(() => {
         if (!isLoaded) return;
         if (user) localStorage.setItem("userProfile", JSON.stringify(user));
         else localStorage.removeItem("userProfile");
     }, [user, isLoaded]);
-
-    // --- Handlers ---
 
     // Product Handlers (Firestore)
     const addProduct = async (product: Omit<Product, "id">) => {

@@ -68,7 +68,7 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
 
     if (!isLoaded && !product) {
         return (
-            <div className="min-h-screen bg-[#070d0b] flex items-center justify-center">
+            <div className="min-h-screen bg-background flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
             </div>
         );
@@ -76,7 +76,7 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
 
     if (!product) {
         return (
-            <div className="min-h-screen bg-[#070d0b] flex flex-col">
+            <div className="min-h-screen bg-background flex flex-col">
                 <Navbar />
                 <div className="flex-1 flex items-center justify-center p-4 pt-32">
                     <div className="text-center space-y-4">
@@ -117,7 +117,7 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
     };
 
     return (
-        <div className="min-h-screen bg-[#070d0b] text-white font-inter selection:bg-primary/30">
+        <div className="min-h-screen bg-background text-foreground font-inter selection:bg-primary/30">
             <Navbar />
 
             <main className="pt-28 md:pt-36 pb-24 px-4 overflow-hidden">
@@ -144,7 +144,7 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                                 className="w-full h-full object-contain p-6 md:p-10"
                             />
                             {/* Gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#070d0b]/80 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
 
                             {/* Badge */}
                             <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -199,38 +199,41 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                                             }
                                         }}
                                         className={cn(
-                                            "bg-white/[0.02] rounded-xl md:rounded-2xl p-4 md:p-5 border transition-all flex items-center gap-4 cursor-pointer group/v",
+                                            "bg-white/[0.02] rounded-xl md:rounded-2xl p-4 md:p-5 border transition-all cursor-pointer group/v",
                                             (initialVariantId === variant.id || variant.slug === slug)
                                                 ? "border-primary/50 bg-primary/[0.04] ring-1 ring-primary/20"
                                                 : "border-white/[0.06] hover:border-white/[0.15] hover:bg-white/[0.04]"
                                         )}
                                     >
-                                        {/* Icon */}
-                                        <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover/v:border-primary/30 transition-colors">
-                                            <Package size={18} className={cn(
-                                                "text-white/20 transition-colors",
-                                                (initialVariantId === variant.id || variant.slug === slug) ? "text-primary" : "group-hover/v:text-white/40"
-                                            )} />
+                                        {/* Top row: icon + name + price */}
+                                        <div className="flex items-center gap-3">
+                                            {/* Icon */}
+                                            <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover/v:border-primary/30 transition-colors">
+                                                <Package size={18} className={cn(
+                                                    "text-white/20 transition-colors",
+                                                    (initialVariantId === variant.id || variant.slug === slug) ? "text-primary" : "group-hover/v:text-white/40"
+                                                )} />
+                                            </div>
+
+                                            {/* Name & Description */}
+                                            <div className="flex-1 min-w-0">
+                                                <h4 className="text-sm font-semibold text-white truncate group-hover/v:text-primary transition-colors">{variant.name}</h4>
+                                                {variant.description && (
+                                                    <p className="text-[11px] text-white/25 font-medium truncate group-hover/v:text-white/40 transition-colors">{variant.description}</p>
+                                                )}
+                                            </div>
+
+                                            {/* Price */}
+                                            <div className="text-right shrink-0">
+                                                {variant.discountPrice && (
+                                                    <p className="text-[10px] text-white/20 line-through">₺{variant.discountPrice}</p>
+                                                )}
+                                                <p className="text-lg font-bold text-white tracking-tight">₺{variant.price}</p>
+                                            </div>
                                         </div>
 
-                                        {/* Name & Description */}
-                                        <div className="flex-1 min-w-0">
-                                            <h4 className="text-sm font-semibold text-white truncate group-hover/v:text-primary transition-colors">{variant.name}</h4>
-                                            {variant.description && (
-                                                <p className="text-[11px] text-white/25 font-medium truncate group-hover/v:text-white/40 transition-colors">{variant.description}</p>
-                                            )}
-                                        </div>
-
-                                        {/* Price */}
-                                        <div className="text-right shrink-0">
-                                            {variant.discountPrice && (
-                                                <p className="text-[10px] text-white/20 line-through">₺{variant.discountPrice}</p>
-                                            )}
-                                            <p className="text-lg font-bold text-white tracking-tight">₺{variant.price}</p>
-                                        </div>
-
-                                        {/* Quantity + CTA */}
-                                        <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
+                                        {/* Bottom row: quantity + CTA (full width on mobile) */}
+                                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/[0.04]" onClick={(e) => e.stopPropagation()}>
                                             <div className="hidden md:flex items-center bg-white/[0.03] border border-white/[0.06] rounded-lg overflow-hidden">
                                                 <button onClick={() => updateQuantity(variant.id, -1)} className="p-2 hover:bg-white/5 text-white/30 transition-colors">
                                                     <Minus size={13} />
@@ -243,7 +246,7 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
 
                                             <Button
                                                 onClick={() => handleAddToCart(variant)}
-                                                className="px-4 py-2.5 md:px-5 md:py-3 bg-primary hover:bg-secondary text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                                                className="flex-1 md:flex-none px-4 py-2.5 md:px-5 md:py-3 bg-primary hover:bg-secondary text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
                                             >
                                                 <ShoppingCart size={14} /> Sepete Ekle
                                             </Button>

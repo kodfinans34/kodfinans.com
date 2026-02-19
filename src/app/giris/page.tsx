@@ -37,7 +37,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#070d0b] text-white flex flex-col relative overflow-hidden">
+        <div className="min-h-screen bg-background text-foreground flex flex-col relative overflow-hidden">
             <Navbar />
 
             {/* Background Effects */}

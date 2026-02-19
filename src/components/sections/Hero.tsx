@@ -50,8 +50,8 @@ export const Hero = () => {
                     }}
                     transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
                 />
-                {/* Dark overlay to keep text readable */}
-                <div className="absolute inset-0 bg-background/60" />
+                {/* Subtle overlay */}
+                <div className="absolute inset-0 bg-background/20" />
             </div>
 
             {/* Subtle grid lines */}
@@ -76,16 +76,16 @@ export const Hero = () => {
 
                     {/* Headline */}
                     <div className="space-y-4">
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-inter leading-[1.05] tracking-tight text-white">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-inter leading-[1.05] tracking-tight text-foreground">
                             {settings.heroHeadline} <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary">
+                            <span className="text-animate-rainbow">
                                 {settings.heroSubheadline}
                             </span>
                         </h1>
                     </div>
 
-                    <p className="text-white/40 text-base md:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0">
-                        Oyun kodlarınızı <span className="text-white/70 font-medium">en yüksek oranlarla</span> nakite çevirin,
+                    <p className="text-foreground/50 text-base md:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0">
+                        Oyun kodlarınızı <span className="text-foreground/80 font-medium">en yüksek oranlarla</span> nakite çevirin,
                         dijital ürünleri güvenle satın alın. Tek platformda her şey.
                     </p>
 

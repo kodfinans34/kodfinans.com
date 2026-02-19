@@ -120,22 +120,22 @@ export const SalesGrid = () => {
                             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
                         />
                         <motion.div
-                            className="bg-[#0f0f14] border border-white/[0.08] w-full max-w-lg relative z-10 shadow-2xl overflow-hidden rounded-2xl"
+                            className="bg-card border border-white/[0.08] w-full max-w-lg relative z-10 shadow-2xl overflow-hidden rounded-2xl"
                         >
                             {/* Modal Header */}
                             <div className="h-28 bg-gradient-to-br from-primary/15 via-primary/[0.03] to-transparent relative p-6 flex items-center justify-between overflow-hidden">
                                 <div className="flex items-center gap-4 relative z-10">
                                     <div className="w-14 h-14 bg-white/[0.06] backdrop-blur rounded-xl flex items-center justify-center p-2 border border-white/[0.08]">
-                                        <img src={selectedProduct.logo} alt={selectedProduct.name} className="w-full h-full object-contain brightness-0 invert" />
+                                        <img src={selectedProduct.logo} alt={selectedProduct.name} className="w-full h-full object-contain brightness-0 invert dark:invert-0" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-bold text-white">{selectedProduct.name}</h3>
-                                        <p className="text-white/40 text-xs font-medium">{selectedProduct.category}</p>
+                                        <h3 className="text-xl font-bold text-foreground">{selectedProduct.name}</h3>
+                                        <p className="text-foreground/40 text-xs font-medium">{selectedProduct.category}</p>
                                     </div>
                                 </div>
                                 <button
                                     onClick={() => setSelectedProduct(null)}
-                                    className="w-9 h-9 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-white/60 flex items-center justify-center transition-all relative z-10"
+                                    className="w-9 h-9 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-foreground/60 flex items-center justify-center transition-all relative z-10"
                                 >
                                     <X size={18} />
                                 </button>

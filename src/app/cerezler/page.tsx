@@ -5,7 +5,7 @@ import { Cookie, Settings, Eye, ToggleLeft, CheckCircle2, XCircle } from "lucide
 
 export default function CerezlerPage() {
     return (
-        <div className="min-h-screen bg-[#070d0b] text-white">
+        <div className="min-h-screen bg-background text-foreground">
             <Navbar />
             <main className="pt-32 pb-24 relative overflow-hidden">
                 {/* Background */}

@@ -40,7 +40,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
     if (isBozum) {
         return (
-            <Suspense fallback={<div className="min-h-screen bg-[#070d0b] flex items-center justify-center text-white">Yükleniyor...</div>}>
+            <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center text-foreground">Yükleniyor...</div>}>
                 <BozumForm initialProductSlug={resolvedParams.slug} />
             </Suspense>
         );

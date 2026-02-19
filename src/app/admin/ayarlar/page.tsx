@@ -22,19 +22,23 @@ import { ThemeConfig, SiteSettings } from "@/lib/types";
 import { uploadFile } from "@/lib/upload";
 import { Upload } from "lucide-react";
 
-const THEME_PRESETS = [
-    { id: "green", label: "Yeşil (Gaming)", color: "#10b981" },
-    { id: "indigo", label: "İndigo", color: "#6366f1" },
-    { id: "red", label: "Kırmızı", color: "#ef4444" },
-    { id: "blue", label: "Mavi", color: "#3b82f6" },
-    { id: "orange", label: "Turuncu", color: "#f59e0b" },
-];
+const COLOR_FIELD_LABELS: Record<string, string> = {
+    background: "Arka Plan",
+    foreground: "Yazı Rengi",
+    card: "Kart Zemin",
+    primary: "Ana Renk (Primary)",
+    secondary: "İkincil Renk (Secondary)",
+    accent: "Vurgu Rengi (Accent)",
+    muted: "Soluk Renk (Muted)",
+    border: "Kenarlık (Border)",
+};
 
 export default function AdminSettingsPage() {
     const { settings, updateSettings } = useSystem();
     const [localSettings, setLocalSettings] = useState(settings);
     const [saving, setSaving] = useState(false);
     const [activeTab, setActiveTab] = useState("general");
+    const [editingThemeTab, setEditingThemeTab] = useState<"white" | "dark">("white");
 
     useEffect(() => {
         if (settings) {
@@ -47,7 +51,7 @@ export default function AdminSettingsPage() {
         setLocalSettings(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleThemeColorChange = (mode: SiteSettings["siteMode"], field: keyof ThemeConfig, value: string) => {
+    const handleThemeColorChange = (mode: "white" | "dark", field: keyof ThemeConfig, value: string) => {
         const configKey = mode === "white" ? "lightThemeConfig" : "darkThemeConfig";
         const currentConfig = localSettings[configKey] || (mode === "white" ? settings.lightThemeConfig : settings.darkThemeConfig);
 
@@ -78,7 +82,8 @@ export default function AdminSettingsPage() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            await updateSettings(localSettings);
+            // Always force activeTheme to "special" so custom colors are always used
+            await updateSettings({ ...localSettings, activeTheme: "special" });
             alert("Sistem: Ayarlar başarıyla güncellendi.");
         } catch (error) {
             alert("Hata: Ayarlar kaydedilirken bir hata oluştu.");
@@ -95,6 +100,10 @@ export default function AdminSettingsPage() {
         { id: "smtp", label: "E-Posta (SMTP)", icon: Mail },
         { id: "advanced", label: "Gelişmiş", icon: Code },
     ];
+
+    const currentEditConfig = editingThemeTab === "white"
+        ? (localSettings.lightThemeConfig || settings.lightThemeConfig || {})
+        : (localSettings.darkThemeConfig || settings.darkThemeConfig || {});
 
     return (
         <div className="space-y-8 max-w-6xl">
@@ -197,120 +206,107 @@ export default function AdminSettingsPage() {
                         </div>
                     )}
 
-                    {/* Theme Settings */}
+                    {/* Theme Settings — Simplified */}
                     {activeTab === "theme" && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            {/* Mode & Type */}
-                            <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-8">
-                                <h2 className="text-lg font-black text-white uppercase tracking-wider border-b border-white/5 pb-4">Tema Modu Seçimi</h2>
-
-                                <div className="grid md:grid-cols-2 gap-8">
-                                    <div className="space-y-4">
-                                        <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Aktif Site Modu</label>
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {[
-                                                { id: "white", label: "Beyaz Tema", icon: Sun },
-                                                { id: "dark", label: "Siyah Tema", icon: Moon }
-                                            ].map(m => (
-                                                <button
-                                                    key={m.id}
-                                                    onClick={() => setLocalSettings(prev => ({ ...prev, siteMode: m.id as any }))}
-                                                    className={cn(
-                                                        "flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all font-bold text-xs uppercase tracking-wide",
-                                                        localSettings.siteMode === m.id
-                                                            ? "border-primary bg-primary/5 text-primary"
-                                                            : "border-white/5 bg-white/[0.02] text-white/30 hover:border-white/10"
-                                                    )}
-                                                >
-                                                    <m.icon size={16} />
-                                                    {m.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Tema Tipi</label>
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {[
-                                                { id: "standard", label: "Standart" },
-                                                { id: "special", label: "Özel (Gelişmiş)" }
-                                            ].map(t => (
-                                                <button
-                                                    key={t.id}
-                                                    onClick={() => setLocalSettings(prev => ({ ...prev, activeTheme: t.id as any }))}
-                                                    className={cn(
-                                                        "flex items-center justify-center p-4 rounded-xl border-2 transition-all font-bold text-xs uppercase tracking-wide",
-                                                        localSettings.activeTheme === t.id
-                                                            ? "border-primary bg-primary/5 text-primary"
-                                                            : "border-white/5 bg-white/[0.02] text-white/30 hover:border-white/10"
-                                                    )}
-                                                >
-                                                    {t.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
+                            {/* Active Site Mode */}
+                            <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
+                                <h2 className="text-lg font-black text-white uppercase tracking-wider border-b border-white/5 pb-4">Aktif Tema Seçimi</h2>
+                                <p className="text-white/30 text-xs">Sitede hangi temayı kullanmak istediğinizi seçin. Aşağıdaki renk editörüyle her iki temanın tüm renklerini bağımsız olarak düzenleyebilirsiniz.</p>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {[
+                                        { id: "white", label: "Beyaz Tema", icon: Sun, desc: "Açık renkli, beyaz zeminli" },
+                                        { id: "dark", label: "Siyah Tema", icon: Moon, desc: "Koyu renkli, siyah zeminli" }
+                                    ].map(m => (
+                                        <button
+                                            key={m.id}
+                                            onClick={() => setLocalSettings(prev => ({ ...prev, siteMode: m.id as any }))}
+                                            className={cn(
+                                                "flex flex-col items-center gap-2 p-6 rounded-xl border-2 transition-all",
+                                                localSettings.siteMode === m.id
+                                                    ? "border-primary bg-primary/5 text-primary"
+                                                    : "border-white/5 bg-white/[0.02] text-white/30 hover:border-white/10"
+                                            )}
+                                        >
+                                            <m.icon size={24} />
+                                            <span className="font-bold text-sm uppercase tracking-wide">{m.label}</span>
+                                            <span className="text-[10px] opacity-60">{m.desc}</span>
+                                            {localSettings.siteMode === m.id && (
+                                                <span className="mt-1 text-[9px] font-bold bg-primary/20 text-primary px-3 py-1 rounded-full uppercase tracking-widest flex items-center gap-1">
+                                                    <Check size={10} /> AKTİF
+                                                </span>
+                                            )}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
 
-                            {/* Standard Palette (Only active if Standard) */}
-                            {localSettings.activeTheme === "standard" && (
-                                <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
-                                    <h2 className="text-lg font-black text-white uppercase tracking-wider border-b border-white/5 pb-4">Hazır Renk Paletleri</h2>
-                                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                                        {THEME_PRESETS.map((p) => (
-                                            <button
-                                                key={p.id}
-                                                onClick={() => setLocalSettings(prev => ({ ...prev, themeColor: p.id }))}
-                                                className={cn(
-                                                    "flex flex-col items-center gap-3 p-4 rounded-xl border-2 transition-all",
-                                                    localSettings.themeColor === p.id
-                                                        ? "border-primary bg-primary/5 ring-4 ring-primary/10"
-                                                        : "border-white/5 bg-white/[0.02]"
-                                                )}
-                                            >
-                                                <div className="w-10 h-10 rounded-full shadow-xl" style={{ backgroundColor: p.color }} />
-                                                <span className="text-[10px] font-bold uppercase tracking-tight text-white/40">{p.label}</span>
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Advanced Color Editor */}
-                            <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-8">
+                            {/* Color Editor with Tabs for Both Themes */}
+                            <div className="bg-[#0a100e] border border-white/10 p-8 rounded-2xl space-y-6">
                                 <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                                    <h2 className="text-lg font-black text-white uppercase tracking-wider">Renk Özelleştirme</h2>
-                                    <span className="text-[10px] font-medium text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">
-                                        {localSettings.siteMode === 'white' ? 'Beyaz Tema Editörü' : 'Siyah Tema Editörü'}
-                                    </span>
+                                    <h2 className="text-lg font-black text-white uppercase tracking-wider">Renk Düzenleyici</h2>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    {Object.entries(localSettings.siteMode === 'white' ?
-                                        (localSettings.lightThemeConfig || {}) :
-                                        (localSettings.darkThemeConfig || {})).map(([key, value]) => (
-                                            <div key={key} className="space-y-2">
-                                                <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">{key} Rengi</label>
-                                                <div className="flex items-center gap-3">
-                                                    <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 flex-shrink-0">
-                                                        <input
-                                                            type="color"
-                                                            value={value || "#000000"}
-                                                            onChange={(e) => handleThemeColorChange(localSettings.siteMode as any, key as any, e.target.value)}
-                                                            className="absolute -inset-2 w-16 h-16 cursor-pointer bg-transparent"
-                                                        />
-                                                    </div>
+                                {/* Theme Editor Tabs */}
+                                <div className="flex gap-2 p-1 bg-white/5 rounded-xl">
+                                    <button
+                                        onClick={() => setEditingThemeTab("white")}
+                                        className={cn(
+                                            "flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold text-xs uppercase tracking-wider transition-all",
+                                            editingThemeTab === "white"
+                                                ? "bg-white text-black shadow-lg"
+                                                : "text-white/40 hover:text-white/60"
+                                        )}
+                                    >
+                                        <Sun size={14} /> Beyaz Tema Renkleri
+                                    </button>
+                                    <button
+                                        onClick={() => setEditingThemeTab("dark")}
+                                        className={cn(
+                                            "flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold text-xs uppercase tracking-wider transition-all",
+                                            editingThemeTab === "dark"
+                                                ? "bg-black text-white shadow-lg border border-white/10"
+                                                : "text-white/40 hover:text-white/60"
+                                        )}
+                                    >
+                                        <Moon size={14} /> Siyah Tema Renkleri
+                                    </button>
+                                </div>
+
+                                {/* Color Fields */}
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {Object.entries(currentEditConfig).map(([key, value]) => (
+                                        <div key={key} className="space-y-2">
+                                            <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">
+                                                {COLOR_FIELD_LABELS[key] || key}
+                                            </label>
+                                            <div className="flex items-center gap-3">
+                                                <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 flex-shrink-0">
                                                     <input
-                                                        type="text"
-                                                        value={value || ""}
-                                                        onChange={(e) => handleThemeColorChange(localSettings.siteMode as any, key as any, e.target.value)}
-                                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white uppercase font-mono text-xs focus:border-primary/50 outline-none"
+                                                        type="color"
+                                                        value={(value as string)?.startsWith("#") ? value as string : "#000000"}
+                                                        onChange={(e) => handleThemeColorChange(editingThemeTab, key as keyof ThemeConfig, e.target.value)}
+                                                        className="absolute -inset-2 w-16 h-16 cursor-pointer bg-transparent"
                                                     />
                                                 </div>
+                                                <input
+                                                    type="text"
+                                                    value={(value as string) || ""}
+                                                    onChange={(e) => handleThemeColorChange(editingThemeTab, key as keyof ThemeConfig, e.target.value)}
+                                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white uppercase font-mono text-xs focus:border-primary/50 outline-none"
+                                                />
                                             </div>
-                                        ))}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Preview hint */}
+                                <div className="mt-4 p-4 bg-white/[0.03] rounded-xl border border-white/5">
+                                    <p className="text-[11px] text-white/30">
+                                        💡 <strong className="text-white/50">İpucu:</strong> Yukarıdaki renkleri değiştirin ve {'"'}Değişiklikleri Kaydet{'"'} butonuna basın.
+                                        {editingThemeTab === "white" ? " Beyaz tema" : " Siyah tema"} renkleri{" "}
+                                        {editingThemeTab === localSettings.siteMode ? "şu an aktif olan tema olduğu için anında uygulanacaktır." : "diğer temaya ait olduğundan, aktif temayı değiştirdiğinizde uygulanacaktır."}
+                                    </p>
                                 </div>
                             </div>
                         </div>
