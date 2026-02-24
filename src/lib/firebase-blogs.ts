@@ -1,7 +1,7 @@
-
 import { db } from "@/lib/firebase";
 import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc, query, orderBy } from "firebase/firestore";
 import { BlogPost } from "@/lib/types";
+import { blogs as staticBlogs } from "@/lib/blogs";
 
 export async function getBlogs(): Promise<BlogPost[]> {
     try {
@@ -19,10 +19,17 @@ export async function getBlogs(): Promise<BlogPost[]> {
         (querySnapshot as any).forEach((doc: any) => {
             blogs.push({ ...doc.data(), id: doc.id } as BlogPost);
         });
+
+        // If Firestore returns no blogs, use static blogs as fallback
+        if (blogs.length === 0 && staticBlogs.length > 0) {
+            return staticBlogs as BlogPost[];
+        }
+
         return blogs;
     } catch (error) {
         console.error("Error fetching blogs from Firestore:", error);
-        return [];
+        // Fallback to static blogs on error
+        return staticBlogs as BlogPost[];
     }
 }
 

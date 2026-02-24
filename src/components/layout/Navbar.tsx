@@ -53,20 +53,22 @@ export const Navbar = () => {
                 )}
             >
                 {/* Trust Banner */}
-                <div className="bg-gradient-to-r from-primary/90 via-secondary/90 to-primary/90 text-white text-[10px] md:text-xs font-medium text-center py-2 px-4 relative z-[101]">
-                    <div className="flex items-center justify-center gap-4 md:gap-8">
-                        <span className="flex items-center gap-1.5 opacity-80">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                            7/24 Aktif
-                        </span>
-                        <span className="hidden md:inline opacity-40">•</span>
-                        <span className="hidden md:flex items-center gap-1.5 opacity-80">
-                            SSL Korumalı İşlemler
-                        </span>
-                        <span className="hidden md:inline opacity-40">•</span>
-                        <span className="opacity-80">Anında Teslimat & Ödeme</span>
+                {settings.topBannerEnabled !== false && (
+                    <div className="bg-gradient-to-r from-primary/90 via-secondary/90 to-primary/90 text-white text-[10px] md:text-xs font-medium text-center py-2 px-4 relative z-[101]">
+                        <div className="flex items-center justify-center gap-4 md:gap-8">
+                            <span className="flex items-center gap-1.5 opacity-80">
+                                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                                {settings.topBannerText1 || "7/24 Aktif"}
+                            </span>
+                            <span className="hidden md:inline opacity-40">•</span>
+                            <span className="hidden md:flex items-center gap-1.5 opacity-80">
+                                {settings.topBannerText2 || "SSL Korumalı İşlemler"}
+                            </span>
+                            <span className="hidden md:inline opacity-40">•</span>
+                            <span className="opacity-80">{settings.topBannerText3 || "Anında Teslimat & Ödeme"}</span>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <div className={cn(
                     "max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between transition-all duration-500",
@@ -74,7 +76,7 @@ export const Navbar = () => {
                 )}>
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2.5 group relative z-[110] shrink-0">
-                        <div className="relative h-9 flex items-center justify-center transition-all duration-500">
+                        <div className="relative h-14 flex items-center justify-center transition-all duration-500">
                             {settings.headerLogo ? (
                                 <img src={settings.headerLogo} alt="Logo" className="h-full w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
                             ) : (
@@ -232,7 +234,7 @@ export const Navbar = () => {
                                 onClick={() => router.push("/bozum")}
                             >
                                 <Zap size={14} className="mr-1.5" />
-                                Kod Bozdur
+                                {settings.navCtaText || "Kod Bozdur"}
                             </Button>
                         </div>
 
@@ -375,7 +377,7 @@ export const Navbar = () => {
                                 onClick={() => { setIsOpen(false); router.push("/bozum"); }}
                             >
                                 <Zap size={18} className="mr-2" />
-                                Kod Bozdur
+                                {settings.navCtaText || "Kod Bozdur"}
                             </Button>
                         </div>
                     </motion.div>

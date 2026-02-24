@@ -1,8 +1,24 @@
-"use client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Button } from "@/components/ui/Button";
 import { ShieldCheck, Zap, Users, ShieldAlert } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Hakkımızda | KodFinans - Dijital Kod Bozum Platformu",
+    description:
+        "KodFinans, 2022 yılından beri Türkiye'nin en güvenilir dijital kod bozum platformudur. Razer Gold, Google Play, Steam ve daha fazlası için en iyi oranlar.",
+    keywords:
+        "kodfinans hakkımızda, dijital kod bozum, güvenli bozum platformu, razer gold bozum, steam kodu bozum",
+    alternates: {
+        canonical: "https://kodfinans.com/hakkimizda",
+    },
+    openGraph: {
+        title: "Hakkımızda | KodFinans",
+        description:
+            "Türkiye'nin en güvenilir dijital kod bozum platformu. 50.000+ başarılı işlem, 7/24 kesintisiz destek.",
+        url: "https://kodfinans.com/hakkimizda",
+    },
+};
 
 export default function AboutPage() {
     return (
@@ -18,7 +34,7 @@ export default function AboutPage() {
                                 Varlık <span className="text-primary">Yönetimi</span>
                             </h1>
                             <p className="text-white/60 text-lg leading-relaxed">
-                                2022 yılından beri Türkiye'nin dijital kod ekosisteminde güven ve hızı bir araya getiriyoruz.
+                                2022 yılından beri Türkiye&apos;nin dijital kod ekosisteminde güven ve hızı bir araya getiriyoruz.
                                 KodFinans olarak amacımız, kullanıcılarımızın sahip olduğu dijital hediye kartlarını ve oyun bakiyelerini
                                 en şeffaf oranlarla ve en hızlı şekilde nakite dönüştürmelerini sağlamaktır.
                             </p>

@@ -175,9 +175,38 @@ const defaultSettings: SiteSettings = {
     activeTheme: "special",
     lightThemeConfig: defaultLightTheme,
     darkThemeConfig: defaultDarkTheme,
-    headerLogo: "/logo.png",
-    footerLogo: "/logo.png",
-    adminLogo: "/logo.png"
+    headerLogo: "",
+    footerLogo: "",
+    adminLogo: "",
+    // Header / Navbar defaults
+    topBannerEnabled: true,
+    topBannerText1: "7/24 Aktif",
+    topBannerText2: "SSL Korumalı İşlemler",
+    topBannerText3: "Anında Teslimat & Ödeme",
+    navCtaText: "Kod Bozdur",
+    heroImage: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200",
+    // Footer defaults
+    footerDescription: "Dijital kodlarınızı güvenle nakite çevirin, oyun ürünlerini en uygun fiyatlarla satın alın.",
+    copyrightText: "KodFinans. Tüm Hakları Saklıdır.",
+    footerEmail: "destek@kodfinans.com",
+    footerPhone: "+905517139330",
+    footerAddress: "Maslak, İstanbul / TR",
+    // Social Media defaults
+    socialFacebook: "",
+    socialTwitter: "",
+    socialInstagram: "",
+    socialYoutube: "",
+    socialTelegram: "",
+    // IBAN defaults
+    ibanInfo: "",
+    ibanHolder: "",
+    bankName: "",
+    // CTA Promo Banner defaults
+    ctaBannerEnabled: true,
+    ctaBannerTitle: "Razer Gold Bozdurma",
+    ctaBannerDescription: "Razer Gold, Steam, iTunes ve tüm dijital kodlarınızı en yüksek oranlarla bozdurun! Hemen WhatsApp'tan iletişime geçin.",
+    ctaBannerButtonText: "WhatsApp ile İletişime Geç",
+    ctaBannerWhatsappMessage: "Merhaba, Razer Gold bozdurma hakkında bilgi almak istiyorum.",
 };
 
 const SystemContext = createContext<SystemContextType | undefined>(undefined);

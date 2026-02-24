@@ -2,14 +2,16 @@
 
 import React, { useState, useRef } from "react";
 import { useSystem, BlogPost } from "@/context/SystemContext";
-import { Plus, Edit, Trash2, Search, X, Image as ImageIcon, Save, AlignLeft } from "lucide-react";
+import { Plus, Edit, Trash2, Search, X, Image as ImageIcon, Save, AlignLeft, Upload, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { blogs as staticBlogs } from "@/lib/blogs";
 
 export default function AdminBlogPage() {
     const { blogs, addBlog, updateBlog, deleteBlog } = useSystem();
     const [searchTerm, setSearchTerm] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null);
+    const [uploading, setUploading] = useState(false);
 
     // Form State
     const [formData, setFormData] = useState<Partial<BlogPost>>({
@@ -27,6 +29,40 @@ export default function AdminBlogPage() {
     });
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Upload static blogs to Firestore
+    const handleUploadStaticBlogs = async () => {
+        if (blogs.length > 0) {
+            if (!confirm(`Zaten ${blogs.length} blog mevcut. Hazır blogları yine de yüklemek istiyor musunuz? (Aynı slug'a sahip bloglar tekrar eklenmeyecektir.)`)) return;
+        }
+
+        setUploading(true);
+        let addedCount = 0;
+        let skippedCount = 0;
+
+        try {
+            for (const staticBlog of staticBlogs) {
+                // Skip if blog with same slug already exists
+                const exists = blogs.find(b => b.slug === staticBlog.slug);
+                if (exists) {
+                    skippedCount++;
+                    continue;
+                }
+
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { id, ...blogData } = staticBlog;
+                await addBlog(blogData as Omit<BlogPost, "id">);
+                addedCount++;
+            }
+
+            alert(`✅ ${addedCount} blog yazısı başarıyla yüklendi!${skippedCount > 0 ? ` (${skippedCount} tanesi zaten mevcut olduğu için atlandı)` : ""}`);
+        } catch (error: any) {
+            console.error("Error uploading static blogs:", error);
+            alert("❌ Bloglar yüklenirken hata oluştu: " + (error.message || error));
+        } finally {
+            setUploading(false);
+        }
+    };
 
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,9 +143,19 @@ export default function AdminBlogPage() {
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h1 className="text-3xl font-black text-white uppercase tracking-tight">Blog Yönetimi</h1>
-                <Button onClick={() => handleOpenModal()} className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl font-bold uppercase tracking-wider flex items-center gap-2">
-                    <Plus size={18} /> Yeni Yazı Ekle
-                </Button>
+                <div className="flex gap-3">
+                    <Button
+                        onClick={handleUploadStaticBlogs}
+                        disabled={uploading}
+                        className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl font-bold uppercase tracking-wider flex items-center gap-2 text-xs"
+                    >
+                        {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+                        {uploading ? "Yükleniyor..." : `Hazır Blogları Yükle (${staticBlogs.length})`}
+                    </Button>
+                    <Button onClick={() => handleOpenModal()} className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl font-bold uppercase tracking-wider flex items-center gap-2">
+                        <Plus size={18} /> Yeni Yazı Ekle
+                    </Button>
+                </div>
             </div>
 
             {/* Search */}

@@ -30,47 +30,55 @@ export const PlatformGrid = () => {
                     <p className="text-foreground/30 text-sm max-w-lg">Dijital kodlarınızı en güncel kurlarla anında nakite çevirin.</p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     {bozumProducts.map((product, i) => (
                         <motion.div
                             key={product.id}
-                            initial={{ opacity: 0, y: 16 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.04 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: i * 0.04, duration: 0.6 }}
                             viewport={{ once: true }}
                             onClick={() => router.push(`/bozum?product=${product.slug}`)}
-                            className="group cursor-pointer w-full"
+                            className="group cursor-pointer w-full relative"
                         >
-                            <div className="relative h-36 md:h-52 overflow-hidden rounded-2xl bg-card border border-white/[0.06] p-4 md:p-5 flex flex-col justify-end transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary/20 group-hover:shadow-[0_16px_32px_rgba(99,102,241,0.08)]">
-                                {/* Image */}
+                            {/* Glow Effect */}
+                            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-[2rem] blur opacity-0 group-hover:opacity-100 transition duration-500" />
+
+                            <div className="relative h-44 md:h-60 overflow-hidden rounded-[1.8rem] bg-[#0a0f0d] border border-white/[0.06] p-5 md:p-7 flex flex-col justify-end transition-all duration-500 hover:border-primary/30 shadow-xl shadow-black/20">
+                                {/* Image & Layering */}
                                 <div className="absolute inset-0 z-0">
                                     <img
                                         src={product.image}
                                         alt={product.name}
-                                        className="w-full h-full object-cover opacity-20 group-hover:opacity-30 group-hover:scale-105 transition-all duration-700"
+                                        className="w-full h-full object-cover opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-[2s] ease-out"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-[#0a0f0d]/90 to-transparent" />
                                 </div>
 
-                                <div className="relative z-10 space-y-2">
-                                    <div className="flex items-center gap-1 px-2 py-0.5 bg-primary/15 backdrop-blur rounded-md border border-primary/15 w-fit">
-                                        <Zap size={8} className="text-primary fill-primary" />
-                                        <span className="text-[8px] md:text-[9px] font-medium text-foreground/80">{product.speed || "Anında"}</span>
+                                <div className="relative z-10 space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-lg">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                            <span className="text-[9px] font-black text-green-400 tracking-wider">AKTİF</span>
+                                        </div>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-sm md:text-base font-semibold text-foreground group-hover:text-primary transition-colors leading-tight line-clamp-2">
+                                        <h3 className="text-[13px] md:text-lg font-black text-white group-hover:text-primary transition-colors leading-tight line-clamp-2 uppercase italic tracking-tight">
                                             {product.name}
                                         </h3>
-                                        <p className="text-xs font-semibold text-primary/80 mt-1">
-                                            %{product.price} oran
-                                        </p>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <div className="text-[10px] font-black text-foreground/40 uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded">Kur</div>
+                                            <p className="text-xl md:text-2xl font-black text-primary tracking-tighter italic">
+                                                %{product.price}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
 
-                                {/* Logo */}
-                                <div className="absolute top-3 right-3 md:top-4 md:right-4 w-7 h-7 md:w-9 md:h-9 rounded-lg bg-card/60 border border-white/[0.08] p-1.5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                                    <img src={product.logo || "/logo.png"} alt="logo" className="w-full h-full object-contain brightness-0 invert" />
+                                {/* Floating Logo */}
+                                <div className="absolute top-5 right-5 md:top-7 md:right-7 w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/[0.03] border border-white/10 p-2.5 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-all duration-700 shadow-2xl backdrop-blur-sm">
+                                    <img src={product.logo || "/logo.png"} alt="logo" className="w-full h-full object-contain filter brightness-110" />
                                 </div>
                             </div>
                         </motion.div>

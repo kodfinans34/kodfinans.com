@@ -1,7 +1,17 @@
-"use client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Lock, Eye, Shield, Server, UserCheck, FileText, AlertCircle } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Gizlilik Politikası | KodFinans",
+    description:
+        "KodFinans Gizlilik Politikası. Kişisel bilgilerinizin nasıl toplandığı, kullanıldığı ve korunduğu hakkında detaylı bilgi.",
+    keywords: "gizlilik politikası, kodfinans gizlilik, veri güvenliği, kişisel bilgiler",
+    alternates: {
+        canonical: "https://kodfinans.com/gizlilik",
+    },
+};
 
 export default function GizlilikPage() {
     return (

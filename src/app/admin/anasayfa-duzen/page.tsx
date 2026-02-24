@@ -9,15 +9,17 @@ const AVAILABLE_SECTIONS = [
     { id: "Hero", name: "Hero Bölümü", description: "Ana başlık ve arama çubuğu" },
     { id: "PlatformGrid", name: "Platform Grid", description: "Desteklenen platformlar" },
     { id: "SalesGrid", name: "En Son Satın Alınanlar", description: "Random ürün carousel" },
+    { id: "CtaBanner", name: "CTA Banner", description: "WhatsApp yönlendirme banner'ı" },
+    { id: "TrustBanner", name: "Güven Banner'ı", description: "SSL, hızlı teslimat vb." },
     { id: "ProductGrid", name: "Bozum Ürünleri", description: "Kod bozdurma grid" },
     { id: "CalculatorWidget", name: "Hesap Makinesi", description: "Bozum hesaplama widget'ı" },
-    { id: "SeoContent", name: "SEO İçerik", description: "Alt kısım SEO metni" },
+    { id: "SeoContent", name: "SEO İçerik", description: "Alt kısım SEO metni ve SSS" },
 ];
 
 export default function HomepageLayoutPage() {
     const { settings, updateSettings } = useSystem();
 
-    const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "ProductGrid", "CalculatorWidget", "SeoContent"];
+    const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "CtaBanner", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
     const [sectionOrder, setSectionOrder] = useState<string[]>(
         settings.homepageSectionOrder || defaultOrder
     );

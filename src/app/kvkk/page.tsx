@@ -1,7 +1,17 @@
-"use client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Shield, Lock, Eye, FileText, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "KVKK Aydınlatma Metni | KodFinans",
+    description:
+        "KodFinans KVKK Aydınlatma Metni. 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında kişisel verilerinizin işlenme süreçleri hakkında bilgi edinin.",
+    keywords: "kvkk, kişisel verilerin korunması, kodfinans kvkk, aydınlatma metni",
+    alternates: {
+        canonical: "https://kodfinans.com/kvkk",
+    },
+};
 
 export default function KVKKPage() {
     return (

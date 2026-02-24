@@ -60,7 +60,7 @@ export default function AdminBozumProductsPage() {
                 slug: "",
                 category: "gift",
                 productType: "bozum",
-                price: 0,
+                price: 60,
                 discountPrice: 0,
                 image: "/assets/products/placeholder.png",
                 description: "",

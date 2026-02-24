@@ -136,6 +136,35 @@ export interface SiteSettings {
     googleAnalyticsId?: string;
     customHeadCode?: string; // For Google Ads verification, etc.
     customCss?: string;
+    // Header / Navbar
+    topBannerEnabled?: boolean;
+    topBannerText1?: string;
+    topBannerText2?: string;
+    topBannerText3?: string;
+    navCtaText?: string; // CTA button text (e.g. "Kod Bozdur")
+    heroImage?: string; // Hero section background image URL
+    // Footer
+    footerDescription?: string;
+    copyrightText?: string;
+    footerEmail?: string;
+    footerPhone?: string;
+    footerAddress?: string;
+    // Social Media
+    socialFacebook?: string;
+    socialTwitter?: string;
+    socialInstagram?: string;
+    socialYoutube?: string;
+    socialTelegram?: string;
+    // IBAN / Payment Info
+    ibanInfo?: string;
+    ibanHolder?: string;
+    bankName?: string;
+    // CTA Promo Banner (Homepage)
+    ctaBannerEnabled?: boolean;
+    ctaBannerTitle?: string;
+    ctaBannerDescription?: string;
+    ctaBannerButtonText?: string;
+    ctaBannerWhatsappMessage?: string;
 }
 
 // Blog Post Type

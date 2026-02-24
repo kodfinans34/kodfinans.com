@@ -28,10 +28,21 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
         title: blog.seoTitle || `${blog.title} | KodFinans Blog`,
         description: blog.seoDescription || blog.excerpt,
         keywords: blog.seoKeywords,
+        alternates: {
+            canonical: `https://kodfinans.com/blog/${slug}`,
+        },
         openGraph: {
-            title: blog.title,
-            description: blog.excerpt,
+            title: blog.seoTitle || blog.title,
+            description: blog.seoDescription || blog.excerpt,
+            type: "article",
+            url: `https://kodfinans.com/blog/${slug}`,
             images: [blog.image],
+            publishedTime: blog.date,
+            authors: [blog.author],
+        },
+        robots: {
+            index: true,
+            follow: true,
         },
     };
 }
@@ -47,6 +58,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
     return (
         <div className="min-h-screen bg-background text-foreground font-poppins selection:bg-primary/30">
+            {/* Article JSON-LD for Google */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Article",
+                        headline: blog.seoTitle || blog.title,
+                        description: blog.seoDescription || blog.excerpt,
+                        image: blog.image,
+                        author: { "@type": "Organization", name: blog.author || "KodFinans" },
+                        publisher: { "@type": "Organization", name: "KodFinans", url: "https://kodfinans.com" },
+                        datePublished: blog.date,
+                        mainEntityOfPage: `https://kodfinans.com/blog/${slug}`,
+                    }),
+                }}
+            />
             <Navbar />
 
             <main className="pt-32 pb-32 relative overflow-hidden">

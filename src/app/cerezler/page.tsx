@@ -1,7 +1,17 @@
-"use client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Cookie, Settings, Eye, ToggleLeft, CheckCircle2, XCircle } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Çerez Politikası | KodFinans",
+    description:
+        "KodFinans Çerez Politikası. Web sitemizde kullanılan çerezler, türleri ve yönetim seçenekleri hakkında bilgi edinin.",
+    keywords: "çerez politikası, cookies, kodfinans çerezler, web teknolojileri",
+    alternates: {
+        canonical: "https://kodfinans.com/cerezler",
+    },
+};
 
 export default function CerezlerPage() {
     return (

@@ -43,7 +43,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-background/95 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4">
                 <Link href="/admin" className="flex items-center gap-2">
                     {settings.adminLogo ? (
-                        <img src={settings.adminLogo} alt="Admin Logo" className="h-6 w-auto object-contain" />
+                        <img src={settings.adminLogo} alt="Admin Logo" className="h-10 w-auto object-contain" />
                     ) : (
                         <>
                             <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
@@ -71,7 +71,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <div className="h-16 flex items-center px-5 border-b border-white/[0.06]">
                     <Link href="/admin" className="flex items-center gap-2.5">
                         {settings.adminLogo ? (
-                            <img src={settings.adminLogo} alt="Admin Logo" className="h-8 w-auto object-contain" />
+                            <img src={settings.adminLogo} alt="Admin Logo" className="h-12 w-auto object-contain" />
                         ) : (
                             <>
                                 <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">

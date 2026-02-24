@@ -142,7 +142,7 @@ export const Hero = () => {
                         <div className="relative glass p-3 rounded-[2.5rem] border-white/[0.08] shadow-[0_24px_64px_rgba(0,0,0,0.4)] bg-card/10">
                             <div className="relative aspect-square rounded-[2rem] overflow-hidden">
                                 <img
-                                    src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200"
+                                    src={settings.heroImage || "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200"}
                                     alt="Premium Gaming & Finance"
                                     className="object-cover w-full h-full scale-105 group-hover:scale-100 transition-transform duration-[2s]"
                                 />

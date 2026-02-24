@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Wallet, Calculator, Clock, ShieldCheck, ArrowRight, ChevronDown, TrendingUp, Star } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSystem } from "@/context/SystemContext";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -47,10 +47,10 @@ export const CalculatorWidget = () => {
                             </div>
                             <h2 className="text-3xl md:text-5xl font-bold font-inter text-foreground leading-tight tracking-tight">
                                 Kazancınızı <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Hesaplayın</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary font-black italic">Hesaplayın</span>
                             </h2>
-                            <p className="text-foreground/30 text-sm leading-relaxed max-w-md mx-auto lg:mx-0">
-                                Platform seçin, tutarı girin, anında ne kadar kazanacağınızı görün.
+                            <p className="text-foreground/30 text-sm leading-relaxed max-w-md mx-auto lg:mx-0 font-medium">
+                                Platform seçin, tutarı girin, saniyeler içinde net kazancınızı görün.
                             </p>
                         </div>
 
@@ -93,12 +93,12 @@ export const CalculatorWidget = () => {
                                         </div>
                                         <div>
                                             <h4 className="text-sm font-bold text-foreground">Bozum Hesaplayıcı</h4>
-                                            <p className="text-[10px] text-foreground/30 font-medium">Canlı kurlarla hesaplayın</p>
+                                            <p className="text-[10px] text-foreground/30 font-medium tracking-widest uppercase">Canlı kurlar</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20">
                                         <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                        <span className="text-[9px] font-medium text-green-400">CANLI</span>
+                                        <span className="text-[9px] font-black text-green-400">CANLI</span>
                                     </div>
                                 </div>
                             </div>
@@ -106,84 +106,140 @@ export const CalculatorWidget = () => {
                             <div className="p-6 space-y-5">
                                 {/* Platform Select */}
                                 <div className="space-y-2">
-                                    <label className="text-xs text-foreground/25 font-medium ml-1">Platform</label>
+                                    <label className="text-xs text-foreground/25 font-medium ml-1 text-primary lowercase tracking-widest font-black">01. platform seçin</label>
                                     <div className="relative">
                                         <button
                                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                            className="w-full flex items-center justify-between bg-card border border-white/[0.06] p-3.5 rounded-xl text-sm font-medium text-foreground hover:border-primary/20 transition-all"
+                                            className="w-full flex items-center justify-between bg-[#0a0f0d] border border-white/[0.06] p-4 rounded-xl text-sm font-medium text-foreground hover:border-primary/20 transition-all shadow-inner"
                                         >
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-lg bg-card/60 border border-white/[0.06] p-1 flex items-center justify-center overflow-hidden">
+                                                <div className="w-8 h-8 rounded-lg bg-card/40 border border-white/[0.06] p-1 flex items-center justify-center overflow-hidden">
                                                     <img src={current.image} alt={current.name} className="w-full h-full object-contain" />
                                                 </div>
-                                                <span>{current.name}</span>
+                                                <span className="font-bold tracking-tight">{current.name}</span>
                                             </div>
                                             <ChevronDown size={16} className={cn("text-foreground/25 transition-transform", isDropdownOpen && "rotate-180")} />
                                         </button>
 
-                                        {isDropdownOpen && (
-                                            <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-white/[0.08] rounded-xl shadow-2xl z-40 max-h-48 overflow-y-auto no-scrollbar">
-                                                {platforms.map((p, i) => (
-                                                    <button
-                                                        key={i}
-                                                        onClick={() => { setSelectedPlatform(i); setIsDropdownOpen(false); }}
-                                                        className={cn(
-                                                            "flex items-center gap-3 w-full p-3 text-sm hover:bg-card/40 transition-colors",
-                                                            selectedPlatform === i ? "bg-primary/5 text-primary" : "text-foreground/60"
-                                                        )}
-                                                    >
-                                                        <div className="w-7 h-7 rounded-lg bg-card/60 p-1 overflow-hidden">
-                                                            <img src={p.image} alt={p.name} className="w-full h-full object-contain" />
-                                                        </div>
-                                                        <span className="font-medium">{p.name}</span>
-                                                        <span className="ml-auto text-xs font-semibold text-primary/70">%{p.rate}</span>
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
+                                        <AnimatePresence>
+                                            {isDropdownOpen && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, y: -10 }}
+                                                    className="absolute top-full left-0 right-0 mt-3 bg-[#0a0f0d] border border-white/[0.08] rounded-2xl shadow-2xl z-40 max-h-56 overflow-hidden overflow-y-auto no-scrollbar backdrop-blur-3xl"
+                                                >
+                                                    {platforms.map((p, i) => (
+                                                        <button
+                                                            key={i}
+                                                            onClick={(e) => { e.stopPropagation(); setSelectedPlatform(i); setIsDropdownOpen(false); }}
+                                                            className={cn(
+                                                                "flex items-center gap-3 w-full p-4 text-sm hover:bg-white/[0.03] transition-colors border-b border-white/[0.02] last:border-0",
+                                                                selectedPlatform === i ? "bg-primary/5 text-primary" : "text-foreground/60"
+                                                            )}
+                                                        >
+                                                            <div className="w-8 h-8 rounded-lg bg-card/60 p-1.5 overflow-hidden border border-white/[0.05]">
+                                                                <img src={p.image} alt={p.name} className="w-full h-full object-contain shadow-sm" />
+                                                            </div>
+                                                            <span className="font-black uppercase text-[11px] tracking-wider">{p.name}</span>
+                                                            <div className="ml-auto flex items-center gap-2">
+                                                                <span className="text-[10px] font-black text-primary/40 group-hover:text-primary transition-colors">%{p.rate}</span>
+                                                            </div>
+                                                        </button>
+                                                    ))}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                 </div>
 
                                 {/* Amount Input */}
                                 <div className="space-y-2">
-                                    <label className="text-xs text-foreground/25 font-medium ml-1">Tutar (₺)</label>
-                                    <div className="relative">
+                                    <label className="text-xs text-foreground/25 font-medium ml-1 text-primary lowercase tracking-widest font-black">02. miktar girin</label>
+                                    <div className="relative group">
                                         <input
                                             type="number"
                                             value={amount}
                                             onChange={(e) => setAmount(Number(e.target.value) || 0)}
-                                            className="w-full bg-card border border-white/[0.06] px-4 py-3.5 rounded-xl text-xl font-bold text-foreground placeholder:text-foreground/10 focus:outline-none focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/10"
+                                            className="w-full bg-[#0a0f0d] border border-white/[0.06] px-5 py-4 rounded-xl text-3xl font-black text-white placeholder:text-foreground/5 focus:outline-none focus:border-primary/40 transition-all focus:ring-4 focus:ring-primary/5 shadow-inner"
                                             placeholder="100"
                                         />
-                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/15 text-sm font-medium">TL</span>
+                                        <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                                            <span className="text-foreground/20 text-xs font-black tracking-widest">TL</span>
+                                        </div>
+                                    </div>
+
+                                    <AnimatePresence>
+                                        {amount >= 5000 && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: "auto" }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="mt-2 flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20 text-primary">
+                                                    <Star size={12} fill="currentColor" className="animate-pulse" />
+                                                    <span className="text-[10px] font-black uppercase tracking-wider">VIP Oran Avantajı Uygulandı!</span>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+
+                                {/* Result Area */}
+                                <div className="relative group/result">
+                                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-lg opacity-0 group-hover/result:opacity-100 transition duration-500" />
+                                    <div className="relative bg-[#0a0f0d]/40 rounded-2xl p-6 border border-white/[0.06] space-y-4 backdrop-blur-xl">
+                                        <div className="flex justify-between items-center text-[10px] text-foreground/30 font-black uppercase tracking-[0.2em]">
+                                            <span>BOZUM ORANI</span>
+                                            <motion.span
+                                                key={current.rate}
+                                                initial={{ scale: 1.2, color: "#fff" }}
+                                                animate={{ scale: 1, color: "var(--primary)" }}
+                                                className="font-black"
+                                            >
+                                                %{current.rate}
+                                            </motion.span>
+                                        </div>
+                                        <div className="flex justify-between items-end">
+                                            <span className="text-[11px] text-foreground/20 font-black uppercase tracking-[0.3em] pb-1.5 text-secondary">NET KAZANCINIZ</span>
+                                            <div className="text-right">
+                                                <AnimatePresence mode="wait">
+                                                    <motion.p
+                                                        key={result}
+                                                        initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+                                                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                                                        exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                                                        className="text-4xl font-black text-white tracking-tighter italic"
+                                                    >
+                                                        ₺{result.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+                                                    </motion.p>
+                                                </AnimatePresence>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                {/* Result */}
-                                <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-5 border border-primary/10 space-y-3">
-                                    <div className="flex justify-between items-center text-xs text-foreground/30 font-medium">
-                                        <span>Kur Oranı</span>
-                                        <span className="text-primary font-semibold">%{current.rate}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-xs text-foreground/30 font-medium">Tahmini Ödeme</span>
-                                        <span className="text-3xl font-bold text-foreground tracking-tight font-mono">
-                                            ₺{result.toFixed(2)}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* CTA */}
+                                {/* CTA Button */}
                                 <button
                                     onClick={() => router.push(`/bozum?product=${current.slug}`)}
-                                    className="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.01] active:scale-[0.99] transition-all"
+                                    className="w-full py-5 rounded-2xl bg-gradient-to-r from-primary via-primary/90 to-secondary text-white text-xs font-black uppercase tracking-[0.4em] flex items-center justify-center gap-3 shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 group"
                                 >
-                                    Hemen Bozdur <ArrowRight size={16} />
+                                    ŞİMDİ BOZDUR
+                                    <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                                 </button>
 
-                                <p className="text-center text-[10px] text-foreground/15 font-medium">
-                                    * Gösterilen tutar tahminidir. Gerçek tutar işlem anındaki kura göre değişiklik gösterebilir.
-                                </p>
+                                <div className="flex items-center justify-center gap-4 text-[9px] text-foreground/20 font-black uppercase tracking-widest">
+                                    <div className="flex items-center gap-1.5">
+                                        <ShieldCheck size={12} className="text-primary" />
+                                        SSL GÜVENLİ
+                                    </div>
+                                    <div className="w-1 h-1 rounded-full bg-white/5" />
+                                    <div className="flex items-center gap-1.5">
+                                        <Clock size={12} className="text-primary" />
+                                        MAX 60SN
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </motion.div>

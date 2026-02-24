@@ -9,6 +9,7 @@ import { CalculatorWidget } from "@/components/sections/CalculatorWidget";
 import { SeoContent } from "@/components/sections/SeoContent";
 import { SalesGrid } from "@/components/sections/SalesGrid";
 import { TrustBanner } from "@/components/sections/TrustBanner";
+import { CtaBanner } from "@/components/sections/CtaBanner";
 import { useSystem } from "@/context/SystemContext";
 import { cn } from "@/lib/utils";
 
@@ -19,13 +20,14 @@ const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
   ProductGrid,
   TrustBanner,
   CalculatorWidget,
+  CtaBanner,
   SeoContent,
 };
 
 export default function Home() {
   const { settings, isLoaded } = useSystem();
 
-  const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
+  const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "CtaBanner", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
   const sectionOrder = settings.homepageSectionOrder || defaultOrder;
 
   return (
