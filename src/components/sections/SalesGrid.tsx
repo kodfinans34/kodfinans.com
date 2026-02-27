@@ -41,10 +41,6 @@ export const SalesGrid = () => {
     };
 
     const handleAddToCart = () => {
-        if (!isLoggedIn) {
-            router.push("/giris");
-            return;
-        }
         if (!selectedProduct || !selectedVariant) return;
 
         addToCart({
@@ -60,12 +56,12 @@ export const SalesGrid = () => {
     };
 
     const handleBuyNow = () => {
-        if (!isLoggedIn) {
-            router.push("/giris");
-            return;
-        }
         handleAddToCart();
-        router.push("/odeme");
+        if (!isLoggedIn) {
+            router.push("/giris?redirect=/odeme");
+        } else {
+            router.push("/odeme");
+        }
     };
 
     const currentProducts = (products || []).length > 0 ? products : staticProducts;
@@ -245,19 +241,19 @@ export const SalesGrid = () => {
                                         </h3>
                                     </div>
 
-                                    <div className="mt-auto pt-2 flex items-center justify-between">
-                                        <div className="flex flex-col">
+                                    <div className="mt-auto pt-2 flex items-center justify-between gap-1">
+                                        <div className="flex flex-col min-w-0">
                                             {item.discountPrice ? (
                                                 <>
-                                                    <span className="text-[10px] line-through text-foreground/15 font-medium">₺{item.price}</span>
-                                                    <span className="text-lg font-bold text-foreground tracking-tight">₺{item.variantPrice}</span>
+                                                    <span className="text-[8px] md:text-[10px] line-through text-foreground/15 font-medium">₺{item.price}</span>
+                                                    <span className="text-sm md:text-lg font-bold text-foreground tracking-tight truncate">₺{item.variantPrice}</span>
                                                 </>
                                             ) : (
-                                                <span className="text-lg font-bold text-foreground tracking-tight">₺{item.variantPrice}</span>
+                                                <span className="text-sm md:text-lg font-bold text-foreground tracking-tight truncate">₺{item.variantPrice}</span>
                                             )}
                                         </div>
                                         <Button
-                                            className="px-4 py-2 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white text-[10px] font-bold rounded-lg transition-all"
+                                            className="px-2 py-1.5 md:px-4 md:py-2 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white text-[9px] md:text-[10px] font-bold rounded-lg transition-all shrink-0"
                                             variant="ghost"
                                             size="sm"
                                         >

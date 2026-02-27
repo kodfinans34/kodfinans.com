@@ -18,7 +18,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL("https://kodfinans.com"),
   title: "KodFinans | Razer Gold Bozdurma, Dijital Kod Bozum & Oyun Mağazası",
-  description: "Razer Gold bozdurma, Knight Online cash satın al, PUBG Mobile UC, Steam cüzdan kodu, PlayStation ve Xbox hediye çeki. Dijital kodlarınızı en yüksek oranlarla bozdurun. 7/24 anında ödeme garantisi.",
+  description: "Türkiye'nin en güvenilir dijital kod platformu. Razer Gold bozdurma, iTunes, Google Play hediye kartları bozum işlemleri ve uygun fiyatlı oyun e-pinleri, oyun paraları KodFinans'ta.",
   alternates: {
     canonical: "https://kodfinans.com",
     languages: {

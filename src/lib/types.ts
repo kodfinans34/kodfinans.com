@@ -177,6 +177,19 @@ export interface SiteSettings {
         buttonText2?: string;
         buttonLink2?: string;
     }[];
+    // Zero Services
+    zeroGbBuyRate?: string;
+    zeroGbSellRate?: string;
+    zeroItemSellRate?: string;
+    zeroServicesEnabled?: boolean;
+    zeroSectionTitle?: string;
+    zeroSectionDescription?: string;
+    // Knight Online Services
+    koGbBuyRate?: string;
+    koGbSellRate?: string;
+    koServicesEnabled?: boolean;
+    koSectionTitle?: string;
+    koSectionDescription?: string;
 }
 
 // Blog Post Type

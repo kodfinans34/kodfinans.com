@@ -161,6 +161,7 @@ export const CartDrawer = () => {
                                     <Button
                                         onClick={() => {
                                             toggleCart();
+                                            // Provide redirect path or just let it be handled later
                                             router.push("/odeme");
                                         }}
                                         className="w-full py-4 rounded-2xl text-sm font-bold uppercase tracking-wider bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all"

@@ -25,7 +25,7 @@ export default function CheckoutPage() {
     // Check if user is logged in
     useEffect(() => {
         if (!isLoggedIn) {
-            router.push("/giris");
+            router.push("/giris?redirect=/odeme");
         } else {
             setIsChecking(false);
         }

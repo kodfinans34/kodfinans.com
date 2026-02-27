@@ -221,6 +221,19 @@ const defaultSettings: SiteSettings = {
     ctaBannerDescription: "Razer Gold, Steam, iTunes ve tüm dijital kodlarınızı en yüksek oranlarla bozdurun! Hemen WhatsApp'tan iletişime geçin.",
     ctaBannerButtonText: "WhatsApp ile İletişime Geç",
     ctaBannerWhatsappMessage: "Merhaba, Razer Gold bozdurma hakkında bilgi almak istiyorum.",
+    // Zero Services defaults
+    zeroGbBuyRate: "15.50",
+    zeroGbSellRate: "16.80",
+    zeroItemSellRate: "900",
+    zeroServicesEnabled: true,
+    zeroSectionTitle: "Zero İşlemleri",
+    zeroSectionDescription: "Zero GB ve Item alım/satım işlemlerinizi en hızlı şekilde tamamlayın.",
+    // Knight Online Services defaults
+    koGbBuyRate: "1250",
+    koGbSellRate: "1380",
+    koServicesEnabled: true,
+    koSectionTitle: "Knight Online Zero",
+    koSectionDescription: "Zero Sunucusu GB ve İtem alım satım merkezi.",
 };
 
 const SystemContext = createContext<SystemContextType | undefined>(undefined);
@@ -260,7 +273,6 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                         setSettings(prev => ({
                             ...prev,
                             ...parsed,
-                            // Ensure banner defaults if missing in saved
                             topBannerEnabled: parsed.topBannerEnabled ?? true,
                         }));
                     } catch (e) { }
@@ -285,33 +297,30 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                     } catch (e) { }
                 }
 
-                // 2. Load Fresh Firestore Data in the background
+                // *** CRITICAL: Mark as loaded RIGHT AFTER localStorage ***
+                // This prevents the black screen. Firebase data loads in the background.
+                setIsLoaded(true);
+
+                // 2. Load Fresh Firestore Data in the background (non-blocking)
                 try {
-                    // Users request
                     const dbUsers = await getUsersFromFirestore();
                     if (dbUsers && dbUsers.length > 0) setUsers(dbUsers);
 
-                    // Products request
                     const dbProducts = await getProducts();
                     if (dbProducts && dbProducts.length > 0) setProducts(dbProducts);
 
-                    // Withdrawals request
                     const dbWithdrawals = await getWithdrawalsFromFirestore();
                     if (dbWithdrawals) setWithdrawalRequests(dbWithdrawals);
 
-                    // Orders request
                     const dbOrders = await getOrdersFromFirestore();
                     if (dbOrders) setOrders(dbOrders);
 
-                    // Bozum Requests
                     const dbBozum = await getBozumRequestsFromFirestore();
                     if (dbBozum) setBozumRequests(dbBozum);
 
-                    // Blogs request
                     const dbBlogs = await getBlogs();
                     if (dbBlogs && dbBlogs.length > 0) setBlogs(dbBlogs);
 
-                    // Settings request
                     const dbSettings = await getSettings();
                     if (dbSettings) {
                         setSettings(prev => ({
@@ -322,7 +331,6 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                         localStorage.setItem("kf_settings", JSON.stringify(dbSettings));
                     }
 
-                    // Sync current logged in user balance if they exist in dbUsers
                     if (savedUser) {
                         const current = JSON.parse(savedUser);
                         const freshUser = dbUsers.find(u => u.email === current.email);
@@ -343,8 +351,6 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                 } catch (e) {
                     console.error("Failed to load balance requests:", e);
                 }
-
-                setIsLoaded(true);
             };
 
             loadData();

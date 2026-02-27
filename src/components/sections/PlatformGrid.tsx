@@ -78,7 +78,11 @@ export const PlatformGrid = () => {
 
                                 {/* Floating Logo */}
                                 <div className="absolute top-5 right-5 md:top-7 md:right-7 w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/[0.03] border border-white/10 p-2.5 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-all duration-700 shadow-2xl backdrop-blur-sm">
-                                    <img src={product.logo || "/logo.png"} alt="logo" className="w-full h-full object-contain filter brightness-110" />
+                                    {product.logo ? (
+                                        <img src={product.logo} alt="logo" className="w-full h-full object-contain filter brightness-110" />
+                                    ) : (
+                                        <Zap className="w-1/2 h-1/2 text-primary" />
+                                    )}
                                 </div>
                             </div>
                         </motion.div>

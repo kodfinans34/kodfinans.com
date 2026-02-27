@@ -5,12 +5,13 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { User, Lock, Mail, ArrowRight, Github, Chrome, CheckCircle2, Phone } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, Suspense } from "react";
 import { useSystem } from "@/context/SystemContext";
 
-export default function RegisterPage() {
+function RegisterContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { register, sendEmail, settings } = useSystem();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -60,7 +61,8 @@ export default function RegisterPage() {
         });
 
         setIsLoading(false);
-        router.push("/");
+        const redirect = searchParams.get("redirect");
+        router.push(redirect || "/");
     };
 
     return (
@@ -230,5 +232,13 @@ export default function RegisterPage() {
 
             <Footer />
         </div>
+    );
+}
+
+export default function RegisterPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-background flex justify-center items-center"><span className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></span></div>}>
+            <RegisterContent />
+        </Suspense>
     );
 }

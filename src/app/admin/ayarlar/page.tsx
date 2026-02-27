@@ -17,7 +17,8 @@ import {
     LayoutTemplate,
     Share2,
     Banknote,
-    Megaphone
+    Megaphone,
+    Zap
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeConfig, SiteSettings } from "@/lib/types";
@@ -171,6 +172,7 @@ export default function AdminSettingsPage() {
         { id: "payments", label: "Ödeme / IBAN", icon: Banknote },
         { id: "smtp", label: "E-Posta (SMTP)", icon: Mail },
         { id: "ctabanner", label: "CTA Banner", icon: Megaphone },
+        { id: "zero", label: "Zero İşlemleri", icon: Zap },
         { id: "advanced", label: "Gelişmiş", icon: Code },
     ];
 
@@ -592,6 +594,39 @@ export default function AdminSettingsPage() {
                                         <InputField name="ctaBannerWhatsappMessage" label="WhatsApp Mesajı" placeholder="Merhaba, kod bozdurma hakkında bilgi almak istiyorum." />
                                     </div>
                                 </div>
+                            </SectionCard>
+                        </div>
+                    )}
+
+                    {/* Zero Services Settings */}
+                    {activeTab === "zero" && (
+                        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                            <SectionCard title="Zero GB & Item İşlemleri" icon={Zap}>
+                                <div className="flex items-center justify-between mb-4">
+                                    <div>
+                                        <p className="text-white font-bold text-sm">Hizmet Aktif</p>
+                                        <p className="text-white/30 text-xs">Anasayfadaki Zero bölümünü göster/gizle</p>
+                                    </div>
+                                    <button
+                                        onClick={() => handleToggle("zeroServicesEnabled")}
+                                        className={cn(
+                                            "w-12 h-6 rounded-full transition-all relative",
+                                            localSettings.zeroServicesEnabled !== false ? "bg-primary" : "bg-white/10"
+                                        )}
+                                    >
+                                        <div className={cn(
+                                            "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-md",
+                                            localSettings.zeroServicesEnabled !== false ? "left-7" : "left-1"
+                                        )} />
+                                    </button>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <InputField name="zeroSectionTitle" label="Bölüm Başlığı" />
+                                    <InputField name="zeroGbBuyRate" label="Zero GB Alış Oranı" />
+                                    <InputField name="zeroGbSellRate" label="Zero GB Satış Oranı/Fiyatı" />
+                                    <InputField name="zeroItemSellRate" label="Zero Item Satış Oranı/Fiyatı" />
+                                </div>
+                                <TextAreaField name="zeroSectionDescription" label="Bölüm Açıklaması" rows={3} />
                             </SectionCard>
                         </div>
                     )}

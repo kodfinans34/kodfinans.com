@@ -129,11 +129,6 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
     };
 
     const handleAddToCart = (variant: any) => {
-        if (!isLoggedIn) {
-            router.push("/giris");
-            return;
-        }
-
         const quantity = quantities[variant.id] || 1;
         addToCart({
             id: product!.id,
@@ -144,7 +139,11 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
             image: product!.image
         });
 
-        router.push("/odeme");
+        if (!isLoggedIn) {
+            router.push("/giris?redirect=/odeme");
+        } else {
+            router.push("/odeme");
+        }
     };
 
     return (

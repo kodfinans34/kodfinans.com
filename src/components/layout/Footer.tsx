@@ -164,7 +164,10 @@ export const Footer = () => {
                     </div>
 
                     <div className="flex items-center gap-6 opacity-40 hover:opacity-80 transition-all duration-500">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg" alt="Visa" className="h-4 md:h-5" />
+                        {/* Visa Logo SVG Inline for zero-breakage */}
+                        <svg viewBox="0 0 24 24" className="h-4 md:h-5 opacity-70 hover:opacity-100 transition-opacity fill-white">
+                            <path d="M13.9 11l.6-3.7h2.3l-.6 3.7h-2.3zm-5.4 0l1.1-6.8h2.3l-1.1 6.8h-2.3zm12.3-5c-.3-.2-.7-.3-1.1-.3-.6 0-1.1.2-1.4.6l-3 7.2h2.4l.6-1.6h2.2l.2 1.6h2.1l-2-7.5zm-1.1 4.5l.8-2.2.4 2.2h-1.2zm-12.2-4.5c-.7 0-1.2.4-1.5.9l-2.6 6.6h2.4c.1-.4.2-.7.3-1.1.2-1.1 1-3.6 1.1-4l.8 4.6h2.4l-2.9-7h-.7z" />
+                        </svg>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-6 md:h-7" />
                         <div className="h-6 md:h-7 bg-white/[0.03] border border-white/10 rounded-md px-3 flex items-center">
                             <span className="text-white/60 font-bold text-[10px] md:text-[11px] tracking-wider">TROY</span>

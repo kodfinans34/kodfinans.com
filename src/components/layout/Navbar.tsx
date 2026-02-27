@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/Button";
-import { Menu, X, ChevronRight, ShoppingBag, Zap, Wallet, Home, BookOpen, Trophy, Phone, Store } from "lucide-react";
+import { Menu, X, ChevronRight, ShoppingBag, Zap, Wallet, Home, BookOpen, Trophy, Phone, Store, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useSystem } from "@/context/SystemContext";
@@ -15,6 +15,7 @@ const navLinks = [
     { name: "Anasayfa", href: "/", icon: Home },
     { name: "Mağaza", href: "/urunler", icon: Store },
     { name: "Kod Bozdur", href: "/bozum", icon: Zap },
+    { name: "Knight Online", href: "/knight-online", icon: ShieldCheck },
     { name: "Blog", href: "/blog", icon: BookOpen },
     { name: "VIP", href: "/vip-finans", icon: Trophy },
     { name: "İletişim", href: "/iletisim", icon: Phone },

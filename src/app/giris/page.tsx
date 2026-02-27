@@ -5,12 +5,13 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { User, Lock, Mail, ArrowRight, Github, Chrome, CheckCircle2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, Suspense } from "react";
 import { useSystem } from "@/context/SystemContext";
 
-export default function LoginPage() {
+function LoginContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { login } = useSystem();
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
@@ -25,7 +26,8 @@ export default function LoginPage() {
         try {
             const success = await login(email, password);
             if (success) {
-                router.push("/");
+                const redirect = searchParams.get("redirect");
+                router.push(redirect || "/");
             } else {
                 setError("E-posta veya şifre hatalı!");
                 setIsLoading(false);
@@ -179,5 +181,13 @@ export default function LoginPage() {
 
             <Footer />
         </div>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-background flex justify-center items-center"><span className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></span></div>}>
+            <LoginContent />
+        </Suspense>
     );
 }

@@ -63,8 +63,9 @@ export const Hero = () => {
     const [direction, setDirection] = useState(0);
 
     const banners = React.useMemo(() => {
-        return settings.heroBanners && settings.heroBanners.length > 0
-            ? settings.heroBanners
+        const validBanners = settings.heroBanners?.filter((b: any) => b && b.image && b.image.trim() !== "");
+        return validBanners && validBanners.length > 0
+            ? validBanners
             : defaultBanners;
     }, [settings.heroBanners]);
 
@@ -87,7 +88,9 @@ export const Hero = () => {
         return () => clearInterval(timer);
     }, [nextSlide]);
 
-    const banner = banners[currentSlide];
+    const banner = banners[currentSlide] || defaultBanners[0];
+
+    if (!banner) return null;
 
     // Format bozum rate display
     const formatRate = (price: string | number) => {
@@ -107,28 +110,36 @@ export const Hero = () => {
 
     return (
         <section className="relative pt-28 md:pt-40 pb-12 md:pb-16 overflow-hidden">
-            {/* Background Image */}
-            <AnimatePresence initial={false} custom={direction}>
-                <motion.div
-                    key={currentSlide}
-                    custom={direction}
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                    className="absolute inset-0 -z-10"
-                >
-                    <img
-                        src={banner.image}
-                        alt=""
-                        className="w-full h-full object-cover"
-                    />
-                    {/* Optimized Overlays for Visibility */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/20 to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
-                    <div className="absolute inset-0 bg-black/5" /> {/* Extremely subtle for text readability */}
-                </motion.div>
-            </AnimatePresence>
+            {/* Permanent gradient background - always visible regardless of image state */}
+            <div className="absolute inset-0 -z-20 bg-gradient-to-br from-background via-background to-primary/10" />
+
+            {/* Background Image - REMOVED Framer Motion to guarantee visibility and fix black screen bugs */}
+            <div className="absolute inset-0 -z-10 overflow-hidden bg-background">
+                {banners.map((b, idx) => (
+                    <div
+                        key={`slide-bg-${b.id || idx}`}
+                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === currentSlide ? "opacity-100" : "opacity-0"
+                            }`}
+                    >
+                        <img
+                            src={b.image && b.image.trim() !== "" ? b.image : `/assets/banners/banner-${(idx % 3) + 1}.png`}
+                            alt={b.title || "Banner"}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                const fallbackUrl = `/assets/banners/banner-${(idx % 3) + 1}.png`;
+                                if (!target.src.includes(fallbackUrl)) {
+                                    target.src = fallbackUrl;
+                                }
+                            }}
+                        />
+                        {/* Optimized Overlays for Visibility */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/20 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-black/5" />
+                    </div>
+                ))}
+            </div>
 
             {/* Subtle grid overlay */}
             <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/[0.02] -z-10" />
