@@ -24,9 +24,9 @@ function applyFullTheme(settings: any, pathname: string = "") {
     const { lightThemeConfig, darkThemeConfig, siteMode: settingsMode } = settings;
     const body = document.body;
 
-    // Force DARK mode for Admin Panel regardless of settings
+    // Force DARK mode for everything
     const isAdmin = pathname.startsWith("/admin");
-    const siteMode = isAdmin ? "dark" : (settingsMode || "dark");
+    const siteMode = "dark";
 
     console.log(`[ThemeApplier] 🎨 Applying theme in ${siteMode} mode. (Admin: ${isAdmin})`);
 
@@ -45,32 +45,9 @@ function applyFullTheme(settings: any, pathname: string = "") {
     body.style.removeProperty("color");
 
     // 3) Decide mode class + config
-    const whiteDefaults = {
-        background: "#ffffff",
-        foreground: "#09090b",
-        card: "#ffffff",
-        cardForeground: "#09090b",
-        primary: "#16a34a", // Green shade compatible with white
-        primaryForeground: "#ffffff",
-        secondary: "#f4f4f5",
-        secondaryForeground: "#18181b",
-        muted: "#f4f4f5",
-        mutedForeground: "#71717a",
-        accent: "#f4f4f5",
-        accentForeground: "#18181b",
-        border: "#e4e4e7",
-        input: "#e4e4e7",
-        ring: "#16a34a",
-    };
-    const config: ThemeConfig = siteMode === "dark"
-        ? (darkThemeConfig || { background: "#0a0f0d", foreground: "#ffffff", card: "#070d0b", primary: "#ed1c24", secondary: "#10b981", accent: "#3b82f6", muted: "#9ca3af", border: "rgba(255,255,255,0.05)" })
-        : (lightThemeConfig || whiteDefaults);
+    const config: ThemeConfig = darkThemeConfig || { background: "#0a0f0d", foreground: "#ffffff", card: "#070d0b", primary: "#ed1c24", secondary: "#10b981", accent: "#3b82f6", muted: "#9ca3af", border: "rgba(255,255,255,0.05)" };
 
-    if (siteMode === "dark") {
-        body.classList.add("theme-black");
-    } else {
-        body.classList.add("theme-white");
-    }
+    body.classList.add("theme-black");
 
     // 4) Apply ALL config colors as CSS variables AND directly to body
     if (config.background) {
@@ -86,17 +63,17 @@ function applyFullTheme(settings: any, pathname: string = "") {
     if (config.primary) {
         body.style.setProperty("--primary", config.primary);
         body.style.setProperty("--primary-rgb", hexToRgb(config.primary));
-        body.style.setProperty("--primary-glow", hexToGlow(config.primary, siteMode === "white" ? 0.15 : 0.3));
+        body.style.setProperty("--primary-glow", hexToGlow(config.primary, 0.3));
     }
     if (config.secondary) {
         body.style.setProperty("--secondary", config.secondary);
         body.style.setProperty("--secondary-rgb", hexToRgb(config.secondary));
-        body.style.setProperty("--secondary-glow", hexToGlow(config.secondary, siteMode === "white" ? 0.1 : 0.25));
+        body.style.setProperty("--secondary-glow", hexToGlow(config.secondary, 0.25));
     }
     if (config.accent) {
         body.style.setProperty("--accent", config.accent);
         body.style.setProperty("--accent-rgb", hexToRgb(config.accent));
-        body.style.setProperty("--accent-glow", hexToGlow(config.accent, siteMode === "white" ? 0.1 : 0.25));
+        body.style.setProperty("--accent-glow", hexToGlow(config.accent, 0.25));
     }
     if (config.muted) body.style.setProperty("--muted", config.muted);
 }

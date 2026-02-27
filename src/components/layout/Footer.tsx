@@ -163,11 +163,11 @@ export const Footer = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4 opacity-25 hover:opacity-60 transition-opacity duration-500">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-3.5" />
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-5" />
-                        <div className="h-5 bg-gradient-to-r from-blue-600 to-blue-700 rounded px-2.5 py-0.5 flex items-center">
-                            <span className="text-white font-bold text-[10px] tracking-wider">TROY</span>
+                    <div className="flex items-center gap-6 opacity-40 hover:opacity-80 transition-all duration-500">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg" alt="Visa" className="h-4 md:h-5" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-6 md:h-7" />
+                        <div className="h-6 md:h-7 bg-white/[0.03] border border-white/10 rounded-md px-3 flex items-center">
+                            <span className="text-white/60 font-bold text-[10px] md:text-[11px] tracking-wider">TROY</span>
                         </div>
                     </div>
                 </div>

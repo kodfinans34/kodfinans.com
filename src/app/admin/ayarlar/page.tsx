@@ -12,8 +12,6 @@ import {
     Mail,
     CreditCard,
     Code,
-    Sun,
-    Moon,
     Check,
     Globe,
     LayoutTemplate,
@@ -42,7 +40,7 @@ export default function AdminSettingsPage() {
     const [localSettings, setLocalSettings] = useState(settings);
     const [saving, setSaving] = useState(false);
     const [activeTab, setActiveTab] = useState("general");
-    const [editingThemeTab, setEditingThemeTab] = useState<"white" | "dark">("white");
+    const [editingThemeTab, setEditingThemeTab] = useState<"white" | "dark">("dark");
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [uploadingLogo, setUploadingLogo] = useState<string | null>(null);
 
@@ -152,8 +150,8 @@ export default function AdminSettingsPage() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            // Always force activeTheme to "special" so custom colors are always used
-            await updateSettings({ ...localSettings, activeTheme: "special" });
+            // Always force siteMode to "dark" and activeTheme to "special"
+            await updateSettings({ ...localSettings, siteMode: "dark", activeTheme: "special" });
             setSaveSuccess(true);
             setTimeout(() => setSaveSuccess(false), 3000);
         } catch (error) {
@@ -397,62 +395,10 @@ export default function AdminSettingsPage() {
                     {/* Theme Settings */}
                     {activeTab === "theme" && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <SectionCard title="Aktif Tema Seçimi" icon={Palette}>
-                                <p className="text-white/30 text-xs">Sitede hangi temayı kullanmak istediğinizi seçin.</p>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {[
-                                        { id: "white", label: "Beyaz Tema", icon: Sun, desc: "Açık renkli, beyaz zeminli" },
-                                        { id: "dark", label: "Siyah Tema", icon: Moon, desc: "Koyu renkli, siyah zeminli" }
-                                    ].map(m => (
-                                        <button
-                                            key={m.id}
-                                            onClick={() => setLocalSettings(prev => ({ ...prev, siteMode: m.id as any }))}
-                                            className={cn(
-                                                "flex flex-col items-center gap-2 p-4 md:p-6 rounded-xl border-2 transition-all",
-                                                localSettings.siteMode === m.id
-                                                    ? "border-primary bg-primary/5 text-primary"
-                                                    : "border-white/5 bg-white/[0.02] text-white/30 hover:border-white/10"
-                                            )}
-                                        >
-                                            <m.icon size={24} />
-                                            <span className="font-bold text-xs md:text-sm uppercase tracking-wide">{m.label}</span>
-                                            <span className="text-[10px] opacity-60 hidden md:block">{m.desc}</span>
-                                            {localSettings.siteMode === m.id && (
-                                                <span className="mt-1 text-[9px] font-bold bg-primary/20 text-primary px-3 py-1 rounded-full uppercase tracking-widest flex items-center gap-1">
-                                                    <Check size={10} /> AKTİF
-                                                </span>
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-                            </SectionCard>
+                            {/* Active Theme Selection Hidden - Always Dark */}
 
                             <SectionCard title="Renk Düzenleyici" icon={Palette}>
-                                {/* Theme Editor Tabs */}
-                                <div className="flex gap-2 p-1 bg-white/5 rounded-xl">
-                                    <button
-                                        onClick={() => setEditingThemeTab("white")}
-                                        className={cn(
-                                            "flex-1 flex items-center justify-center gap-2 py-2.5 md:py-3 rounded-lg font-bold text-[10px] md:text-xs uppercase tracking-wider transition-all",
-                                            editingThemeTab === "white"
-                                                ? "bg-white text-black shadow-lg"
-                                                : "text-white/40 hover:text-white/60"
-                                        )}
-                                    >
-                                        <Sun size={14} /> Beyaz Tema
-                                    </button>
-                                    <button
-                                        onClick={() => setEditingThemeTab("dark")}
-                                        className={cn(
-                                            "flex-1 flex items-center justify-center gap-2 py-2.5 md:py-3 rounded-lg font-bold text-[10px] md:text-xs uppercase tracking-wider transition-all",
-                                            editingThemeTab === "dark"
-                                                ? "bg-black text-white shadow-lg border border-white/10"
-                                                : "text-white/40 hover:text-white/60"
-                                        )}
-                                    >
-                                        <Moon size={14} /> Siyah Tema
-                                    </button>
-                                </div>
+                                {/* Theme Editor Tabs Hidden - Only Dark Editing */}
 
                                 {/* Color Fields */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

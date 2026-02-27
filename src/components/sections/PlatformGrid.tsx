@@ -38,7 +38,7 @@ export const PlatformGrid = () => {
                             whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ delay: i * 0.04, duration: 0.6 }}
                             viewport={{ once: true }}
-                            onClick={() => router.push(`/bozum?product=${product.slug}`)}
+                            onClick={() => router.push(`/bozum/${product.slug}`)}
                             className="group cursor-pointer w-full relative"
                         >
                             {/* Glow Effect */}
@@ -70,7 +70,7 @@ export const PlatformGrid = () => {
                                         <div className="flex items-center gap-2 mt-2">
                                             <div className="text-[10px] font-black text-foreground/40 uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded">Kur</div>
                                             <p className="text-xl md:text-2xl font-black text-primary tracking-tighter italic">
-                                                %{product.price}
+                                                {String(product.price).startsWith("%") ? product.price : `%${product.price}`}
                                             </p>
                                         </div>
                                     </div>

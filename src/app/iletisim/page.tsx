@@ -44,9 +44,9 @@ export default function ContactPage() {
                         <div className="lg:col-span-1 space-y-6">
                             {[
                                 { label: "Bize Yazın", value: "destek@kodfinans.com", icon: Mail, color: "text-blue-400" },
-                                { label: "Bizi Arayın", value: "+90 212 000 00 00", icon: Phone, color: "text-green-400" },
-                                { label: "Canlı Destek", value: "Sitedeki destek butonunu kullanın", icon: MessageSquare, color: "text-primary" },
-                                { label: "Adres", value: "Maslak, Büyükdere Cd. No:257, 34398 Sarıyer/İstanbul", icon: MapPin, color: "text-orange-400" },
+                                { label: "WhatsApp Destek", value: "+905517139330", icon: Phone, color: "text-green-400" },
+                                { label: "Canlı Destek", value: "WhatsApp üzerinden 7/24 ulaşın", icon: MessageSquare, color: "text-primary" },
+                                { label: "Adres", value: "Maslak, İstanbul / TR", icon: MapPin, color: "text-orange-400" },
                             ].map((item, i) => (
                                 <div key={i} className="glass p-6 rounded-3xl border-white/5 flex items-center gap-6">
                                     <div className={`w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center ${item.color}`}>

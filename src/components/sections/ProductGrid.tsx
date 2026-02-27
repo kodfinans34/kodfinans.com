@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "../ui/Button";
-import { Star, Zap, Gift, CreditCard, LayoutGrid } from "lucide-react";
+import { Star, Zap, Gift, CreditCard, LayoutGrid, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSystem } from "@/context/SystemContext";
@@ -26,8 +26,8 @@ export const ProductGrid = () => {
     const bozumProducts = currentProducts.filter((p: Product) => p.productType === "bozum" || (p.slug && p.slug.includes("bozum")) || (p.slug && p.slug.includes("bozdurma")));
 
     const filteredProducts = activeTab === "all"
-        ? bozumProducts
-        : bozumProducts.filter((p: Product) => p.category === activeTab);
+        ? bozumProducts.slice(0, 8)
+        : bozumProducts.filter((p: Product) => p.category === activeTab).slice(0, 8);
 
     return (
         <section className="py-16 md:py-24 relative" id="products">
@@ -113,7 +113,7 @@ export const ProductGrid = () => {
                                         )}
 
                                         <div className="absolute bottom-2.5 right-2.5 z-20 w-7 h-7 bg-card border border-white/[0.08] rounded-lg p-1 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                                            {product.logo && <img src={product.logo} alt="logo" className="w-full h-full object-contain brightness-0 invert" />}
+                                            {product.logo && <img src={product.logo} alt="logo" className="w-full h-full object-contain" />}
                                         </div>
                                     </div>
 
@@ -137,14 +137,14 @@ export const ProductGrid = () => {
                                         <div className="mt-auto space-y-2">
                                             <div className="flex items-center justify-between p-2 rounded-lg bg-white/[0.02] border border-white/[0.04] group-hover:border-primary/15 transition-colors">
                                                 <span className="text-[9px] text-white/25 font-medium">Kur</span>
-                                                <span className="text-sm font-bold text-white tracking-tight">{product.price}</span>
+                                                <span className="text-sm font-bold text-white tracking-tight">{String(product.price).startsWith("%") ? product.price : `%${product.price} Oran`}</span>
                                             </div>
 
                                             <div className="flex gap-1.5">
                                                 <Button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        router.push(`/bozum?product=${product.slug}`);
+                                                        router.push(`/bozum/${product.slug}`);
                                                     }}
                                                     className="flex-1 min-w-0 py-2.5 h-auto rounded-lg text-[9px] sm:text-[10px] font-medium transition-all bg-white/[0.03] border border-white/[0.06] text-white hover:bg-white/[0.06] hover:border-primary/20 px-1"
                                                     variant="ghost"
@@ -177,6 +177,18 @@ export const ProductGrid = () => {
                             </motion.div>
                         ))}
                     </AnimatePresence>
+                </div>
+
+                {/* View All Button */}
+                <div className="mt-12 flex justify-center">
+                    <Button
+                        onClick={() => router.push("/bozum")}
+                        className="group h-12 px-8 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-primary/30 transition-all text-sm font-semibold text-white"
+                        variant="ghost"
+                    >
+                        Tüm Ürünleri Gör
+                        <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
                 </div>
 
                 {/* Stats */}

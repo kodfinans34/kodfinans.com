@@ -165,6 +165,18 @@ export interface SiteSettings {
     ctaBannerDescription?: string;
     ctaBannerButtonText?: string;
     ctaBannerWhatsappMessage?: string;
+    // Hero Banners
+    heroBanners?: {
+        id: number;
+        image: string;
+        title: string;
+        subtitle: string;
+        description: string;
+        buttonText: string;
+        buttonLink: string;
+        buttonText2?: string;
+        buttonLink2?: string;
+    }[];
 }
 
 // Blog Post Type
@@ -194,4 +206,17 @@ export interface SystemUser {
     password?: string;
     role: "user" | "admin";
     createdAt: Date;
+}
+
+// Balance Request Type
+export interface BalanceRequest {
+    id: string;
+    userId?: string;
+    userEmail: string;
+    userName: string;
+    amount: number;
+    method: "card" | "transfer";
+    status: "pending" | "approved" | "rejected";
+    timestamp: Date;
+    note?: string;
 }

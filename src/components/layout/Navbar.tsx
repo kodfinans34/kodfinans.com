@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/Button";
-import { Menu, X, ChevronRight, ShoppingBag, Zap, Wallet, Home, BookOpen, Trophy, Phone, Store, Sun, Moon } from "lucide-react";
+import { Menu, X, ChevronRight, ShoppingBag, Zap, Wallet, Home, BookOpen, Trophy, Phone, Store } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useSystem } from "@/context/SystemContext";
@@ -29,10 +29,7 @@ export const Navbar = () => {
     const pathname = usePathname();
     const router = useRouter();
 
-    const toggleSiteMode = () => {
-        const newMode = settings.siteMode === "dark" ? "white" : "dark";
-        updateSettings({ siteMode: newMode });
-    };
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -121,18 +118,7 @@ export const Navbar = () => {
                     </nav>
 
                     <div className="flex items-center gap-2 md:gap-3 shrink-0">
-                        {/* Theme Toggle */}
-                        <button
-                            onClick={toggleSiteMode}
-                            className="hidden md:flex items-center justify-center w-9 h-9 rounded-xl bg-foreground/[0.03] hover:bg-foreground/[0.08] transition-all border border-foreground/[0.06] hover:border-foreground/[0.12] group"
-                            title={settings.siteMode === "dark" ? "Beyaz Tema" : "Koyu Tema"}
-                        >
-                            {settings.siteMode === "dark" ? (
-                                <Sun size={16} className="text-foreground/40 group-hover:text-yellow-400 transition-colors" />
-                            ) : (
-                                <Moon size={16} className="text-foreground/40 group-hover:text-indigo-400 transition-colors" />
-                            )}
-                        </button>
+
 
                         {/* WhatsApp Support */}
                         <Link href={`https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}`} className="hidden xl:flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.03] hover:bg-[#25D366]/10 transition-all border border-white/[0.06] hover:border-[#25D366]/30 group">
@@ -337,17 +323,7 @@ export const Navbar = () => {
 
                         {/* Footer Actions */}
                         <div className="p-4 border-t border-foreground/[0.05] space-y-3 bg-card/10 pb-8">
-                            {/* Mobile Theme Toggle */}
-                            <button
-                                onClick={toggleSiteMode}
-                                className="w-full flex items-center justify-center gap-2 h-11 rounded-xl bg-foreground/[0.04] border border-foreground/[0.06] hover:bg-foreground/[0.08] text-foreground/60 hover:text-foreground transition-all text-sm font-medium"
-                            >
-                                {settings.siteMode === "dark" ? (
-                                    <><Sun size={16} className="text-yellow-400" /> Beyaz Tema</>
-                                ) : (
-                                    <><Moon size={16} className="text-indigo-400" /> Koyu Tema</>
-                                )}
-                            </button>
+
                             {isLoggedIn ? (
                                 <>
                                     <div className="bg-foreground/[0.03] p-3 rounded-xl flex items-center justify-between border border-foreground/[0.05]">

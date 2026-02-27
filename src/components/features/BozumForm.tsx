@@ -192,7 +192,7 @@ export default function BozumForm({ initialProductSlug }: BozumFormProps) {
                                                             : "bg-card border-white/5 text-foreground/30 hover:bg-card hover:border-white/10"
                                                     )}
                                                 >
-                                                    <div className="w-12 h-12 rounded-xl overflow-hidden mb-2 relative">
+                                                    <div className="w-12 h-12 rounded-xl overflow-hidden mb-2 relative flex items-center justify-center bg-white/[0.02]">
                                                         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                                                     </div>
                                                     <span className="text-[10px] font-bold uppercase tracking-tight text-center leading-tight">{product.name}</span>

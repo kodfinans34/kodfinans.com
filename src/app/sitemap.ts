@@ -13,12 +13,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Fetch blogs dynamically
     const blogs = await getBlogs()
 
-    const productRoutes = products.map((product) => ({
-        url: `${baseUrl}/urun/${product.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.9,
-    }))
+    const productRoutes = products
+        .filter(p => p.productType !== "bozum")
+        .map((product) => ({
+            url: `${baseUrl}/urun/${product.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly' as const,
+            priority: 0.9,
+        }))
+
+    // Bozum products get their own /bozum/[slug] pages
+    const bozumRoutes = products
+        .filter(p => p.productType === "bozum")
+        .map((product) => ({
+            url: `${baseUrl}/bozum/${product.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'daily' as const,
+            priority: 0.95,
+        }))
 
     const blogRoutes = blogs.map((blog) => ({
         url: `${baseUrl}/blog/${blog.slug}`,
@@ -107,6 +119,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.3,
         },
         ...productRoutes,
+        ...bozumRoutes,
         ...blogRoutes,
     ]
 }

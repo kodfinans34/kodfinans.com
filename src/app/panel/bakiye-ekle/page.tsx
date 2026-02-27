@@ -1,24 +1,46 @@
 "use client";
 
 import React, { useState } from "react";
-import { Wallet, CreditCard, Landmark, ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Wallet, CreditCard, Landmark, ArrowRight, ShieldCheck, CheckCircle2, Clock, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-
 import { useSystem } from "@/context/SystemContext";
 
 export default function BakiyeEklePage() {
-    const { settings } = useSystem();
+    const { settings, user, isLoggedIn, addBalanceRequest, balanceRequests } = useSystem();
     const [amount, setAmount] = useState<string>("");
     const [method, setMethod] = useState<"card" | "transfer">("card");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
 
     const quickAmounts = ["50", "100", "250", "500", "1000"];
 
-    const handlePayment = () => {
-        if (!amount) return alert("Lütfen bir tutar giriniz.");
+    const userRequests = balanceRequests.filter(r => r.userEmail === user?.email).slice(0, 5);
 
-        const message = `Merhaba, bakiye yüklemek istiyorum.\n\nTutar: ${amount} TL\nÖdeme Yöntemi: ${method === 'card' ? 'Kredi Kartı' : 'Havale/EFT'}`;
-        window.open(`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
+    const handlePayment = async () => {
+        if (!amount || parseFloat(amount) <= 0) return alert("Lütfen geçerli bir tutar giriniz.");
+        if (!isLoggedIn || !user) return alert("Lütfen önce giriş yapınız.");
+
+        setIsSubmitting(true);
+        try {
+            await addBalanceRequest({
+                userId: "",
+                userEmail: user.email,
+                userName: user.name,
+                amount: parseFloat(amount),
+                method,
+            });
+            setSubmitted(true);
+            setAmount("");
+
+            // Also send WhatsApp notification
+            const message = `Merhaba, bakiye yükleme talebi oluşturdum.\n\nTutar: ${amount} TL\nÖdeme Yöntemi: ${method === 'card' ? 'Kredi Kartı' : 'Havale/EFT'}\nE-posta: ${user.email}`;
+            window.open(`https://wa.me/${(settings.whatsappNumber || "").replace(/\D/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
+        } catch (error) {
+            alert("Talep oluşturulurken hata oluştu. Lütfen tekrar deneyin.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -29,6 +51,17 @@ export default function BakiyeEklePage() {
                     <p className="text-white/30 text-xs font-bold uppercase tracking-[0.3em]">Güvenli ödeme sistemleri ile 7/24 bakiye yükleyin.</p>
                 </div>
             </div>
+
+            {submitted && (
+                <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-6 flex items-center gap-4">
+                    <CheckCircle2 size={24} className="text-green-500 shrink-0" />
+                    <div>
+                        <h3 className="text-green-400 font-bold">Talebiniz Oluşturuldu!</h3>
+                        <p className="text-white/40 text-xs mt-1">Bakiye yükleme talebiniz admin onayına gönderildi. Onaylandığında bakiyenize otomatik olarak eklenecektir.</p>
+                    </div>
+                    <button onClick={() => setSubmitted(false)} className="text-white/20 hover:text-white ml-auto transition-colors text-xs">Kapat</button>
+                </div>
+            )}
 
             <div className="grid lg:grid-cols-2 gap-12 items-start">
                 <div className="space-y-8">
@@ -90,12 +123,27 @@ export default function BakiyeEklePage() {
                         </div>
                     </div>
 
+                    {/* IBAN Info for transfer */}
+                    {method === "transfer" && settings.ibanInfo && (
+                        <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 space-y-3">
+                            <h4 className="text-white font-bold text-xs uppercase tracking-wider">Havale / EFT Bilgileri</h4>
+                            <div className="space-y-1">
+                                {settings.bankName && <p className="text-white/60 text-sm"><span className="text-white/30">Banka:</span> {settings.bankName}</p>}
+                                <p className="text-white/60 text-sm font-mono"><span className="text-white/30">IBAN:</span> {settings.ibanInfo}</p>
+                                {settings.ibanHolder && <p className="text-white/60 text-sm"><span className="text-white/30">Alıcı:</span> {settings.ibanHolder}</p>}
+                            </div>
+                            <p className="text-[10px] text-white/20">Havale/EFT yaptıktan sonra aşağıdaki butona tıklayarak talebinizi oluşturun.</p>
+                        </div>
+                    )}
+
                     <div className="pt-6">
                         <Button
                             onClick={handlePayment}
-                            className="w-full py-8 rounded-[2.5rem] bg-gradient-to-r from-primary to-secondary text-white font-black text-sm uppercase tracking-[0.3em] shadow-[0_25px_60px_rgba(74,188,241,0.3)] hover:scale-[1.02] active:scale-98 transition-all flex items-center justify-center gap-4 relative overflow-hidden group">
+                            disabled={isSubmitting || !amount}
+                            className="w-full py-8 rounded-[2.5rem] bg-gradient-to-r from-primary to-secondary text-white font-black text-sm uppercase tracking-[0.3em] shadow-[0_25px_60px_rgba(74,188,241,0.3)] hover:scale-[1.02] active:scale-98 transition-all flex items-center justify-center gap-4 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed">
                             <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                            ÖDEMEYİ BAŞLAT <ArrowRight size={20} />
+                            {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : null}
+                            {isSubmitting ? "GÖNDERİLİYOR..." : "TALEP OLUŞTUR"} {!isSubmitting && <ArrowRight size={20} />}
                         </Button>
                     </div>
                 </div>
@@ -114,9 +162,9 @@ export default function BakiyeEklePage() {
                         <div className="flex items-start gap-4">
                             <CheckCircle2 size={32} className="text-blue-500 shrink-0" />
                             <div>
-                                <h3 className="text-white font-black uppercase tracking-tight mb-2">Anında Teslimat</h3>
+                                <h3 className="text-white font-black uppercase tracking-tight mb-2">Admin Onaylı</h3>
                                 <p className="text-white/40 text-xs font-medium leading-relaxed">
-                                    Bakiye yüklemeleriniz, ödeme onayının ardından saniyeler içinde hesabınıza tanımlanır.
+                                    Talebiniz oluşturulduktan sonra admin ekibimiz tarafından hızlıca kontrol edilir. Onay sonrası bakiyeniz anında yüklenir.
                                 </p>
                             </div>
                         </div>
@@ -127,6 +175,37 @@ export default function BakiyeEklePage() {
                             <img src="https://seeklogo.com/images/T/troy-logo-4B60567A20-seeklogo.com.png" className="h-8 bg-white rounded px-2 py-1 object-contain" alt="Troy" />
                         </div>
                     </div>
+
+                    {/* User's Recent Requests */}
+                    {userRequests.length > 0 && (
+                        <div className="bg-[#0a100e] border border-white/5 rounded-[2.5rem] p-6 space-y-4">
+                            <h3 className="text-white font-black uppercase tracking-tight text-sm">Son Talepleriniz</h3>
+                            <div className="space-y-2">
+                                {userRequests.map((req) => (
+                                    <div key={req.id} className="flex items-center justify-between bg-white/[0.02] border border-white/[0.04] rounded-xl p-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className={cn(
+                                                "w-2 h-2 rounded-full",
+                                                req.status === "approved" ? "bg-green-500" : req.status === "rejected" ? "bg-red-500" : "bg-yellow-500 animate-pulse"
+                                            )} />
+                                            <div>
+                                                <p className="text-white text-xs font-bold">₺{req.amount.toFixed(2)}</p>
+                                                <p className="text-white/20 text-[10px]">{req.method === "card" ? "Kredi Kartı" : "Havale/EFT"}</p>
+                                            </div>
+                                        </div>
+                                        <span className={cn(
+                                            "text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-lg",
+                                            req.status === "approved" ? "bg-green-500/10 text-green-400" :
+                                                req.status === "rejected" ? "bg-red-500/10 text-red-400" :
+                                                    "bg-yellow-500/10 text-yellow-400"
+                                        )}>
+                                            {req.status === "approved" ? "Onaylandı" : req.status === "rejected" ? "Reddedildi" : "Beklemede"}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

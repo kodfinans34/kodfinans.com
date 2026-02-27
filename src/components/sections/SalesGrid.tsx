@@ -99,12 +99,12 @@ export const SalesGrid = () => {
     useEffect(() => {
         setMounted(true);
         // Shuffle only on client side to avoid hydration mismatch
-        const items = [...explodedItems].sort(() => Math.random() - 0.5).slice(0, 12);
+        const items = [...explodedItems].sort(() => Math.random() - 0.5).slice(0, 8);
         setDisplayItems(items);
     }, [products]);
 
     // Use a stable slice for SSR, then shuffle on client
-    const finalItems = mounted ? displayItems : explodedItems.slice(0, 12);
+    const finalItems = mounted ? displayItems : explodedItems.slice(0, 8);
 
     return (
         <section className="py-20 md:py-28 relative" id="sales">
@@ -126,7 +126,7 @@ export const SalesGrid = () => {
                             <div className="h-28 bg-gradient-to-br from-primary/15 via-primary/[0.03] to-transparent relative p-6 flex items-center justify-between overflow-hidden">
                                 <div className="flex items-center gap-4 relative z-10">
                                     <div className="w-14 h-14 bg-white/[0.06] backdrop-blur rounded-xl flex items-center justify-center p-2 border border-white/[0.08]">
-                                        <img src={selectedProduct.logo} alt={selectedProduct.name} className="w-full h-full object-contain brightness-0 invert dark:invert-0" />
+                                        {selectedProduct.logo && <img src={selectedProduct.logo} alt={selectedProduct.name} className="w-full h-full object-contain" />}
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold text-foreground">{selectedProduct.name}</h3>
@@ -208,81 +208,78 @@ export const SalesGrid = () => {
                     </div>
                 </div>
 
-                {/* Carousel */}
-                <div className="relative group">
-                    <button
-                        onClick={() => scroll('left')}
-                        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-xl bg-card/90 backdrop-blur border border-white/[0.08] items-center justify-center text-foreground/30 hover:text-foreground hover:border-primary/30 transition-all opacity-0 group-hover:opacity-100"
-                    >
-                        <ChevronLeft size={20} />
-                    </button>
+                {/* Grid instead of Carousel */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    {finalItems.map((item: any) => (
+                        <motion.div
+                            key={item.uniqueId}
+                            className="group/card relative cursor-pointer"
+                            onClick={() => router.push(`/urun/${item.variantSlug || item.slug}`)}
+                        >
+                            <div className="absolute -inset-[1px] bg-gradient-to-b from-primary/15 to-transparent rounded-2xl blur-sm opacity-0 group-hover/card:opacity-100 transition duration-500" />
+                            <div className="relative h-full bg-card/40 p-4 rounded-2xl border border-white/[0.06] flex flex-col justify-between overflow-hidden group-hover/card:border-primary/15 transition-colors">
 
-                    <button
-                        onClick={() => scroll('right')}
-                        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-xl bg-card/90 backdrop-blur border border-white/[0.08] items-center justify-center text-foreground/30 hover:text-foreground hover:border-primary/30 transition-all opacity-0 group-hover:opacity-100"
-                    >
-                        <ChevronRight size={20} />
-                    </button>
+                                {/* Image */}
+                                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl mb-4">
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover/card:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-70" />
 
-                    <div
-                        ref={scrollRef}
-                        className="flex gap-4 overflow-x-auto pb-4 no-scrollbar scroll-smooth snap-x snap-mandatory"
-                    >
-                        {finalItems.map((item: any) => (
-                            <motion.div
-                                key={item.uniqueId}
-                                className="group/card relative cursor-pointer snap-start shrink-0 w-[160px] md:w-[calc(25%-12px)]"
-                                onClick={() => router.push(`/urun/${item.variantSlug || item.slug}`)}
-                            >
-                                <div className="absolute -inset-[1px] bg-gradient-to-b from-primary/15 to-transparent rounded-2xl blur-sm opacity-0 group-hover/card:opacity-100 transition duration-500" />
-                                <div className="relative h-full bg-card/40 p-3 rounded-2xl border border-white/[0.06] flex flex-col justify-between overflow-hidden group-hover/card:border-primary/15 transition-colors">
+                                    {item.badge && (
+                                        <div className="absolute top-2.5 left-2.5 z-20">
+                                            <span className="bg-primary text-white text-[9px] font-semibold px-2 py-1 rounded-md">
+                                                {item.badge}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
 
-                                    {/* Image */}
-                                    <div className="relative h-[220px] w-full overflow-hidden rounded-xl mb-3">
-                                        <img
-                                            src={item.image}
-                                            alt={item.name}
-                                            className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover/card:scale-105"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-70" />
-
-                                        {item.badge && (
-                                            <div className="absolute top-2.5 left-2.5 z-20">
-                                                <span className="bg-primary text-white text-[9px] font-semibold px-2 py-1 rounded-md">
-                                                    {item.badge}
-                                                </span>
-                                            </div>
-                                        )}
+                                {/* Content */}
+                                <div className="space-y-3 flex-1 flex flex-col">
+                                    <div>
+                                        <h3 className="text-sm md:text-base font-semibold text-foreground leading-tight line-clamp-2 group-hover/card:text-primary transition-colors">
+                                            {item.name} {item.variantName && <span className="text-foreground/30 block text-[10px] mt-0.5 font-normal">{item.variantName}</span>}
+                                        </h3>
                                     </div>
 
-                                    {/* Content */}
-                                    <div className="space-y-2.5 flex-1 flex flex-col">
-                                        <div>
-                                            <h3 className="text-sm font-semibold text-foreground leading-tight line-clamp-2 group-hover/card:text-primary transition-colors">
-                                                {item.name} {item.variantName && <span className="text-foreground/30 block text-[10px] mt-0.5 font-normal">{item.variantName}</span>}
-                                            </h3>
+                                    <div className="mt-auto pt-2 flex items-center justify-between">
+                                        <div className="flex flex-col">
+                                            {item.discountPrice ? (
+                                                <>
+                                                    <span className="text-[10px] line-through text-foreground/15 font-medium">₺{item.price}</span>
+                                                    <span className="text-lg font-bold text-foreground tracking-tight">₺{item.variantPrice}</span>
+                                                </>
+                                            ) : (
+                                                <span className="text-lg font-bold text-foreground tracking-tight">₺{item.variantPrice}</span>
+                                            )}
                                         </div>
-
-                                        <div className="mt-auto flex items-center justify-between">
-                                            <div className="flex flex-col">
-                                                {item.discountPrice ? (
-                                                    <>
-                                                        <span className="text-[10px] line-through text-foreground/15 font-medium">₺{item.price}</span>
-                                                        <span className="text-base font-bold text-foreground tracking-tight">₺{item.variantPrice}</span>
-                                                    </>
-                                                ) : (
-                                                    <span className="text-base font-bold text-foreground tracking-tight">₺{item.variantPrice}</span>
-                                                )}
-                                            </div>
-                                            <div className="w-9 h-9 rounded-lg bg-card/60 border border-white/[0.06] flex items-center justify-center text-foreground/20 group-hover/card:bg-primary group-hover/card:text-white group-hover/card:border-primary transition-all duration-500">
-                                                <ShoppingCart size={15} />
-                                            </div>
-                                        </div>
+                                        <Button
+                                            className="px-4 py-2 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white text-[10px] font-bold rounded-lg transition-all"
+                                            variant="ghost"
+                                            size="sm"
+                                        >
+                                            Satın Al
+                                        </Button>
                                     </div>
                                 </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* View All Button */}
+                <div className="mt-14 flex justify-center">
+                    <Button
+                        onClick={() => router.push("/urunler")}
+                        variant="ghost"
+                        className="group h-12 px-8 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-emerald-500/30 transition-all text-sm font-semibold text-white"
+                    >
+                        Tüm Ürünleri Gör
+                        <ChevronRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
                 </div>
             </div>
         </section>

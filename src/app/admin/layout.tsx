@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X, ExternalLink } from "lucide-react";
+import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X, ExternalLink, Image } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSystem } from "@/context/SystemContext";
 
@@ -26,11 +26,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const adminLinks = [
         { name: "Genel Bakış", href: "/admin", icon: LayoutDashboard },
         { name: "Anasayfa Düzeni", href: "/admin/anasayfa-duzen", icon: Layout },
+        { name: "Banner Yönetimi", href: "/admin/banner-yonetimi", icon: Image },
         { name: "Ürünler", href: "/admin/urunler", icon: ShoppingCart },
         { name: "Bozum Ürünleri", href: "/admin/bozum-urunleri", icon: ShoppingCart },
         { name: "Siparişler", href: "/admin/siparisler", icon: ClipboardList },
         { name: "Bozum Talepleri", href: "/admin/bozumlar", icon: FileText },
         { name: "Çekim Talepleri", href: "/admin/cekimler", icon: Wallet },
+        { name: "Bakiye Talepleri", href: "/admin/bakiye-talepleri", icon: Wallet },
         { name: "Yorumlar", href: "/admin/yorumlar", icon: MessageSquare },
         { name: "Blog Yazıları", href: "/admin/blog", icon: FileText },
         { name: "Kullanıcılar", href: "/admin/kullanicilar", icon: Users },

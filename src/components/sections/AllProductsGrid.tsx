@@ -124,21 +124,27 @@ export const AllProductsGrid = () => {
 
                                 <div className="space-y-3">
                                     <label className="text-foreground/40 text-xs font-bold uppercase tracking-wider">Paket Seç</label>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {["25 TL", "50 TL", "100 TL", "250 TL"].map((variant) => (
+                                    <div className="grid grid-cols-2 gap-2 max-h-[200px] overflow-y-auto pr-2 no-scrollbar">
+                                        {(selectedProduct.variants || []).map((v: any) => (
                                             <button
-                                                key={variant}
-                                                onClick={() => setSelectedVariant(variant)}
+                                                key={v.id}
+                                                onClick={() => setSelectedVariant(v.name)}
                                                 className={cn(
-                                                    "p-4 rounded-xl border-2 transition-all font-bold text-sm",
-                                                    selectedVariant === variant
+                                                    "p-3 rounded-xl border-2 transition-all font-bold text-xs",
+                                                    selectedVariant === v.name
                                                         ? "border-primary bg-primary/10 text-white"
                                                         : "border-white/10 bg-white/5 text-white/40 hover:border-white/20"
                                                 )}
                                             >
-                                                {variant}
+                                                {v.name}
+                                                <div className="text-[10px] opacity-40 mt-0.5">₺{v.price}</div>
                                             </button>
                                         ))}
+                                        {(selectedProduct.variants || []).length === 0 && (
+                                            <div className="p-4 rounded-xl border-2 border-white/10 bg-white/5 text-white/40 font-bold text-xs text-center col-span-2">
+                                                Bu ürün için alt seçenek bulunmuyor.
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -256,13 +262,22 @@ export const AllProductsGrid = () => {
                                             )}
                                         </div>
 
-                                        <div className="flex items-center justify-between">
+                                        <div className="flex items-center justify-between gap-2">
                                             <div>
-                                                <p className="text-[9px] font-black text-foreground/20 uppercase tracking-widest">Fiyat</p>
-                                                <p className="text-foreground font-black text-lg md:text-xl italic tracking-tighter">₺{item.variantPrice || item.price}</p>
+                                                <p className="text-[9px] font-black text-foreground/20 uppercase tracking-widest leading-none">Fiyat</p>
+                                                <p className="text-foreground font-black text-xl italic tracking-tighter">₺{item.variantPrice || item.price}</p>
                                             </div>
-                                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
-                                                <ShoppingCart size={18} />
+                                            <div className="flex gap-1">
+                                                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                                    <ShoppingCart size={18} />
+                                                </div>
+                                                <Button
+                                                    size="sm"
+                                                    className="h-10 px-3 bg-foreground/10 hover:bg-foreground/20 text-foreground text-[10px] font-black rounded-xl uppercase transition-all"
+                                                    variant="ghost"
+                                                >
+                                                    Satın Al
+                                                </Button>
                                             </div>
                                         </div>
                                     </div>

@@ -13,7 +13,8 @@ import {
     SiteSettings,
     ThemeConfig,
     BlogPost,
-    SystemUser
+    SystemUser,
+    BalanceRequest
 } from "@/lib/types";
 
 export type {
@@ -24,7 +25,8 @@ export type {
     WithdrawalRequest,
     SiteSettings,
     BlogPost,
-    SystemUser
+    SystemUser,
+    BalanceRequest
 };
 import {
     getProducts,
@@ -65,6 +67,12 @@ import {
     updateUserInFirestore,
     deleteUserFromFirestore
 } from "@/lib/firebase-users";
+import {
+    getBalanceRequestsFromFirestore,
+    addBalanceRequestToFirestore,
+    updateBalanceRequestInFirestore,
+    deleteBalanceRequestFromFirestore
+} from "@/lib/firebase-balance";
 
 // System Context Interface
 interface SystemContextType {
@@ -130,6 +138,12 @@ interface SystemContextType {
 
     // System State
     isLoaded: boolean;
+
+    // Balance Requests
+    balanceRequests: BalanceRequest[];
+    addBalanceRequest: (request: Omit<BalanceRequest, "id" | "status" | "timestamp">) => Promise<void>;
+    updateBalanceRequestStatus: (id: string, status: "approved" | "rejected") => Promise<void>;
+    deleteBalanceRequest: (id: string) => Promise<void>;
 }
 
 const defaultLightTheme: ThemeConfig = {
@@ -171,9 +185,9 @@ const defaultSettings: SiteSettings = {
     paytrMerchantSalt: "",
     paytrTestMode: true,
     themeColor: "green",
-    siteMode: "white",
+    siteMode: "dark",
     activeTheme: "special",
-    lightThemeConfig: defaultLightTheme,
+    lightThemeConfig: defaultDarkTheme,
     darkThemeConfig: defaultDarkTheme,
     headerLogo: "",
     footerLogo: "",
@@ -184,7 +198,7 @@ const defaultSettings: SiteSettings = {
     topBannerText2: "SSL Korumalı İşlemler",
     topBannerText3: "Anında Teslimat & Ödeme",
     navCtaText: "Kod Bozdur",
-    heroImage: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "",
     // Footer defaults
     footerDescription: "Dijital kodlarınızı güvenle nakite çevirin, oyun ürünlerini en uygun fiyatlarla satın alın.",
     copyrightText: "KodFinans. Tüm Hakları Saklıdır.",
@@ -219,12 +233,13 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
     const [withdrawalRequests, setWithdrawalRequests] = useState<WithdrawalRequest[]>([]);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
-    const [userBalance, setUserBalance] = useState(1250.75);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [userBalance, setUserBalance] = useState(0);
     const [user, setUser] = useState<{ name: string; email: string; phone: string } | null>(null);
 
     const [users, setUsers] = useState<SystemUser[]>([]);
+    const [balanceRequests, setBalanceRequests] = useState<BalanceRequest[]>([]);
 
-    const [isLoaded, setIsLoaded] = useState(false);
     const hasLoaded = useRef(false);
 
     // --- Load Data ---
@@ -242,7 +257,12 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                 if (savedSettings) {
                     try {
                         const parsed = JSON.parse(savedSettings);
-                        setSettings(prev => ({ ...prev, ...parsed }));
+                        setSettings(prev => ({
+                            ...prev,
+                            ...parsed,
+                            // Ensure banner defaults if missing in saved
+                            topBannerEnabled: parsed.topBannerEnabled ?? true,
+                        }));
                     } catch (e) { }
                 }
 
@@ -294,7 +314,11 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
                     // Settings request
                     const dbSettings = await getSettings();
                     if (dbSettings) {
-                        setSettings(dbSettings);
+                        setSettings(prev => ({
+                            ...prev,
+                            ...dbSettings,
+                            topBannerEnabled: dbSettings.topBannerEnabled ?? true,
+                        }));
                         localStorage.setItem("kf_settings", JSON.stringify(dbSettings));
                     }
 
@@ -310,6 +334,14 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
 
                 } catch (error) {
                     console.error("SystemContext: Error loading Firestore data:", error);
+                }
+
+                // Load balance requests
+                try {
+                    const dbBalance = await getBalanceRequestsFromFirestore();
+                    if (dbBalance) setBalanceRequests(dbBalance);
+                } catch (e) {
+                    console.error("Failed to load balance requests:", e);
                 }
 
                 setIsLoaded(true);
@@ -655,6 +687,48 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    // Balance Request Handlers
+    const addBalanceRequest = async (request: Omit<BalanceRequest, "id" | "status" | "timestamp">) => {
+        const newData = {
+            ...request,
+            status: "pending" as const,
+            timestamp: new Date(),
+        };
+        try {
+            const id = await addBalanceRequestToFirestore(newData);
+            setBalanceRequests(prev => [{ ...newData, id }, ...prev]);
+        } catch (error) {
+            console.error("Failed to add balance request", error);
+            throw error;
+        }
+    };
+
+    const updateBalanceRequestStatus = async (id: string, status: "approved" | "rejected") => {
+        try {
+            await updateBalanceRequestInFirestore(id, { status });
+            const req = balanceRequests.find(r => r.id === id);
+            if (req && status === "approved" && req.status !== "approved") {
+                // Add balance to user
+                const targetUser = users.find(u => u.email === req.userEmail);
+                if (targetUser) {
+                    await updateUserBalance(targetUser.id, req.amount, "add");
+                }
+            }
+            setBalanceRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
+        } catch (error) {
+            console.error("Failed to update balance request status", error);
+        }
+    };
+
+    const deleteBalanceRequest = async (id: string) => {
+        try {
+            await deleteBalanceRequestFromFirestore(id);
+            setBalanceRequests(prev => prev.filter(r => r.id !== id));
+        } catch (error) {
+            console.error("Failed to delete balance request", error);
+        }
+    };
+
     return (
         <SystemContext.Provider value={{
             users,
@@ -702,7 +776,12 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             register,
             logout,
             sendEmail,
-            isLoaded
+            isLoaded,
+
+            balanceRequests,
+            addBalanceRequest,
+            updateBalanceRequestStatus,
+            deleteBalanceRequest,
         }}>
             {children}
         </SystemContext.Provider>

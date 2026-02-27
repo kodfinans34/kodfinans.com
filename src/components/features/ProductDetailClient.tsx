@@ -44,12 +44,16 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
     // Use initial product if present, then system products when loaded
     const currentProducts = (products || []).length > 0 ? products : (initialProduct ? [initialProduct] : staticProducts);
 
-    let product = currentProducts.find(p => p.slug === slug);
+    const normalize = (s: string) => s ? s.toLowerCase().trim().replace(/\s+/g, '-').replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c') : '';
+    const normalizedParam = normalize(decodeURIComponent(slug));
+
+    // Find product either directly or as a variant parent
+    let product = currentProducts.find(p => normalize(p.slug || '') === normalizedParam);
     let initialVariantId = "";
 
     if (!product) {
         for (const p of currentProducts) {
-            const v = p.variants?.find(v => v.slug === slug);
+            const v = p.variants?.find(v => normalize(v.slug || '') === normalizedParam);
             if (v) {
                 product = p;
                 initialVariantId = v.id;
@@ -57,6 +61,33 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
             }
         }
     }
+
+    // DISCOVERY: If standalone product or no variants, find siblings
+    const variants = React.useMemo(() => {
+        if (!product) return [];
+
+        // 1. Check nested variants
+        if ((product.variants || []).length > 0) return product.variants || [];
+
+        // 2. Discover siblings (individual products that belong together)
+        const baseName = product.name.split(' ').slice(0, 2).join(' ').toLowerCase(); // e.g. "google play"
+        const siblings = currentProducts.filter(p =>
+            p.productType === product.productType &&
+            p.category === product.category &&
+            p.name.toLowerCase().includes(baseName)
+        );
+
+        if (siblings.length <= 1) return []; // Just this product found
+
+        return siblings.map(s => ({
+            id: s.id.toString(),
+            name: s.name,
+            price: Number(s.price),
+            discountPrice: (s as any).discountPrice ? Number((s as any).discountPrice) : undefined,
+            slug: s.slug,
+            description: s.description
+        })).sort((a, b) => a.price - b.price);
+    }, [product, currentProducts]);
 
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
@@ -187,9 +218,9 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                     <div className="space-y-3">
                         <h3 className="text-sm font-semibold text-white/40 px-1">Seçenekler</h3>
 
-                        {(product.variants || []).length > 0 ? (
+                        {variants.length > 0 ? (
                             <div className="grid gap-3">
-                                {product.variants?.map((variant) => (
+                                {variants.map((variant) => (
                                     <div
                                         key={variant.id}
                                         id={`variant-${variant.slug || variant.id}`}
@@ -200,7 +231,7 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                                         }}
                                         className={cn(
                                             "bg-white/[0.02] rounded-xl md:rounded-2xl p-4 md:p-5 border transition-all cursor-pointer group/v",
-                                            (initialVariantId === variant.id || variant.slug === slug)
+                                            (initialVariantId === variant.id || normalize(variant.slug || '') === normalizedParam)
                                                 ? "border-primary/50 bg-primary/[0.04] ring-1 ring-primary/20"
                                                 : "border-white/[0.06] hover:border-white/[0.15] hover:bg-white/[0.04]"
                                         )}
@@ -211,7 +242,7 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                                             <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover/v:border-primary/30 transition-colors">
                                                 <Package size={18} className={cn(
                                                     "text-white/20 transition-colors",
-                                                    (initialVariantId === variant.id || variant.slug === slug) ? "text-primary" : "group-hover/v:text-white/40"
+                                                    (initialVariantId === variant.id || normalize(variant.slug || '') === normalizedParam) ? "text-primary" : "group-hover/v:text-white/40"
                                                 )} />
                                             </div>
 
