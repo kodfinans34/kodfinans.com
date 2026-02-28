@@ -15,24 +15,34 @@ export default function Icon() {
             <div
                 style={{
                     fontSize: 24,
-                    background: 'linear-gradient(to bottom right, #4abcf1, #0066cc)',
+                    background: '#0a100e',
+                    border: '2px solid #22c55e',
                     width: '100%',
                     height: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'white',
+                    color: '#22c55e',
                     borderRadius: '8px',
-                    fontWeight: 800,
                 }}
             >
-                K
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
             </div>
         ),
         // ImageResponse options
         {
-            // For convenience, we can re-use the exported icons size metadata
-            // config to also set the ImageResponse's width and height.
             ...size,
         }
     )
