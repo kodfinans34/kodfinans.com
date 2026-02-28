@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X, ExternalLink, Image } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSystem } from "@/context/SystemContext";
+import { AdminNotifications } from "@/components/admin/AdminNotifications";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -43,7 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
         <div className="min-h-screen bg-background text-foreground flex">
             {/* Mobile Header */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-background/95 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4">
+            <div className="lg:hidden fixed top-0 left-0 right-0 z-40 h-14 bg-background/95 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4">
                 <Link href="/admin" className="flex items-center gap-2">
                     {settings.adminLogo ? (
                         <img src={settings.adminLogo} alt="Admin Logo" className="h-10 w-auto object-contain" />
@@ -56,9 +57,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         </>
                     )}
                 </Link>
-                <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-lg bg-white/5 text-white/50">
-                    {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
-                </button>
+                <div className="flex items-center gap-2">
+                    <AdminNotifications />
+                    <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-lg bg-white/5 text-white/50">
+                        {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Overlay */}
@@ -71,7 +75,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 "w-64 border-r border-white/[0.06] bg-card flex flex-col fixed top-0 bottom-0 left-0 z-50 transition-transform duration-300",
                 sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
             )}>
-                <div className="h-16 flex items-center px-5 border-b border-white/[0.06]">
+                <div className="h-16 flex items-center justify-between px-5 border-b border-white/[0.06]">
                     <Link href="/admin" className="flex items-center gap-2.5">
                         {settings.adminLogo ? (
                             <img src={settings.adminLogo} alt="Admin Logo" className="h-12 w-auto object-contain" />
@@ -87,6 +91,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             </>
                         )}
                     </Link>
+                    <div className="hidden lg:block">
+                        <AdminNotifications />
+                    </div>
                 </div>
 
                 <div className="flex-1 py-4 px-3 space-y-0.5 overflow-y-auto no-scrollbar">

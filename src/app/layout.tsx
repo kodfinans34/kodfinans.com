@@ -89,7 +89,7 @@ export default function RootLayout({
   return (
     <html lang="tr" className="overflow-x-hidden">
       <body
-        className={`${inter.variable} ${poppins.variable} antialiased overflow-x-hidden`}
+        className={`${inter.variable} ${poppins.variable} antialiased overflow-x-hidden pb-20 md:pb-0`}
       >
         <script
           type="application/ld+json"

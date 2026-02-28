@@ -146,7 +146,7 @@ export const ProductGrid = () => {
                                                         e.stopPropagation();
                                                         router.push(`/bozum/${product.slug}`);
                                                     }}
-                                                    className="flex-1 min-w-0 py-2.5 h-auto rounded-lg text-[9px] sm:text-[10px] font-medium transition-all bg-white/[0.03] border border-white/[0.06] text-white hover:bg-white/[0.06] hover:border-primary/20 px-1"
+                                                    className="flex-1 min-w-0 py-2.5 h-auto rounded-lg text-[10px] sm:text-xs font-medium transition-all bg-white/[0.03] border border-white/[0.06] text-white hover:bg-white/[0.06] hover:border-primary/20 px-1"
                                                     variant="ghost"
                                                     size="sm"
                                                 >
@@ -164,7 +164,7 @@ export const ProductGrid = () => {
                                                         const target = found?.slug || product.slug.replace("-bozum", "").replace("-bozdurma", "");
                                                         router.push(`/urun/${target}`);
                                                     }}
-                                                    className="flex-1 min-w-0 py-2.5 h-auto rounded-lg text-[9px] sm:text-[10px] font-medium transition-all bg-primary/10 border border-primary/15 text-primary hover:bg-primary hover:text-white px-1"
+                                                    className="flex-1 min-w-0 py-2.5 h-auto rounded-lg text-[10px] sm:text-xs font-medium transition-all bg-primary/10 border border-primary/15 text-primary hover:bg-primary hover:text-white px-1"
                                                     variant="ghost"
                                                     size="sm"
                                                 >

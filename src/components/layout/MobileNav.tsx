@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 export const MobileNav = () => {
     const pathname = usePathname();
 
+    if (pathname?.startsWith("/admin")) return null;
+
     const navItems = [
         { name: "Ana Sayfa", icon: Home, href: "/" },
         { name: "Bakiye", icon: Wallet, href: "/panel/bakiye-ekle" },
