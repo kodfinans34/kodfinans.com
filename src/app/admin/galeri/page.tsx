@@ -19,18 +19,33 @@ export default function GalleryPage() {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
 
+    const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         fetchImages();
     }, []);
 
     const fetchImages = async () => {
         setLoading(true);
+        setError(null);
         try {
+            // Add a timeout to prevent infinite loading if Storage is not configured
             const listRef = ref(storage, "gallery");
-            const res = await listAll(listRef);
+            const listPromise = listAll(listRef);
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("Firebase Storage bağlantısı zaman aşımına uğradı.")), 8000)
+            );
+
+            const res = await Promise.race([listPromise, timeoutPromise]) as any;
+
+            if (!res || !res.items) {
+                setImages([]);
+                setLoading(false);
+                return;
+            }
 
             const urls = await Promise.all(
-                res.items.map(async (itemRef) => {
+                res.items.map(async (itemRef: any) => {
                     const url = await getDownloadURL(itemRef);
                     return {
                         name: itemRef.name,
@@ -40,10 +55,11 @@ export default function GalleryPage() {
                 })
             );
 
-            // Sort to show newest first if possible (Firebase doesn't have a created time in listAll directly without getMetadata, so we just reverse it generally)
+            // Sort to show newest first
             setImages(urls.reverse());
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error fetching images:", error);
+            setError(error.message || "Bilinmeyen bir hata oluştu.");
         } finally {
             setLoading(false);
         }
@@ -143,7 +159,20 @@ export default function GalleryPage() {
             {loading ? (
                 <div className="flex flex-col items-center justify-center py-32 bg-[#0a100e]/50 border border-white/5 rounded-3xl">
                     <Loader2 size={32} className="text-primary animate-spin mb-4" />
-                    <p className="text-white/40text-sm">Yüklenen resimler aranıyor...</p>
+                    <p className="text-white/40 text-sm">Yüklenen resimler aranıyor...</p>
+                </div>
+            ) : error ? (
+                <div className="flex flex-col items-center justify-center py-24 bg-[#0a100e]/50 border border-red-500/20 rounded-3xl">
+                    <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 mb-4">
+                        <Trash2 size={32} />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Bağlantı Hatası</h3>
+                    <p className="text-white/40 text-sm max-w-sm text-center mb-6">
+                        {error}
+                    </p>
+                    <Button onClick={fetchImages} className="bg-white/10 hover:bg-white/20 text-white">
+                        Tekrar Dene
+                    </Button>
                 </div>
             ) : images.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-24 bg-[#0a100e]/50 border border-white/5 rounded-3xl">
