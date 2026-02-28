@@ -28,6 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: "Genel Bakış", href: "/admin", icon: LayoutDashboard },
         { name: "Anasayfa Düzeni", href: "/admin/anasayfa-duzen", icon: Layout },
         { name: "Banner Yönetimi", href: "/admin/banner-yonetimi", icon: Image },
+        { name: "Resim Galerisi", href: "/admin/galeri", icon: Image },
         { name: "Knight Online", href: "/admin/knight-online", icon: ShieldCheck },
         { name: "Ürünler", href: "/admin/urunler", icon: ShoppingCart },
         { name: "Bozum Ürünleri", href: "/admin/bozum-urunleri", icon: ShoppingCart },

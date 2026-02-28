@@ -76,8 +76,8 @@ export default function KnightOnlinePage() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <Button className="w-full sm:w-auto h-12 px-8 bg-white/5 hover:bg-primary text-white font-black uppercase tracking-widest transition-all text-xs">
-                                    BİZE SAT <ArrowRight size={16} className="ml-2" />
+                                <Button className="w-full md:w-auto h-10 px-6 bg-white/5 hover:bg-primary text-white font-black uppercase tracking-widest transition-all text-[10px]">
+                                    BİZE SAT <ArrowRight size={14} className="ml-2" />
                                 </Button>
                             </a>
                         </div>
@@ -98,8 +98,8 @@ export default function KnightOnlinePage() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <Button className="w-full sm:w-auto h-12 px-8 bg-gradient-to-r from-primary to-blue-500 hover:scale-[1.02] text-white font-black uppercase tracking-widest transition-all shadow-lg shadow-primary/20 text-xs">
-                                    HEMEN SATIN AL <ArrowRight size={16} className="ml-2" />
+                                <Button className="w-full md:w-auto h-10 px-6 bg-gradient-to-r from-primary to-blue-500 hover:scale-[1.02] text-white font-black uppercase tracking-widest transition-all shadow-lg shadow-primary/20 text-[10px]">
+                                    SATIN AL <ArrowRight size={14} className="ml-2" />
                                 </Button>
                             </a>
                         </div>
