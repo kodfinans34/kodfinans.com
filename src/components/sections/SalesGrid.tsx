@@ -241,7 +241,7 @@ export const SalesGrid = () => {
                                         </h3>
                                     </div>
 
-                                    <div className="mt-auto pt-2 flex items-center justify-between gap-1">
+                                    <div className="mt-auto pt-2 flex flex-col xl:flex-row xl:items-center justify-between gap-2 xl:gap-1">
                                         <div className="flex flex-col min-w-0">
                                             {item.discountPrice ? (
                                                 <>
@@ -253,7 +253,7 @@ export const SalesGrid = () => {
                                             )}
                                         </div>
                                         <Button
-                                            className="px-2 py-1.5 md:px-4 md:py-2 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white text-[9px] md:text-[10px] font-bold rounded-lg transition-all shrink-0"
+                                            className="w-full xl:w-auto px-2 py-1.5 md:px-4 md:py-2 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white text-[9px] md:text-[10px] font-bold rounded-lg transition-all shrink-0"
                                             variant="ghost"
                                             size="sm"
                                         >

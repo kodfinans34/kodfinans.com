@@ -90,8 +90,8 @@ export const CartDrawer = () => {
                                                 <p className="text-white/60 text-xs">₺{item.price.toFixed(2)}</p>
                                             </div>
 
-                                            <div className="flex items-center justify-between mt-2">
-                                                <div className="flex items-center gap-3 bg-foreground/5 rounded-lg p-1">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-2 gap-2 sm:gap-0">
+                                                <div className="flex items-center gap-3 bg-foreground/5 rounded-lg p-1 w-fit">
                                                     <button
                                                         onClick={() => item.quantity > 1 ? addToCart({ ...item, quantity: -1 }) : removeFromCart(item.id, item.variant)}
                                                         className="w-6 h-6 rounded bg-foreground/5 hover:bg-foreground/10 flex items-center justify-center text-foreground transition-colors"
@@ -106,7 +106,7 @@ export const CartDrawer = () => {
                                                         <Plus size={12} />
                                                     </button>
                                                 </div>
-                                                <p className="text-white font-black text-sm">₺{(item.price * item.quantity).toFixed(2)}</p>
+                                                <p className="text-white font-black text-sm text-right">₺{(item.price * item.quantity).toFixed(2)}</p>
                                             </div>
                                         </div>
 
@@ -149,7 +149,7 @@ export const CartDrawer = () => {
                                             initial={{ scale: 1.15, color: "rgb(16, 185, 129)" }}
                                             animate={{ scale: 1, color: "var(--foreground)" }}
                                             transition={{ duration: 0.4 }}
-                                            className="text-3xl font-black tracking-tight text-foreground"
+                                            className="text-2xl sm:text-3xl font-black tracking-tight text-foreground"
                                         >
                                             ₺{total.toFixed(2)}
                                         </motion.div>
@@ -157,7 +157,7 @@ export const CartDrawer = () => {
                                 </div>
 
                                 {/* Checkout Button */}
-                                <div className="px-6 pb-6">
+                                <div className="px-6 pb-24 sm:pb-6">
                                     <Button
                                         onClick={() => {
                                             toggleCart();

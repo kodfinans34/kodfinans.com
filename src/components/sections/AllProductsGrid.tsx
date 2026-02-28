@@ -262,18 +262,18 @@ export const AllProductsGrid = () => {
                                             )}
                                         </div>
 
-                                        <div className="flex items-center justify-between gap-1">
+                                        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2 xl:gap-1">
                                             <div className="min-w-0">
                                                 <p className="text-[8px] font-black text-foreground/20 uppercase tracking-widest leading-none">Fiyat</p>
                                                 <p className="text-foreground font-black text-sm md:text-xl italic tracking-tighter truncate">₺{item.variantPrice || item.price}</p>
                                             </div>
-                                            <div className="flex gap-1 shrink-0">
+                                            <div className="flex w-full xl:w-auto gap-1 shrink-0">
                                                 <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
                                                     <ShoppingCart size={15} className="md:w-[18px] md:h-[18px]" />
                                                 </div>
                                                 <Button
                                                     size="sm"
-                                                    className="h-8 md:h-10 px-2 md:px-3 bg-foreground/10 hover:bg-foreground/20 text-foreground text-[8px] md:text-[10px] font-black rounded-lg md:rounded-xl uppercase transition-all"
+                                                    className="flex-1 xl:flex-none h-8 md:h-10 px-2 md:px-3 bg-foreground/10 hover:bg-foreground/20 text-foreground text-[8px] md:text-[10px] font-black rounded-lg md:rounded-xl uppercase transition-all"
                                                     variant="ghost"
                                                 >
                                                     Satın Al

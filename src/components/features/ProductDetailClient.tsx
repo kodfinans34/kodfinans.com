@@ -154,14 +154,14 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                 <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
 
                     {/* Breadcrumbs */}
-                    <nav className="flex items-center gap-2 text-xs text-white/30 font-medium">
-                        <button onClick={() => router.push("/")} className="hover:text-primary transition-colors flex items-center gap-1.5">
+                    <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-white/30 font-medium whitespace-normal">
+                        <button onClick={() => router.push("/")} className="hover:text-primary transition-colors flex items-center gap-1.5 shrink-0">
                             <Home size={13} /> Anasayfa
                         </button>
-                        <ChevronRight size={10} className="text-white/10" />
-                        <button onClick={() => router.push("/urunler")} className="hover:text-primary transition-colors">Ürünler</button>
-                        <ChevronRight size={10} className="text-white/10" />
-                        <span className="text-primary font-semibold">{product.name}</span>
+                        <ChevronRight size={10} className="text-white/10 shrink-0" />
+                        <button onClick={() => router.push("/urunler")} className="hover:text-primary transition-colors shrink-0">Ürünler</button>
+                        <ChevronRight size={10} className="text-white/10 shrink-0" />
+                        <span className="text-primary font-semibold break-all sm:break-normal">{product.name}</span>
                     </nav>
 
                     {/* Product Header — Mobile-First Wide Image */}
@@ -191,11 +191,11 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
 
                         {/* Product Info */}
                         <div className="p-5 md:p-8 space-y-4">
-                            <h1 className="text-xl md:text-3xl font-bold text-white tracking-tight leading-tight">
+                            <h1 className="text-xl md:text-3xl font-bold text-white tracking-tight leading-tight break-words">
                                 {product.name}
                             </h1>
                             {product.description && (
-                                <p className="text-white/30 text-sm leading-relaxed max-w-2xl">{product.description}</p>
+                                <p className="text-white/30 text-sm leading-relaxed max-w-2xl break-words">{product.description}</p>
                             )}
 
                             {/* Trust signals */}
@@ -263,7 +263,7 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                                         </div>
 
                                         {/* Bottom row: quantity + CTA (full width on mobile) */}
-                                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/[0.04]" onClick={(e) => e.stopPropagation()}>
+                                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-3 pt-3 border-t border-white/[0.04]" onClick={(e) => e.stopPropagation()}>
                                             <div className="hidden md:flex items-center bg-white/[0.03] border border-white/[0.06] rounded-lg overflow-hidden">
                                                 <button onClick={() => updateQuantity(variant.id, -1)} className="p-2 hover:bg-white/5 text-white/30 transition-colors">
                                                     <Minus size={13} />
@@ -276,9 +276,9 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
 
                                             <Button
                                                 onClick={() => handleAddToCart(variant)}
-                                                className="flex-1 md:flex-none px-4 py-2.5 md:px-5 md:py-3 bg-primary hover:bg-secondary text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                                                className="w-full sm:w-auto flex-1 md:flex-none px-2 sm:px-4 py-2.5 md:px-5 md:py-3 bg-primary hover:bg-secondary text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap overflow-hidden"
                                             >
-                                                <ShoppingCart size={14} /> Sepete Ekle
+                                                <ShoppingCart size={14} className="shrink-0" /> Sepete Ekle
                                             </Button>
                                         </div>
                                     </div>
@@ -317,14 +317,14 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                             <Info size={16} className="text-primary" />
                             <h3 className="text-sm font-semibold text-white">{product.name} Nasıl Yüklenir?</h3>
                         </div>
-                        <div className="text-white/30 text-sm leading-relaxed">
+                        <div className="text-white/30 text-sm leading-relaxed break-words">
                             {product.howToUse ? <p>{product.howToUse}</p> : <p>Satın aldığınız kodlar SMS ve E-Posta ile anında tarafınıza iletilir.</p>}
                         </div>
                     </div>
 
                     {/* Payment Methods */}
-                    <div className="bg-white/[0.02] rounded-2xl border border-white/[0.06] p-6 flex flex-wrap items-center gap-6">
-                        <div className="flex-1 min-w-[200px]">
+                    <div className="bg-white/[0.02] rounded-2xl border border-white/[0.06] p-4 sm:p-6 flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-6">
+                        <div className="flex-1 min-w-[150px]">
                             <h4 className="text-sm font-semibold text-white mb-1">Ödeme Yöntemleri</h4>
                             <p className="text-[11px] text-white/25 font-medium">Güvenli ödeme altyapısı ile alışverişinizi tamamlayın.</p>
                         </div>

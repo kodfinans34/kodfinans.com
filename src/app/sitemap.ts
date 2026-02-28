@@ -4,17 +4,34 @@ import { getBlogs } from '@/lib/firebase-blogs'
 
 export const dynamic = 'force-dynamic'
 
+function parseDate(dateValue: any): Date {
+    if (!dateValue) return new Date();
+
+    // Check if it's a Firestore Timestamp
+    if (typeof dateValue === 'object' && 'seconds' in dateValue) {
+        return new Date(dateValue.seconds * 1000);
+    }
+
+    const d = new Date(dateValue);
+    if (!isNaN(d.getTime())) {
+        return d;
+    }
+
+    // Fallback
+    return new Date();
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = 'https://kodfinans.com'
 
     // Fetch products dynamically
-    const products = await getProducts()
+    const products = await getProducts() || []
 
     // Fetch blogs dynamically
-    const blogs = await getBlogs()
+    const blogs = await getBlogs() || []
 
     const productRoutes = products
-        .filter(p => p.productType !== "bozum")
+        .filter(p => p && p.slug && p.productType !== "bozum")
         .map((product) => ({
             url: `${baseUrl}/urun/${product.slug}`,
             lastModified: new Date(),
@@ -24,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Bozum products get their own /bozum/[slug] pages
     const bozumRoutes = products
-        .filter(p => p.productType === "bozum")
+        .filter(p => p && p.slug && p.productType === "bozum")
         .map((product) => ({
             url: `${baseUrl}/bozum/${product.slug}`,
             lastModified: new Date(),
@@ -32,12 +49,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.95,
         }))
 
-    const blogRoutes = blogs.map((blog) => ({
-        url: `${baseUrl}/blog/${blog.slug}`,
-        lastModified: new Date(blog.date || Date.now()),
-        changeFrequency: 'monthly' as const,
-        priority: 0.8,
-    }))
+    const blogRoutes = blogs
+        .filter(b => b && b.slug)
+        .map((blog) => ({
+            url: `${baseUrl}/blog/${blog.slug}`,
+            lastModified: parseDate(blog.date),
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        }))
 
     return [
         {
