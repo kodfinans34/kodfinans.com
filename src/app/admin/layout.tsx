@@ -41,6 +41,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: "Site Ayarları", href: "/admin/ayarlar", icon: Settings },
     ];
 
+    if (!isAuthenticated) {
+        return (
+            <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+                <div className="w-14 h-14 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4"></div>
+                <p className="text-white/30 text-sm font-medium">Yetkilendiriliyor...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-background text-foreground flex">
             {/* Mobile Header */}
@@ -151,14 +160,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {/* Main Content */}
             <main className="flex-1 lg:ml-64 pt-14 lg:pt-0 min-h-screen">
                 <div className="p-4 md:p-8">
-                    {isAuthenticated ? children : (
-                        <div className="flex items-center justify-center h-screen">
-                            <div className="text-center">
-                                <div className="w-14 h-14 border-3 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
-                                <p className="text-white/30 text-sm font-medium">Yetkilendiriliyor...</p>
-                            </div>
-                        </div>
-                    )}
+                    {children}
                 </div>
             </main>
         </div>

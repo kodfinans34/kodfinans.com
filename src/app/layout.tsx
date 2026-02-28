@@ -87,7 +87,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="overflow-x-hidden">
+    <html lang="tr" className="overflow-x-hidden" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${poppins.variable} antialiased overflow-x-hidden pb-20 md:pb-0`}
       >

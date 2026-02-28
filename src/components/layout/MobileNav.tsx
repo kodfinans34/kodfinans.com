@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export const MobileNav = () => {
     const pathname = usePathname();
 
-    if (pathname?.startsWith("/admin")) return null;
+    if (pathname?.startsWith("/admin") || pathname?.startsWith("/panel")) return null;
 
     const navItems = [
         { name: "Ana Sayfa", icon: Home, href: "/" },

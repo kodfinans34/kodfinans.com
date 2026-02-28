@@ -21,7 +21,7 @@ export const CalculatorWidget = () => {
         image: p.image,
         slug: p.slug,
     })) : [
-        { name: "Razer Gold", rate: 80, image: "/images/razer.webp", slug: "razer-gold-bozum" },
+        { name: "Razer Gold", rate: 80, image: "/assets/products/razer-gold.png", slug: "razer-gold-bozum" },
         { name: "Steam Cüzdan", rate: 78, image: "/images/steam.webp", slug: "steam-bozum" },
     ];
 
