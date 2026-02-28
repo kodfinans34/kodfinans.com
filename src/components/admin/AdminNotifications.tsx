@@ -44,7 +44,7 @@ const playNotificationSound = () => {
     }
 };
 
-export function AdminNotifications() {
+export function AdminNotifications({ align = "right" }: { align?: "left" | "right" }) {
     const router = useRouter();
     const [unreadCount, setUnreadCount] = useState(0);
     const [hasNew, setHasNew] = useState(false);
@@ -150,7 +150,10 @@ export function AdminNotifications() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute right-0 mt-3 w-80 bg-background/95 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 origin-top-right"
+                        className={cn(
+                            "absolute mt-3 w-80 bg-background/95 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50",
+                            align === "right" ? "right-0 origin-top-right" : "left-0 origin-top-left"
+                        )}
                     >
                         <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
                             <h3 className="text-sm font-bold text-white flex items-center gap-2">

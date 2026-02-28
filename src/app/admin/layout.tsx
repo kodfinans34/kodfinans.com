@@ -101,8 +101,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             </>
                         )}
                     </Link>
-                    <div className="hidden lg:block">
-                        <AdminNotifications />
+                    <div className="hidden lg:block relative">
+                        <AdminNotifications align="left" />
                     </div>
                 </div>
 
