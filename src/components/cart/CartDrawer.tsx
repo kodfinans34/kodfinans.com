@@ -83,7 +83,7 @@ export const CartDrawer = () => {
                                         </div>
 
                                         {/* Content */}
-                                        <div className="flex-1 flex flex-col justify-between">
+                                        <div className="flex-1 flex flex-col justify-between min-w-0">
                                             <div>
                                                 <h4 className="text-white font-black text-sm uppercase tracking-tight line-clamp-1">{item.name}</h4>
                                                 <p className="text-primary text-xs font-bold uppercase tracking-widest mb-1">{item.variant}</p>

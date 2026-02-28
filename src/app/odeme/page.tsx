@@ -304,7 +304,32 @@ export default function CheckoutPage() {
                                         <p>Kredi kartı veya banka kartınızla 3D Secure altyapısı üzerinden güvenli ödeme yapabilirsiniz. Kart bilgileriniz KodFinans sunucularında saklanmaz.</p>
                                     )}
                                     {paymentMethod === "transfer" && (
-                                        <p>Banka hesaplarımıza 7/24 havale veya EFT yapabilirsiniz. Ödeme yaparken açıklama kısmına sipariş numaranızı yazmayı unutmayınız. İşleminiz onaylandıktan sonra bakiyeniz tanımlanır veya ürününüz teslim edilir.</p>
+                                        <div className="space-y-4">
+                                            <p>Banka hesaplarımıza 7/24 havale veya EFT yapabilirsiniz. Ödeme yaparken açıklama kısmına sipariş numaranızı yazmayı unutmayınız. İşleminiz onaylandıktan sonra bakiyeniz tanımlanır veya ürününüz teslim edilir.</p>
+
+                                            {(settings.bankName || settings.ibanInfo) && (
+                                                <div className="bg-white/5 p-5 rounded-xl border border-white/10 space-y-2 mt-4">
+                                                    {settings.bankName && (
+                                                        <div className="flex flex-col">
+                                                            <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">Banka</span>
+                                                            <span className="text-white font-bold">{settings.bankName}</span>
+                                                        </div>
+                                                    )}
+                                                    {settings.ibanHolder && (
+                                                        <div className="flex flex-col">
+                                                            <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">Alıcı</span>
+                                                            <span className="text-white/80 text-sm">{settings.ibanHolder}</span>
+                                                        </div>
+                                                    )}
+                                                    {settings.ibanInfo && (
+                                                        <div className="flex flex-col pt-1">
+                                                            <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">IBAN</span>
+                                                            <span className="text-primary font-mono text-sm tracking-wide select-all">{settings.ibanInfo}</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
                                     )}
                                 </div>
                             </div>

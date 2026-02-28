@@ -276,9 +276,10 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
 
                                             <Button
                                                 onClick={() => handleAddToCart(variant)}
-                                                className="w-full sm:w-auto flex-1 md:flex-none px-2 sm:px-4 py-2.5 md:px-5 md:py-3 bg-primary hover:bg-secondary text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap overflow-hidden"
+                                                className="w-full sm:w-auto flex-1 md:flex-none px-2 sm:px-4 py-2.5 md:px-5 md:py-3 bg-primary hover:bg-secondary text-white rounded-xl text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all overflow-hidden min-w-0"
                                             >
-                                                <ShoppingCart size={14} className="shrink-0" /> Sepete Ekle
+                                                <ShoppingCart size={14} className="shrink-0" />
+                                                <span className="truncate">Sepete Ekle</span>
                                             </Button>
                                         </div>
                                     </div>

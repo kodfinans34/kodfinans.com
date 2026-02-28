@@ -26,7 +26,7 @@ const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
 };
 
 // Sections that should ALWAYS appear even if not in Firebase saved order
-const ALWAYS_INCLUDE = ["knightonlinesection"];
+const ALWAYS_INCLUDE: string[] = [];
 
 export default function Home() {
   const { settings } = useSystem();

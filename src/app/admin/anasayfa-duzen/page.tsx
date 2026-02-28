@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 const AVAILABLE_SECTIONS = [
     { id: "Hero", name: "Hero Bölümü", description: "Ana başlık ve arama çubuğu" },
     { id: "PlatformGrid", name: "Platform Grid", description: "Desteklenen platformlar" },
+    { id: "KnightOnlineSection", name: "Knight Online", description: "Knight Online Gold bar ve ürünleri" },
     { id: "SalesGrid", name: "En Son Satın Alınanlar", description: "Random ürün carousel" },
     { id: "CtaBanner", name: "CTA Banner", description: "WhatsApp yönlendirme banner'ı" },
     { id: "TrustBanner", name: "Güven Banner'ı", description: "SSL, hızlı teslimat vb." },
@@ -19,7 +20,7 @@ const AVAILABLE_SECTIONS = [
 export default function HomepageLayoutPage() {
     const { settings, updateSettings } = useSystem();
 
-    const defaultOrder = ["Hero", "PlatformGrid", "SalesGrid", "CtaBanner", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
+    const defaultOrder = ["Hero", "PlatformGrid", "KnightOnlineSection", "SalesGrid", "CtaBanner", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
     const [sectionOrder, setSectionOrder] = useState<string[]>(
         settings.homepageSectionOrder || defaultOrder
     );
