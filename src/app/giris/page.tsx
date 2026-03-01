@@ -4,7 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { User, Lock, Mail, ArrowRight, Github, Chrome, CheckCircle2 } from "lucide-react";
+import { User, Lock, Mail, ArrowRight, Github, Chrome, CheckCircle2, Apple } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import { useSystem } from "@/context/SystemContext";
@@ -12,7 +12,7 @@ import { useSystem } from "@/context/SystemContext";
 function LoginContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { login } = useSystem();
+    const { login, loginWithProvider } = useSystem();
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -30,6 +30,24 @@ function LoginContent() {
                 router.push(redirect || "/");
             } else {
                 setError("E-posta veya şifre hatalı!");
+                setIsLoading(false);
+            }
+        } catch (err) {
+            setError("Bir hata oluştu.");
+            setIsLoading(false);
+        }
+    };
+
+    const handleProviderLogin = async (provider: "google" | "apple") => {
+        setIsLoading(true);
+        setError("");
+        try {
+            const success = await loginWithProvider(provider);
+            if (success) {
+                const redirect = searchParams.get("redirect");
+                router.push(redirect || "/");
+            } else {
+                setError("Giriş işlemi başarısız veya iptal edildi.");
                 setIsLoading(false);
             }
         } catch (err) {
@@ -161,13 +179,13 @@ function LoginContent() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <button className="h-12 bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 rounded-xl flex items-center justify-center gap-3 transition-all group">
+                                <button type="button" onClick={() => handleProviderLogin("google")} className="h-12 bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 rounded-xl flex items-center justify-center gap-3 transition-all group">
                                     <Chrome className="w-5 h-5 text-white/40 group-hover:text-white transition-colors" />
                                     <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">Google</span>
                                 </button>
-                                <button className="h-12 bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 rounded-xl flex items-center justify-center gap-3 transition-all group">
-                                    <Github className="w-5 h-5 text-white/40 group-hover:text-white transition-colors" />
-                                    <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">Github</span>
+                                <button type="button" onClick={() => handleProviderLogin("apple")} className="h-12 bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 rounded-xl flex items-center justify-center gap-3 transition-all group">
+                                    <Apple className="w-5 h-5 text-white/40 group-hover:text-white transition-colors" />
+                                    <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">Apple</span>
                                 </button>
                             </div>
 

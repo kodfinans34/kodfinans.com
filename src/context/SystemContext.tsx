@@ -75,6 +75,8 @@ import {
     updateBalanceRequestInFirestore,
     deleteBalanceRequestFromFirestore
 } from "@/lib/firebase-balance";
+import { auth } from "@/lib/firebase";
+import { GoogleAuthProvider, OAuthProvider, signInWithPopup } from "firebase/auth";
 
 // System Context Interface
 interface SystemContextType {
@@ -131,6 +133,7 @@ interface SystemContextType {
     // Auth
     user: { name: string; email: string; phone: string } | null;
     login: (email: string, password: string) => Promise<boolean>;
+    loginWithProvider: (providerName: "google" | "apple") => Promise<boolean>;
     register: (userData: { name: string; email: string; phone: string; password?: string }) => void;
     logout: () => void;
     isLoggedIn: boolean;
@@ -664,6 +667,56 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    const loginWithProvider = async (providerName: "google" | "apple"): Promise<boolean> => {
+        try {
+            const provider = providerName === "google"
+                ? new GoogleAuthProvider()
+                : new OAuthProvider('apple.com');
+
+            const result = await signInWithPopup(auth, provider);
+            const fcUser = result.user;
+
+            if (!fcUser.email) return false;
+
+            // Check if user exists in context
+            let existingUser = users.find(u => u.email === fcUser.email);
+
+            if (existingUser) {
+                const sessionUser = { name: existingUser.name, email: existingUser.email, phone: existingUser.phone };
+                setUser(sessionUser);
+                setUserBalance(existingUser.balance);
+                localStorage.setItem("userProfile", JSON.stringify(sessionUser));
+                return true;
+            } else {
+                // Register user
+                const newUser: Omit<SystemUser, "id"> = {
+                    name: fcUser.displayName || ("User_" + Math.random().toString(36).substring(7)),
+                    email: fcUser.email,
+                    phone: fcUser.phoneNumber || "",
+                    password: "oauth_user_no_password",
+                    balance: 0,
+                    role: "user",
+                    createdAt: new Date()
+                };
+
+                const id = await addUserToFirestore(newUser);
+                const userWithId = { ...newUser, id };
+
+                setUsers(prev => [...prev, userWithId]);
+
+                // Auto login
+                const sessionUser = { name: newUser.name, email: newUser.email, phone: newUser.phone };
+                setUser(sessionUser);
+                setUserBalance(0);
+                localStorage.setItem("userProfile", JSON.stringify(sessionUser));
+                return true;
+            }
+        } catch (error) {
+            console.error("Popup login error", error);
+            return false;
+        }
+    };
+
     const logout = () => setUser(null);
 
     const addToBalance = (amount: number) => {
@@ -781,6 +834,7 @@ export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
             user,
             isLoggedIn: !!user,
             login,
+            loginWithProvider,
             register,
             logout,
             sendEmail,

@@ -4,7 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { User, Lock, Mail, ArrowRight, Github, Chrome, CheckCircle2, Phone } from "lucide-react";
+import { User, Lock, Mail, ArrowRight, Github, Chrome, CheckCircle2, Phone, Apple } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import { useSystem } from "@/context/SystemContext";
@@ -12,7 +12,7 @@ import { useSystem } from "@/context/SystemContext";
 function RegisterContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { register, sendEmail, settings } = useSystem();
+    const { register, sendEmail, settings, loginWithProvider } = useSystem();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
@@ -63,6 +63,26 @@ function RegisterContent() {
         setIsLoading(false);
         const redirect = searchParams.get("redirect");
         router.push(redirect || "/");
+    };
+
+    const [error, setError] = useState("");
+
+    const handleProviderLogin = async (provider: "google" | "apple") => {
+        setIsLoading(true);
+        setError("");
+        try {
+            const success = await loginWithProvider(provider);
+            if (success) {
+                const redirect = searchParams.get("redirect");
+                router.push(redirect || "/");
+            } else {
+                setError("Giriş işlemi başarısız veya iptal edildi.");
+                setIsLoading(false);
+            }
+        } catch (err) {
+            setError("Bir hata oluştu.");
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -221,6 +241,29 @@ function RegisterContent() {
                                 </Button>
                             </form>
 
+                            {error && (
+                                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold text-center animate-pulse mt-4">
+                                    {error}
+                                </div>
+                            )}
+
+                            <div className="relative flex items-center justify-center py-2">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t border-white/5"></div>
+                                </div>
+                                <span className="relative z-10 bg-[#0a100e] px-4 text-[10px] font-black text-white/20 uppercase tracking-widest">VEYA</span>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <button type="button" onClick={() => handleProviderLogin("google")} className="h-12 bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 rounded-xl flex items-center justify-center gap-3 transition-all group">
+                                    <Chrome className="w-5 h-5 text-white/40 group-hover:text-white transition-colors" />
+                                    <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">Google</span>
+                                </button>
+                                <button type="button" onClick={() => handleProviderLogin("apple")} className="h-12 bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 rounded-xl flex items-center justify-center gap-3 transition-all group">
+                                    <Apple className="w-5 h-5 text-white/40 group-hover:text-white transition-colors" />
+                                    <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">Apple</span>
+                                </button>
+                            </div>
 
                             <p className="text-center text-xs font-medium text-white/30 pt-4">
                                 Zaten hesabınız var mı? <Link href="/giris" className="text-white hover:text-primary transition-colors font-bold">Giriş Yapın</Link>
@@ -231,7 +274,7 @@ function RegisterContent() {
             </div>
 
             <Footer />
-        </div>
+        </div >
     );
 }
 
