@@ -13,7 +13,7 @@ import { useSystem } from "@/context/SystemContext";
 
 export default function CheckoutPage() {
     const { cart, total, removeFromCart, clearCart } = useCart();
-    const { settings, addOrder, userBalance, deductFromBalance, user, sendEmail, isLoggedIn } = useSystem();
+    const { settings, addOrder, userBalance, deductFromBalance, user, sendEmail, isLoggedIn, isLoaded } = useSystem();
     const router = useRouter();
     const [paymentMethod, setPaymentMethod] = useState<"balance" | "card" | "transfer">("balance");
     const [agreement, setAgreement] = useState(false);
@@ -31,12 +31,13 @@ export default function CheckoutPage() {
 
     // Check if user is logged in
     useEffect(() => {
+        if (!isLoaded) return;
         if (!isLoggedIn) {
             router.push("/giris?redirect=/odeme");
         } else {
             setIsChecking(false);
         }
-    }, [isLoggedIn, router]);
+    }, [isLoggedIn, isLoaded, router]);
 
     // Contact Info - Pre-fill if user logged in
     const [contactInfo, setContactInfo] = useState(() => {

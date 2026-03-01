@@ -19,17 +19,19 @@ const sidebarLinks = [
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const router = useRouter();
-    const { isLoggedIn, logout, settings } = useSystem();
+    const { isLoggedIn, logout, settings, isLoaded } = useSystem();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
+        if (!isLoaded) return;
+
         // Check if user is logged in
         if (!isLoggedIn) {
             router.push("/giris");
         } else {
             setIsAuthenticated(true);
         }
-    }, [isLoggedIn, router]);
+    }, [isLoggedIn, isLoaded, router]);
 
     const handleLogout = () => {
         logout();
