@@ -15,9 +15,11 @@ import {
     Calculator,
     TrendingUp,
     Star,
+    Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface Props {
     slug: string;
@@ -28,6 +30,7 @@ export default function BozumProductDetailClient({ slug, initialProduct }: Props
     const { products, settings } = useSystem();
     const router = useRouter();
     const [codeAmount, setCodeAmount] = useState<string>("");
+    const { user, isLoggedIn } = useSystem();
 
     // Find product from context or use initial
     const product = products.find(
@@ -128,89 +131,113 @@ export default function BozumProductDetailClient({ slug, initialProduct }: Props
                         </div>
 
                         {/* Right - Calculator & CTA */}
-                        <div className="space-y-6 lg:sticky lg:top-32">
-                            {/* Calculator Card */}
-                            <div className="bg-[#0c1210] border border-white/10 rounded-3xl p-8 space-y-6">
-                                <div className="flex items-center gap-3 border-b border-white/5 pb-4">
-                                    <Calculator size={20} className="text-primary" />
-                                    <h2 className="text-white font-black uppercase tracking-tight text-lg">Hesapla</h2>
-                                </div>
+                        <div className="space-y-6 lg:sticky lg:top-32 relative">
 
-                                <div className="space-y-3">
-                                    <label className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] ml-2">
-                                        Kod Tutarı (TL)
-                                    </label>
-                                    <div className="relative">
-                                        <span className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 font-bold text-xl">₺</span>
-                                        <input
-                                            type="number"
-                                            value={codeAmount}
-                                            onChange={(e) => setCodeAmount(e.target.value)}
-                                            placeholder="0"
-                                            className="w-full h-16 pl-14 bg-black/30 border border-white/10 rounded-2xl text-2xl font-black text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all font-mono"
-                                        />
+                            <div className={cn("space-y-6 transition-all duration-500", !isLoggedIn && "blur-[8px] opacity-60 pointer-events-none select-none")}>
+                                {/* Calculator Card */}
+                                <div className="bg-[#0c1210] border border-white/10 rounded-3xl p-8 space-y-6">
+                                    <div className="flex items-center gap-3 border-b border-white/5 pb-4">
+                                        <Calculator size={20} className="text-primary" />
+                                        <h2 className="text-white font-black uppercase tracking-tight text-lg">Hesapla</h2>
                                     </div>
+
+                                    <div className="space-y-3">
+                                        <label className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] ml-2">
+                                            Kod Tutarı (TL)
+                                        </label>
+                                        <div className="relative">
+                                            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 font-bold text-xl">₺</span>
+                                            <input
+                                                type="number"
+                                                value={codeAmount}
+                                                onChange={(e) => setCodeAmount(e.target.value)}
+                                                placeholder="0"
+                                                className="w-full h-16 pl-14 bg-black/30 border border-white/10 rounded-2xl text-2xl font-black text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all font-mono"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center space-y-1">
+                                        <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em]">Tahmini Ödeme</p>
+                                        <p className="text-3xl font-black text-primary font-mono">
+                                            ₺{calculatedAmount.toFixed(2)}
+                                        </p>
+                                        <p className="text-white/20 text-[10px]">
+                                            {codeAmount || 0} TL × %{rate} oran
+                                        </p>
+                                    </div>
+
+                                    <Button
+                                        onClick={handleWhatsApp}
+                                        className="w-full py-6 rounded-2xl bg-gradient-to-r from-primary to-secondary text-white font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
+                                    >
+                                        <MessageCircle size={18} />
+                                        Hemen Bozdur
+                                    </Button>
                                 </div>
 
-                                <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center space-y-1">
-                                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em]">Tahmini Ödeme</p>
-                                    <p className="text-3xl font-black text-primary font-mono">
-                                        ₺{calculatedAmount.toFixed(2)}
+                                {/* Higher Rate CTA */}
+                                <div className="bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-transparent border border-yellow-500/20 rounded-3xl p-6 space-y-4">
+                                    <div className="flex items-center gap-3">
+                                        <Star size={20} className="text-yellow-400" />
+                                        <h3 className="text-white font-black uppercase tracking-tight text-sm">
+                                            Daha Yüksek Oran İster Misiniz?
+                                        </h3>
+                                    </div>
+                                    <p className="text-white/40 text-xs leading-relaxed">
+                                        Yüksek tutarlı işlemler için özel oranlar sunuyoruz. Canlı destek ekibimiz ile
+                                        iletişime geçerek kişiselleştirilmiş teklifinizi alın.
                                     </p>
-                                    <p className="text-white/20 text-[10px]">
-                                        {codeAmount || 0} TL × %{rate} oran
-                                    </p>
+                                    <Button
+                                        onClick={() => {
+                                            const msg = `Merhaba, ${product.name} için yüksek oran teklifi almak istiyorum.`;
+                                            window.open(
+                                                `https://wa.me/${(settings.whatsappNumber || "").replace(/\D/g, "")}?text=${encodeURIComponent(msg)}`,
+                                                "_blank"
+                                            );
+                                        }}
+                                        className="w-full py-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2 hover:bg-yellow-500/20 transition-all"
+                                    >
+                                        <MessageCircle size={14} />
+                                        Canlı Destek ile Görüşün
+                                    </Button>
                                 </div>
 
-                                <Button
-                                    onClick={handleWhatsApp}
-                                    className="w-full py-6 rounded-2xl bg-gradient-to-r from-primary to-secondary text-white font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
-                                >
-                                    <MessageCircle size={18} />
-                                    Hemen Bozdur
-                                </Button>
+                                {/* Trust badges */}
+                                <div className="flex items-center justify-center gap-6 py-4">
+                                    {[
+                                        { icon: CheckCircle2, text: "SSL Güvenlik" },
+                                        { icon: Zap, text: "Anında Ödeme" },
+                                        { icon: Clock, text: "7/24 Aktif" },
+                                    ].map((badge, i) => (
+                                        <div key={i} className="flex items-center gap-1.5 text-white/20 text-[10px] font-medium">
+                                            <badge.icon size={12} />
+                                            {badge.text}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
 
-                            {/* Higher Rate CTA */}
-                            <div className="bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-transparent border border-yellow-500/20 rounded-3xl p-6 space-y-4">
-                                <div className="flex items-center gap-3">
-                                    <Star size={20} className="text-yellow-400" />
-                                    <h3 className="text-white font-black uppercase tracking-tight text-sm">
-                                        Daha Yüksek Oran İster Misiniz?
+                            {/* Unauthenticated Overlay */}
+                            {!isLoggedIn && (
+                                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/40 backdrop-blur-md rounded-3xl border border-white/10 p-8 text-center animate-in fade-in duration-500">
+                                    <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 ring-4 ring-primary/10">
+                                        <Lock size={28} className="text-primary" />
+                                    </div>
+                                    <h3 className="text-xl font-black text-white uppercase tracking-tight mb-3">
+                                        Sadece Üyelere Özel
                                     </h3>
-                                </div>
-                                <p className="text-white/40 text-xs leading-relaxed">
-                                    Yüksek tutarlı işlemler için özel oranlar sunuyoruz. Canlı destek ekibimiz ile
-                                    iletişime geçerek kişiselleştirilmiş teklifinizi alın.
-                                </p>
-                                <Button
-                                    onClick={() => {
-                                        const msg = `Merhaba, ${product.name} için yüksek oran teklifi almak istiyorum.`;
-                                        window.open(
-                                            `https://wa.me/${(settings.whatsappNumber || "").replace(/\D/g, "")}?text=${encodeURIComponent(msg)}`,
-                                            "_blank"
-                                        );
-                                    }}
-                                    className="w-full py-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2 hover:bg-yellow-500/20 transition-all"
-                                >
-                                    <MessageCircle size={14} />
-                                    Canlı Destek ile Görüşün
-                                </Button>
-                            </div>
-
-                            {/* Trust badges */}
-                            <div className="flex items-center justify-center gap-6 py-4">
-                                {[
-                                    { icon: CheckCircle2, text: "SSL Güvenlik" },
-                                    { icon: Zap, text: "Anında Ödeme" },
-                                    { icon: Clock, text: "7/24 Aktif" },
-                                ].map((badge, i) => (
-                                    <div key={i} className="flex items-center gap-1.5 text-white/20 text-[10px] font-medium">
-                                        <badge.icon size={12} />
-                                        {badge.text}
+                                    <p className="text-white/60 text-xs leading-relaxed mb-6">
+                                        Bozum oranlarını hesaplamak ve anında işlem yapmak için hesabınıza giriş yapmalısınız.
+                                    </p>
+                                    <div className="flex flex-col gap-3 w-full">
+                                        <Link href="/giris" className="w-full py-4 bg-primary text-white font-black rounded-xl uppercase tracking-widest text-[10px] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20">
+                                            Giriş Yap
+                                        </Link>
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            )}
+
                         </div>
                     </div>
                 </section>

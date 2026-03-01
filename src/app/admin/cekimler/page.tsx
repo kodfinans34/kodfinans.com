@@ -30,13 +30,13 @@ export default function AdminWithdrawalsPage() {
                             placeholder="Talep Ara..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-[#0a100e] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-primary/50 outline-none w-64"
+                            className="bg-[#0a100e] border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-sm text-white focus:border-primary/50 outline-none w-full sm:w-64"
                         />
                     </div>
                 </div>
             </div>
 
-            <div className="flex gap-2 bg-[#0a100e] p-1 rounded-xl w-fit border border-white/5">
+            <div className="flex flex-wrap gap-2 bg-[#0a100e] p-1.5 rounded-xl w-full sm:w-fit border border-white/5 overflow-x-auto hide-scrollbar">
                 {(["all", "pending", "approved", "rejected"] as const).map(f => (
                     <button
                         key={f}
@@ -97,10 +97,10 @@ export default function AdminWithdrawalsPage() {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col justify-between items-end gap-6 min-w-[200px]">
-                                    <div className="text-right">
+                                <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-6 w-full lg:w-auto lg:min-w-[200px]">
+                                    <div className="text-left sm:text-right w-full sm:w-auto">
                                         <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest mb-1">Çekilecek Tutar</p>
-                                        <p className="text-3xl font-black text-white tracking-tight">₺{req.amount.toFixed(2)}</p>
+                                        <p className="text-2xl sm:text-3xl font-black text-white tracking-tight">₺{req.amount.toFixed(2)}</p>
                                     </div>
 
                                     {req.status === 'pending' && (

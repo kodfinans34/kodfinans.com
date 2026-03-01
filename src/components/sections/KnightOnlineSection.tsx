@@ -77,27 +77,28 @@ export const KnightOnlineSection = () => {
 
                                 <div className="grid grid-cols-1 gap-4">
                                     {/* Alış */}
-                                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex items-center justify-between hover:border-primary/30 transition-all">
-                                        <div>
+                                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between hover:border-primary/30 transition-all gap-4">
+                                        <div className="text-center sm:text-left">
                                             <p className="text-[10px] font-black text-white/20 uppercase tracking-widest">BİZ ALIYORUZ</p>
-                                            <p className="text-2xl font-black text-white italic mt-1">₺{settings.koGbBuyRate || "0"}</p>
+                                            <p className="text-xl sm:text-2xl font-black text-white italic mt-1">₺{settings.koGbBuyRate || "0"}</p>
                                         </div>
                                         <a
                                             href="/knight-online"
-                                            className="w-full inline-flex items-center justify-center gap-2 h-14 bg-gradient-to-r from-primary to-blue-500 hover:scale-[1.02] text-white font-black uppercase tracking-widest transition-all shadow-lg shadow-primary/20 rounded-xl"
+                                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 h-12 sm:h-14 bg-gradient-to-r from-primary to-blue-500 hover:scale-[1.02] text-white font-black uppercase tracking-widest transition-all shadow-lg shadow-primary/20 rounded-xl"
                                         >
                                             BİZE SAT
                                         </a>
                                     </div>
 
-                                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex items-center justify-between hover:border-blue-500/30 transition-all gap-4">
-                                        <div>
+                                    {/* Satış */}
+                                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between hover:border-blue-500/30 transition-all gap-4">
+                                        <div className="text-center sm:text-left">
                                             <p className="text-[10px] font-black text-white/20 uppercase tracking-widest whitespace-nowrap">BİZ SATIYORUZ</p>
-                                            <p className="text-2xl font-black text-white italic mt-1">₺{settings.koGbSellRate || "0"}</p>
+                                            <p className="text-xl sm:text-2xl font-black text-white italic mt-1">₺{settings.koGbSellRate || "0"}</p>
                                         </div>
                                         <a
                                             href="/knight-online"
-                                            className="inline-flex items-center justify-center gap-2 px-6 h-14 bg-gradient-to-r from-blue-500 to-primary hover:scale-[1.02] text-white font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20 rounded-xl whitespace-nowrap"
+                                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 h-12 sm:h-14 bg-gradient-to-r from-blue-500 to-primary hover:scale-[1.02] text-white font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20 rounded-xl whitespace-nowrap"
                                         >
                                             SATIN AL
                                         </a>

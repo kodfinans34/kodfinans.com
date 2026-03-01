@@ -78,7 +78,7 @@ export default function AdminBalanceRequestsPage() {
             </div>
 
             {/* Filters */}
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
                 <div className="relative flex-1">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
                     <input
@@ -86,10 +86,10 @@ export default function AdminBalanceRequestsPage() {
                         placeholder="İsim, e-posta veya tutar ara..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-[#0a100e] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white text-sm focus:outline-none focus:border-primary/50 transition-all"
+                        className="w-full bg-[#0a100e] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white text-sm focus:outline-none focus:border-primary/50 transition-all min-w-0"
                     />
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2 overflow-x-auto hide-scrollbar sm:w-fit">
                     {(["all", "pending", "approved", "rejected"] as const).map((status) => (
                         <button
                             key={status}

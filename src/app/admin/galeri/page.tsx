@@ -44,22 +44,29 @@ export default function GalleryPage() {
                 return;
             }
 
-            const urls = await Promise.all(
-                res.items.map(async (itemRef: any) => {
-                    const url = await getDownloadURL(itemRef);
-                    return {
-                        name: itemRef.name,
-                        fullPath: itemRef.fullPath,
-                        url
-                    };
-                })
-            );
+            const urls = (
+                await Promise.all(
+                    res.items.map(async (itemRef: any) => {
+                        try {
+                            const url = await getDownloadURL(itemRef);
+                            return {
+                                name: itemRef.name,
+                                fullPath: itemRef.fullPath,
+                                url,
+                            };
+                        } catch (err) {
+                            console.warn("Could not fetch URL for", itemRef.name, err);
+                            return null;
+                        }
+                    })
+                )
+            ).filter(Boolean) as UploadedImage[];
 
             // Sort to show newest first
             setImages(urls.reverse());
         } catch (error: any) {
             console.error("Error fetching images:", error);
-            setError(error.message || "Bilinmeyen bir hata oluştu.");
+            setError(error?.message || error?.code || "Bilinmeyen bir hata oluştu.");
         } finally {
             setLoading(false);
         }

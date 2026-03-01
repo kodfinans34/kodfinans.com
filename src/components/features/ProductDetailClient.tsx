@@ -229,16 +229,16 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                                             }
                                         }}
                                         className={cn(
-                                            "bg-white/[0.02] rounded-xl md:rounded-2xl p-4 md:p-5 border transition-all cursor-pointer group/v",
+                                            "bg-white/[0.02] rounded-xl md:rounded-2xl p-4 md:p-5 border transition-all cursor-pointer group/v flex flex-col gap-4 overflow-hidden",
                                             (initialVariantId === variant.id || normalize(variant.slug || '') === normalizedParam)
                                                 ? "border-primary/50 bg-primary/[0.04] ring-1 ring-primary/20"
                                                 : "border-white/[0.06] hover:border-white/[0.15] hover:bg-white/[0.04]"
                                         )}
                                     >
-                                        {/* Top row: icon + name + price */}
-                                        <div className="flex items-center gap-3">
+                                        {/* Top section: Icon + Content */}
+                                        <div className="flex items-center gap-3 overflow-hidden">
                                             {/* Icon */}
-                                            <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover/v:border-primary/30 transition-colors">
+                                            <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover/v:border-primary/30 transition-colors">
                                                 <Package size={18} className={cn(
                                                     "text-white/20 transition-colors",
                                                     (initialVariantId === variant.id || normalize(variant.slug || '') === normalizedParam) ? "text-primary" : "group-hover/v:text-white/40"
@@ -247,40 +247,44 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
 
                                             {/* Name & Description */}
                                             <div className="flex-1 min-w-0">
-                                                <h4 className="text-sm font-semibold text-white truncate group-hover/v:text-primary transition-colors">{variant.name}</h4>
+                                                <h4 className="text-[13px] md:text-sm font-semibold text-white truncate block group-hover/v:text-primary transition-colors">{variant.name}</h4>
                                                 {variant.description && (
-                                                    <p className="text-[11px] text-white/25 font-medium truncate group-hover/v:text-white/40 transition-colors">{variant.description}</p>
+                                                    <p className="text-[11px] text-primary/80 font-medium truncate mt-0.5 group-hover/v:text-primary transition-colors">{variant.description}</p>
                                                 )}
-                                            </div>
-
-                                            {/* Price */}
-                                            <div className="text-right shrink-0">
-                                                {variant.discountPrice && (
-                                                    <p className="text-[10px] text-white/20 line-through">₺{variant.discountPrice}</p>
-                                                )}
-                                                <p className="text-lg font-bold text-white tracking-tight">₺{variant.price}</p>
                                             </div>
                                         </div>
 
-                                        {/* Bottom row: quantity + CTA (full width on mobile) */}
-                                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-3 pt-3 border-t border-white/[0.04]" onClick={(e) => e.stopPropagation()}>
-                                            <div className="hidden md:flex items-center bg-white/[0.03] border border-white/[0.06] rounded-lg overflow-hidden">
-                                                <button onClick={() => updateQuantity(variant.id, -1)} className="p-2 hover:bg-white/5 text-white/30 transition-colors">
-                                                    <Minus size={13} />
-                                                </button>
-                                                <span className="w-8 text-center text-xs font-bold text-white">{quantities[variant.id] || 1}</span>
-                                                <button onClick={() => updateQuantity(variant.id, 1)} className="p-2 hover:bg-white/5 text-white/30 transition-colors">
-                                                    <Plus size={13} />
-                                                </button>
+                                        {/* Middle section: Quantity and Price */}
+                                        <div className="flex flex-row items-center justify-between gap-4 w-full" onClick={(e) => e.stopPropagation()}>
+                                            {/* Quantity Input Area */}
+                                            <div className="w-20 md:w-24 shrink-0 relative">
+                                                <input
+                                                    type="number"
+                                                    readOnly
+                                                    value={quantities[variant.id] || 1}
+                                                    className="w-full h-10 bg-black/40 border border-white/10 rounded-lg px-3 text-sm font-bold text-white outline-none focus:border-primary/50 text-left"
+                                                />
                                             </div>
 
-                                            <Button
+                                            {/* Price */}
+                                            <div className="flex-1 text-right min-w-0">
+                                                {variant.discountPrice && (
+                                                    <p className="text-[10px] text-white/40 line-through truncate">₺{variant.discountPrice}</p>
+                                                )}
+                                                <p className="text-sm md:text-base font-bold text-white truncate">{variant.price} TL</p>
+                                                <p className="text-[10px] md:text-[11px] text-white/40 font-medium flex items-center justify-end gap-1 mt-0.5 truncate">0 Ⓚ</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Bottom section: Add to Cart Button */}
+                                        <div className="w-full" onClick={(e) => e.stopPropagation()}>
+                                            <button
                                                 onClick={() => handleAddToCart(variant)}
-                                                className="w-full sm:w-auto flex-1 md:flex-none px-2 sm:px-4 py-2.5 md:px-5 md:py-3 bg-primary hover:bg-secondary text-white rounded-xl text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all overflow-hidden min-w-0"
+                                                className="w-full py-3 bg-primary hover:bg-secondary text-primary-foreground rounded-xl text-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 glow-primary"
                                             >
-                                                <ShoppingCart size={14} className="shrink-0" />
-                                                <span className="truncate">Sepete Ekle</span>
-                                            </Button>
+                                                <ShoppingCart size={16} />
+                                                Sepete Ekle
+                                            </button>
                                         </div>
                                     </div>
                                 ))}
@@ -310,10 +314,11 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                                 ))}
                             </div>
                         </div>
-                    )}
+                    )
+                    }
 
                     {/* How to Use */}
-                    <div className="bg-white/[0.02] rounded-2xl border border-white/[0.06] p-6 md:p-8 space-y-4">
+                    < div className="bg-white/[0.02] rounded-2xl border border-white/[0.06] p-6 md:p-8 space-y-4" >
                         <div className="flex items-center gap-2">
                             <Info size={16} className="text-primary" />
                             <h3 className="text-sm font-semibold text-white">{product.name} Nasıl Yüklenir?</h3>

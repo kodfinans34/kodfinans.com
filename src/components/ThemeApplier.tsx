@@ -76,6 +76,17 @@ function applyFullTheme(settings: any, pathname: string = "") {
         body.style.setProperty("--accent-glow", hexToGlow(config.accent, 0.25));
     }
     if (config.muted) body.style.setProperty("--muted", config.muted);
+
+    // Apply favicon if available
+    if (settings.favicon) {
+        let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+        if (!link) {
+            link = document.createElement('link');
+            link.rel = 'icon';
+            document.head.appendChild(link);
+        }
+        link.href = settings.favicon;
+    }
 }
 
 export { applyFullTheme };

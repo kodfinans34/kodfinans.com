@@ -86,8 +86,8 @@ export default function AdminUsersPage() {
                         return (
                             <div key={user.id} className="bg-[#0a100e] border border-white/5 p-6 rounded-3xl group hover:border-white/10 transition-all">
                                 <div className="flex flex-col lg:flex-row gap-8 items-center">
-                                    <div className="flex items-center gap-6 flex-1 w-full">
-                                        <div className="w-16 h-16 rounded-[2rem] bg-gradient-to-br from-blue-500/10 to-blue-500/20 border border-blue-500/20 flex items-center justify-center text-blue-500 font-black text-2xl shrink-0">
+                                    <div className="flex flex-row items-center gap-4 sm:gap-6 flex-1 w-full">
+                                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl sm:rounded-[2rem] bg-gradient-to-br from-blue-500/10 to-blue-500/20 border border-blue-500/20 flex items-center justify-center text-blue-500 font-black text-xl sm:text-2xl shrink-0">
                                             {user.name.charAt(0).toUpperCase()}
                                         </div>
                                         <div className="space-y-1 min-w-0">
@@ -249,7 +249,7 @@ export default function AdminUsersPage() {
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-4">
+                                    <div className="flex flex-col sm:flex-row gap-4">
                                         <div className="relative flex-1">
                                             <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 font-bold text-lg">₺</span>
                                             <input
@@ -261,9 +261,10 @@ export default function AdminUsersPage() {
                                             />
                                         </div>
                                         <button
+                                            type="button"
                                             onClick={handleBalanceUpdate}
                                             className={cn(
-                                                "px-8 rounded-2xl font-black uppercase tracking-widest text-xs transition-all flex items-center gap-2",
+                                                "w-full sm:w-auto px-8 py-4 sm:py-0 rounded-2xl font-black uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2",
                                                 balanceAction === "add" ? "bg-green-600 hover:bg-green-700 text-white" : "bg-blue-600 hover:bg-blue-700 text-white"
                                             )}
                                         >

@@ -440,7 +440,8 @@ export default function AdminSettingsPage() {
                                     {[
                                         { id: "headerLogo", label: "Header (Navigasyon) Logo", desc: "Sitenin en üst kısmında görünen ana logo." },
                                         { id: "footerLogo", label: "Footer (Alt Bilgi) Logo", desc: "Sitenin en alt kısmında görünen logo." },
-                                        { id: "adminLogo", label: "Admin Panel Logo", desc: "Bu panelde ve giriş ekranında görünen logo." }
+                                        { id: "adminLogo", label: "Admin Panel Logo", desc: "Bu panelde ve giriş ekranında görünen logo." },
+                                        { id: "favicon", label: "Favicon Simgesi", desc: "Tarayıcı sekmesinde görünen küçük simge (.png, .ico, vs.)." }
                                     ].map((logo) => {
                                         const logoUrl = localSettings[logo.id as keyof typeof localSettings] as string;
                                         const isUploading = uploadingLogo === logo.id;

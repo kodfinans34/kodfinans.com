@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X, ExternalLink, Image } from "lucide-react";
+import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X, ExternalLink, Image, Bell, Activity } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSystem } from "@/context/SystemContext";
 import { AdminNotifications } from "@/components/admin/AdminNotifications";
@@ -37,8 +37,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: "Çekim Talepleri", href: "/admin/cekimler", icon: Wallet },
         { name: "Bakiye Talepleri", href: "/admin/bakiye-talepleri", icon: Wallet },
         { name: "Yorumlar", href: "/admin/yorumlar", icon: MessageSquare },
+        { name: "Duyurular", href: "/admin/duyurular", icon: Bell },
         { name: "Blog Yazıları", href: "/admin/blog", icon: FileText },
         { name: "Kullanıcılar", href: "/admin/kullanicilar", icon: Users },
+        { name: "Sistem Logları", href: "/admin/loglar", icon: Activity },
         { name: "Site Ayarları", href: "/admin/ayarlar", icon: Settings },
     ];
 
@@ -159,8 +161,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 lg:ml-64 pt-14 lg:pt-0 min-h-screen">
-                <div className="p-4 md:p-8">
+            <main className="flex-1 w-full min-w-0 lg:ml-64 pt-14 lg:pt-0 min-h-screen">
+                <div className="p-4 md:p-8 min-w-0">
                     {children}
                 </div>
             </main>

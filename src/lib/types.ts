@@ -132,6 +132,7 @@ export interface SiteSettings {
     headerLogo?: string;
     footerLogo?: string;
     adminLogo?: string;
+    favicon?: string;
     // Scripts & CSS
     googleAnalyticsId?: string;
     customHeadCode?: string; // For Google Ads verification, etc.
