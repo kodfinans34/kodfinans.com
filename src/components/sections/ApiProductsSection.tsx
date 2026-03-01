@@ -7,7 +7,20 @@ import { useState, useEffect } from "react";
 
 export function ApiProductsSection() {
     const { settings } = useSystem();
-    const apiIntegrations = settings.apiIntegrations?.filter(api => api.isActive) || [];
+    const storedApiIntegrations = settings.apiIntegrations?.filter(api => api.isActive) || [];
+
+    const defaultKodFinansApi = {
+        id: "kf-api-v1",
+        title: "KodFinans Ürün API",
+        description: "B2B entegrasyon için tüm dijital ürün stoklarımıza ve fiyatlarımıza doğrudan erişim sağlayan resmi JSON API'miz.",
+        apiUrl: "/api/v1/products",
+        apiKey: "public",
+        image: "",
+        isActive: true,
+    };
+
+    const apiIntegrations = [defaultKodFinansApi, ...storedApiIntegrations];
+
 
     const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>({});
 
@@ -26,7 +39,6 @@ export function ApiProductsSection() {
         }
     }, [apiIntegrations.length]); // Deliberately only on mount/change length
 
-    if (apiIntegrations.length === 0) return null;
 
     return (
         <section className="py-20 bg-background relative overflow-hidden">
@@ -81,9 +93,14 @@ export function ApiProductsSection() {
                                         <p className="text-sm text-white/40 line-clamp-2">{api.description || "Anında otomatik teslimat ile 7/24 hizmetinizde."}</p>
                                     </div>
 
-                                    <div className="mt-6 pt-4 border-t border-white/5 uppercase flex items-center justify-between group/btn cursor-pointer">
+                                    <div
+                                        onClick={() => {
+                                            if (api.apiUrl) window.open(api.apiUrl, '_blank');
+                                        }}
+                                        className="mt-6 pt-4 border-t border-white/5 uppercase flex items-center justify-between group/btn cursor-pointer"
+                                    >
                                         <span className="text-[10px] font-black text-white/60 tracking-widest group-hover/btn:text-primary transition-colors">
-                                            {isLoading ? "Stoklar Çekiliyor..." : "Ürünleri İncele"}
+                                            {isLoading ? "Bağlanıyor..." : (api.id === "kf-api-v1" ? "API'yi Test Et" : "Ürünleri İncele")}
                                         </span>
                                         <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover/btn:bg-primary text-white/40 group-hover/btn:text-white transition-all transform group-hover/btn:translate-x-1">
                                             <ArrowRight size={14} />

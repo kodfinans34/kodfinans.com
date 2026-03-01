@@ -9,6 +9,7 @@ const AVAILABLE_SECTIONS = [
     { id: "Hero", name: "Hero Bölümü", description: "Ana başlık ve arama çubuğu" },
     { id: "PlatformGrid", name: "Platform Grid", description: "Desteklenen platformlar" },
     { id: "KnightOnlineSection", name: "Knight Online", description: "Knight Online Gold bar ve ürünleri" },
+    { id: "ApiProductsSection", name: "API Ürünleri", description: "Canlı teslimat API ürün ve entegrasyon listesi" },
     { id: "SalesGrid", name: "En Son Satın Alınanlar", description: "Random ürün carousel" },
     { id: "CtaBanner", name: "CTA Banner", description: "WhatsApp yönlendirme banner'ı" },
     { id: "TrustBanner", name: "Güven Banner'ı", description: "SSL, hızlı teslimat vb." },
@@ -20,10 +21,19 @@ const AVAILABLE_SECTIONS = [
 export default function HomepageLayoutPage() {
     const { settings, updateSettings } = useSystem();
 
-    const defaultOrder = ["Hero", "PlatformGrid", "KnightOnlineSection", "SalesGrid", "CtaBanner", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
-    const [sectionOrder, setSectionOrder] = useState<string[]>(
-        settings.homepageSectionOrder || defaultOrder
-    );
+    const defaultOrder = ["Hero", "PlatformGrid", "KnightOnlineSection", "ApiProductsSection", "SalesGrid", "CtaBanner", "TrustBanner", "ProductGrid", "CalculatorWidget", "SeoContent"];
+
+    const savedOrder = settings.homepageSectionOrder || defaultOrder;
+    const initialOrder = [...savedOrder];
+    // Ensure all default sections are included if missing
+    defaultOrder.forEach(item => {
+        if (!initialOrder.includes(item)) {
+            initialOrder.push(item);
+        }
+    });
+
+    const [sectionOrder, setSectionOrder] = useState<string[]>(initialOrder);
+    const [hiddenSections, setHiddenSections] = useState<string[]>(settings.hiddenSections || []);
     const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
     const handleDragStart = (index: number) => {
@@ -47,13 +57,21 @@ export default function HomepageLayoutPage() {
         setDraggedIndex(null);
     };
 
+    const handleToggleVisibility = (id: string, e: React.MouseEvent) => {
+        e.stopPropagation();
+        setHiddenSections(prev =>
+            prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
+        );
+    };
+
     const handleSave = () => {
-        updateSettings({ homepageSectionOrder: sectionOrder });
+        updateSettings({ homepageSectionOrder: sectionOrder, hiddenSections });
         alert("Anasayfa düzeni kaydedildi! Değişiklikleri görmek için sayfayı yenileyin.");
     };
 
     const handleReset = () => {
         setSectionOrder(defaultOrder);
+        setHiddenSections([]);
     };
 
     const getSectionInfo = (id: string) => {
@@ -131,6 +149,15 @@ export default function HomepageLayoutPage() {
                                 <div className="px-4 py-2 bg-white/5 rounded-lg">
                                     <span className="text-white/40 text-xs font-mono">{sectionId}</span>
                                 </div>
+
+                                {/* Visibility Toggle */}
+                                <button
+                                    onClick={(e) => handleToggleVisibility(sectionId, e)}
+                                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${hiddenSections.includes(sectionId) ? 'bg-red-500/10 text-red-500 hover:bg-red-500/20' : 'bg-green-500/10 text-green-500 hover:bg-green-500/20'}`}
+                                    title={hiddenSections.includes(sectionId) ? "Görünür Yap" : "Gizle"}
+                                >
+                                    {hiddenSections.includes(sectionId) ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
                             </div>
                         </div>
                     );
@@ -144,13 +171,16 @@ export default function HomepageLayoutPage() {
                     Mevcut Sıralama
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                    {sectionOrder.map((sectionId, index) => (
-                        <div key={sectionId} className="px-3 py-1.5 bg-white/5 rounded-lg border border-white/10">
-                            <span className="text-white/60 text-xs font-bold">
-                                {index + 1}. {getSectionInfo(sectionId).name}
-                            </span>
-                        </div>
-                    ))}
+                    {sectionOrder.map((sectionId, index) => {
+                        const isHidden = hiddenSections.includes(sectionId);
+                        return (
+                            <div key={sectionId} className={`px-3 py-1.5 rounded-lg border ${isHidden ? 'bg-red-500/5 border-red-500/10' : 'bg-white/5 border-white/10'}`}>
+                                <span className={`text-xs font-bold ${isHidden ? 'text-red-500/60 line-through' : 'text-white/60'}`}>
+                                    {index + 1}. {getSectionInfo(sectionId).name}
+                                </span>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>

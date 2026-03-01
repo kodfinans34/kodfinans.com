@@ -35,8 +35,8 @@ export default function Home() {
 
   const defaultOrder = ["hero", "platformgrid", "knightonlinesection", "salesgrid", "ctabanner", "trustbanner", "productgrid", "calculatorwidget", "seocontent"];
 
-  // Use saved order if available, but ensure new sections are always injected
   let sectionOrder = settings.homepageSectionOrder || defaultOrder;
+  const hiddenSections = (settings.hiddenSections || []).map(s => s.toLowerCase());
 
   // Normalize to lowercase and inject missing required sections
   sectionOrder = sectionOrder.map((s: string) => s.toLowerCase());
@@ -47,6 +47,9 @@ export default function Home() {
       sectionOrder.splice(insertAfter >= 0 ? insertAfter + 1 : 2, 0, key);
     }
   }
+
+  // Filter out hidden sections
+  sectionOrder = sectionOrder.filter((s: string) => !hiddenSections.includes(s));
 
   return (
     <div className="min-h-screen bg-background text-foreground">

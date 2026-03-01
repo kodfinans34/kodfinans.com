@@ -111,6 +111,7 @@ export interface SiteSettings {
     whatsappNumber: string;
     seoKeywords: string;
     homepageSectionOrder?: string[];
+    hiddenSections?: string[];
     // Email Settings (SMTP)
     smtpHost?: string;
     smtpPort?: string;
