@@ -168,7 +168,7 @@ export const ProductGrid = () => {
                                                     variant="ghost"
                                                     size="sm"
                                                 >
-                                                    <span className="truncate">Satın Al</span>
+                                                    <span className="truncate">{(product.variants && product.variants.length > 0) ? "Satın Al" : "Sepete Ekle"}</span>
                                                 </Button>
                                             </div>
                                         </div>

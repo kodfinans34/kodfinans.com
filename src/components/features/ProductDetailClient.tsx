@@ -290,9 +290,43 @@ export default function ProductDetailClient({ slug, variantSlug, initialProduct 
                                 ))}
                             </div>
                         ) : (
-                            <div className="bg-white/[0.02] rounded-2xl p-12 text-center border border-white/[0.04] border-dashed space-y-3">
-                                <Info size={40} className="text-white/10 mx-auto" />
-                                <h3 className="text-lg font-semibold text-white/40">Ürün Seçeneği Bulunmuyor</h3>
+                            <div className="grid gap-3">
+                                <div
+                                    className="bg-white/[0.02] rounded-xl md:rounded-2xl p-4 md:p-5 border transition-all cursor-pointer flex flex-col gap-4 overflow-hidden border-primary/50 bg-primary/[0.04] ring-1 ring-primary/20"
+                                >
+                                    <div className="flex items-center gap-3 overflow-hidden">
+                                        <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 border-primary/30">
+                                            <Package size={18} className="text-primary" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="text-[13px] md:text-sm font-semibold text-white truncate block text-primary">{product.name}</h4>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-row items-center justify-between gap-4 w-full">
+                                        <div className="w-20 md:w-24 shrink-0 relative">
+                                            <input
+                                                type="number"
+                                                readOnly
+                                                value={quantities[product.id] || 1}
+                                                className="w-full h-10 bg-black/40 border border-white/10 rounded-lg px-3 text-sm font-bold text-white outline-none focus:border-primary/50 text-left"
+                                            />
+                                        </div>
+                                        <div className="flex-1 text-right min-w-0">
+                                            <p className="text-sm md:text-base font-bold text-white truncate">{product.price} TL</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full" onClick={(e) => e.stopPropagation()}>
+                                        <button
+                                            onClick={() => handleAddToCart(product as any)}
+                                            className="w-full py-3 bg-primary hover:bg-secondary text-primary-foreground rounded-xl text-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 glow-primary"
+                                        >
+                                            <ShoppingCart size={16} />
+                                            Sepete Ekle
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>

@@ -257,7 +257,7 @@ export const SalesGrid = () => {
                                             variant="ghost"
                                             size="sm"
                                         >
-                                            Satın Al
+                                            {(item.variants && item.variants.length > 0) ? "Satın Al" : "Sepete Ekle"}
                                         </Button>
                                     </div>
                                 </div>

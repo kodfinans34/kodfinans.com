@@ -276,7 +276,7 @@ export const AllProductsGrid = () => {
                                                     className="flex-1 xl:flex-none h-8 md:h-10 px-2 md:px-3 bg-foreground/10 hover:bg-foreground/20 text-foreground text-[8px] md:text-[10px] font-black rounded-lg md:rounded-xl uppercase transition-all"
                                                     variant="ghost"
                                                 >
-                                                    Satın Al
+                                                    {(item.variants && item.variants.length > 0) ? "Satın Al" : "Sepete Ekle"}
                                                 </Button>
                                             </div>
                                         </div>

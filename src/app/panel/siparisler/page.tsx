@@ -2,11 +2,18 @@
 
 import React, { useState } from "react";
 import { useSystem } from "@/context/SystemContext";
-import { Check, Clock, X, AlertCircle, ShoppingBag } from "lucide-react";
+import { Check, Clock, X, AlertCircle, ShoppingBag, Copy } from "lucide-react";
 
 export default function MyOrdersPage() {
     const { orders, user } = useSystem();
     const [filter, setFilter] = useState<"all" | "pending" | "completed" | "cancelled">("all");
+    const [copiedCodeId, setCopiedCodeId] = useState<string | null>(null);
+
+    const copyToClipboard = (text: string, id: string) => {
+        navigator.clipboard.writeText(text);
+        setCopiedCodeId(id);
+        setTimeout(() => setCopiedCodeId(null), 2000);
+    };
 
     // Filter orders for the current user mock
     const userOrders = (orders || []).filter(o => o.customerInfo.email === user?.email);
@@ -70,9 +77,19 @@ export default function MyOrdersPage() {
                                         ))}
                                     </div>
                                     {order.status === 'completed' && order.digitalCode && (
-                                        <div className="mt-4 p-3 bg-primary/10 border border-primary/20 rounded-xl">
+                                        <div className="mt-4 p-3 bg-primary/10 border border-primary/20 rounded-xl relative group pr-24">
                                             <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">Teslim Edilen Kod</p>
-                                            <p className="text-sm font-mono text-white select-all">{order.digitalCode}</p>
+                                            <p className="text-sm font-mono text-white select-all break-all">{order.digitalCode}</p>
+                                            <button
+                                                onClick={() => copyToClipboard(order.digitalCode!, order.id)}
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 sm:px-3 sm:py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-1.5 border border-white/5"
+                                            >
+                                                {copiedCodeId === order.id ? (
+                                                    <><Check size={14} className="text-green-500" /> <span className="text-[10px] text-green-500 font-bold uppercase tracking-widest hidden sm:inline">Kopyalandı</span></>
+                                                ) : (
+                                                    <><Copy size={14} className="text-white/60" /> <span className="text-[10px] text-white/60 font-bold uppercase tracking-widest hidden sm:inline">Kopyala</span></>
+                                                )}
+                                            </button>
                                         </div>
                                     )}
                                 </div>
