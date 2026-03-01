@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Wallet, CreditCard, Landmark, ArrowRight, ShieldCheck, CheckCircle2, Clock, Loader2 } from "lucide-react";
+import { Wallet, CreditCard, Landmark, ArrowRight, ShieldCheck, CheckCircle2, Clock, Loader2, Copy, Check, Upload } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useSystem } from "@/context/SystemContext";
@@ -12,6 +12,15 @@ export default function BakiyeEklePage() {
     const [method, setMethod] = useState<"card" | "transfer">("card");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+
+    const [copiedId, setCopiedId] = useState<string | null>(null);
+    const [receipt, setReceipt] = useState<File | null>(null);
+
+    const copyToClipboard = (text: string, id: string) => {
+        navigator.clipboard.writeText(text);
+        setCopiedId(id);
+        setTimeout(() => setCopiedId(null), 2000);
+    };
 
     const quickAmounts = ["50", "100", "250", "500", "1000"];
 
@@ -125,14 +134,62 @@ export default function BakiyeEklePage() {
 
                     {/* IBAN Info for transfer */}
                     {method === "transfer" && settings.ibanInfo && (
-                        <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 space-y-3">
+                        <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 space-y-4">
                             <h4 className="text-white font-bold text-xs uppercase tracking-wider">Havale / EFT Bilgileri</h4>
-                            <div className="space-y-1">
-                                {settings.bankName && <p className="text-white/60 text-sm"><span className="text-white/30">Banka:</span> {settings.bankName}</p>}
-                                <p className="text-white/60 text-sm font-mono"><span className="text-white/30">IBAN:</span> {settings.ibanInfo}</p>
-                                {settings.ibanHolder && <p className="text-white/60 text-sm"><span className="text-white/30">Alıcı:</span> {settings.ibanHolder}</p>}
+                            <div className="space-y-2">
+                                {settings.bankName && (
+                                    <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                                        <div>
+                                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-wider mb-0.5">Banka Adı</p>
+                                            <p className="text-sm text-white font-medium">{settings.bankName}</p>
+                                        </div>
+                                        <button onClick={() => copyToClipboard(settings.bankName!, "bank")} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/5">
+                                            {copiedId === "bank" ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-white/60" />}
+                                        </button>
+                                    </div>
+                                )}
+                                <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                                    <div className="flex-1 min-w-0 pr-2">
+                                        <p className="text-[10px] text-white/30 font-bold uppercase tracking-wider mb-0.5">IBAN Numarası</p>
+                                        <p className="text-sm font-mono text-primary font-bold truncate select-all">{settings.ibanInfo}</p>
+                                    </div>
+                                    <button onClick={() => copyToClipboard(settings.ibanInfo!, "iban")} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/5 shrink-0">
+                                        {copiedId === "iban" ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-white/60" />}
+                                    </button>
+                                </div>
+                                {settings.ibanHolder && (
+                                    <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                                        <div>
+                                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-wider mb-0.5">Alıcı Ad Soyad</p>
+                                            <p className="text-sm font-medium text-white">{settings.ibanHolder}</p>
+                                        </div>
+                                        <button onClick={() => copyToClipboard(settings.ibanHolder!, "holder")} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/5">
+                                            {copiedId === "holder" ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-white/60" />}
+                                        </button>
+                                    </div>
+                                )}
                             </div>
-                            <p className="text-[10px] text-white/20">Havale/EFT yaptıktan sonra aşağıdaki butona tıklayarak talebinizi oluşturun.</p>
+
+                            <div className="pt-2 border-t border-white/[0.05] space-y-3">
+                                <div>
+                                    <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-2">Dekont Ekle <span className="text-white/30 text-[10px] normal-case tracking-normal">(Opsiyonel)</span></h4>
+                                    <label className="flex items-center justify-center w-full h-16 px-4 transition border-2 border-white/[0.05] border-dashed rounded-xl appearance-none cursor-pointer hover:border-primary/50 hover:bg-white/[0.02] group">
+                                        <div className="flex items-center gap-3">
+                                            <Upload size={16} className="text-white/40 group-hover:text-primary transition-colors" />
+                                            <span className="text-xs font-medium text-white/60 group-hover:text-white transition-colors">
+                                                {receipt ? receipt.name : "Dosya veya resim seçin (İsteğe bağlı)"}
+                                            </span>
+                                        </div>
+                                        <input type="file" name="file_upload" className="hidden" accept="image/*,.pdf" onChange={(e) => setReceipt(e.target.files?.[0] || null)} />
+                                    </label>
+                                </div>
+                                <div className="p-3 bg-primary/10 border border-primary/20 rounded-xl relative overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
+                                    <p className="text-xs text-white/80 font-medium pl-2 relative z-10">
+                                        <span className="text-primary font-bold">İpucu:</span> Dekont yüklemek zorunlu değildir. Havale açıklamasına sadece KodFinans kayıtlı <span className="font-bold underline decoration-primary/50 text-white">telefon numaranızı</span> yazmanız onay için yeterlidir!
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     )}
 
