@@ -41,7 +41,7 @@ export default function MyOrdersPage() {
                     </div>
                 ) : (
                     filteredOrders.map((order) => (
-                        <div key={order.id} className="bg-[#0a100e] border border-white/10 p-6 rounded-2xl md:flex md:items-center justify-between group hover:border-white/20 transition-all gap-4">
+                        <div id={`item-${order.id}`} key={order.id} className="bg-[#0a100e] border border-white/10 p-6 rounded-2xl md:flex md:items-center justify-between group hover:border-white/20 transition-all gap-4 scroll-mt-24">
                             <div className="flex flex-col md:flex-row md:items-center gap-6 flex-1">
                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold shrink-0
                                     ${order.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500' :

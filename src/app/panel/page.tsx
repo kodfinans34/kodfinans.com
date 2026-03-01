@@ -140,7 +140,7 @@ export default function PanelPage() {
                             ) : (
                                 <div className="divide-y divide-white/[0.04]">
                                     {recentTransactions.slice(0, 5).map((req: any) => (
-                                        <div key={req.id} className="flex items-center gap-2 sm:gap-4 p-3 sm:p-5 bg-transparent hover:bg-white/[0.02] transition-colors group min-w-0">
+                                        <Link href={req.type === 'bozum' ? `/panel/bozumlar#item-${req.id}` : `/panel/siparisler#item-${req.id}`} key={req.id} className="flex items-center gap-2 sm:gap-4 p-3 sm:p-5 bg-transparent hover:bg-white/[0.02] transition-colors group min-w-0 border-b border-white/[0.02] last:border-0 relative overflow-hidden">
                                             <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 border ${(req.status === 'approved' || req.status === 'completed') ? 'bg-green-500/10 text-green-500 border-green-500/20' :
                                                 (req.status === 'rejected' || req.status === 'cancelled') ? 'bg-red-500/10 text-red-500 border-red-500/20' :
                                                     'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
@@ -170,7 +170,10 @@ export default function PanelPage() {
                                                                     'Bekleniyor'}
                                                 </p>
                                             </div>
-                                        </div>
+                                            <div className="ml-2 text-white/10 group-hover:text-primary transition-colors shrink-0 flex items-center justify-center">
+                                                <ArrowUpRight size={20} className="transform group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+                                            </div>
+                                        </Link>
                                     ))}
                                 </div>
                             )}

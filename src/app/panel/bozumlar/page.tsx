@@ -42,7 +42,7 @@ export default function MyBozumRequestsPage() {
                     </div>
                 ) : (
                     filteredRequests.map((req) => (
-                        <div key={req.id} className="bg-[#0a100e] border border-white/10 p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between group hover:border-white/20 transition-all gap-4">
+                        <div id={`item-${req.id}`} key={req.id} className="bg-[#0a100e] border border-white/10 p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between group hover:border-white/20 transition-all gap-4 scroll-mt-24">
                             <div className="flex items-center gap-6">
                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold shrink-0
                                     ${req.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500' :
