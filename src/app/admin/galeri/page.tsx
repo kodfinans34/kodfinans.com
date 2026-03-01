@@ -33,7 +33,7 @@ export default function GalleryPage() {
             const listRef = ref(storage, "gallery");
             const listPromise = listAll(listRef);
             const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Firebase Storage bağlantısı zaman aşımına uğradı.")), 8000)
+                setTimeout(() => reject(new Error("Firebase Storage bağlantısı zaman aşımına uğradı. (15 saniye)")), 15000)
             );
 
             const res = await Promise.race([listPromise, timeoutPromise]) as any;

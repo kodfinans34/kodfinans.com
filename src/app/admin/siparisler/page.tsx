@@ -122,8 +122,8 @@ export default function AdminOrdersPage() {
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-col lg:flex-row justify-between lg:items-end gap-6 w-full lg:w-auto lg:min-w-[200px]">
-                                        <div className="text-left lg:text-right w-full lg:w-auto">
+                                    <div className="flex flex-col justify-between items-start sm:items-end gap-4 sm:gap-6 w-full md:w-auto md:min-w-[200px] mt-4 md:mt-0 xl:border-l xl:border-white/5 xl:pl-6">
+                                        <div className="text-left sm:text-right w-full sm:w-auto">
                                             <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest mb-1">Toplam Tutar</p>
                                             <p className="text-2xl sm:text-3xl font-black text-white tracking-tight">₺{order.totalAmount.toFixed(2)}</p>
                                             <p className="text-[10px] sm:text-xs text-red-500 font-bold mt-1 uppercase tracking-wider">
