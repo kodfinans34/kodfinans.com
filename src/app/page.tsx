@@ -11,6 +11,7 @@ import { SalesGrid } from "@/components/sections/SalesGrid";
 import { TrustBanner } from "@/components/sections/TrustBanner";
 import { CtaBanner } from "@/components/sections/CtaBanner";
 import { KnightOnlineSection } from "@/components/sections/KnightOnlineSection";
+import { ApiProductsSection } from "@/components/sections/ApiProductsSection";
 import { useSystem } from "@/context/SystemContext";
 
 const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
@@ -23,10 +24,11 @@ const SECTION_COMPONENTS: Record<string, React.ComponentType> = {
   calculatorwidget: CalculatorWidget,
   ctabanner: CtaBanner,
   seocontent: SeoContent,
+  apiproductssection: ApiProductsSection,
 };
 
 // Sections that should ALWAYS appear even if not in Firebase saved order
-const ALWAYS_INCLUDE: string[] = ["knightonlinesection"];
+const ALWAYS_INCLUDE: string[] = ["knightonlinesection", "apiproductssection"];
 
 export default function Home() {
   const { settings } = useSystem();

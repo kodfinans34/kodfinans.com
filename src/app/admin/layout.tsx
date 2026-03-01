@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X, ExternalLink, Image, Bell, Activity } from "lucide-react";
+import { LayoutDashboard, Users, ShoppingCart, Settings, LogOut, ShieldCheck, FileText, ClipboardList, Wallet, MessageSquare, Layout, Menu, X, ExternalLink, Image, Bell, Activity, Link as LinkIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSystem } from "@/context/SystemContext";
 import { AdminNotifications } from "@/components/admin/AdminNotifications";
@@ -33,6 +33,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: "Ürünler", href: "/admin/urunler", icon: ShoppingCart },
         { name: "Bozum Ürünleri", href: "/admin/bozum-urunleri", icon: ShoppingCart },
         { name: "Siparişler", href: "/admin/siparisler", icon: ClipboardList },
+        { name: "API Ürünleri", href: "/admin/api-urunleri", icon: LinkIcon },
         { name: "Bozum Talepleri", href: "/admin/bozumlar", icon: FileText },
         { name: "Çekim Talepleri", href: "/admin/cekimler", icon: Wallet },
         { name: "Bakiye Talepleri", href: "/admin/bakiye-talepleri", icon: Wallet },

@@ -14,7 +14,8 @@ import {
     ThemeConfig,
     BlogPost,
     SystemUser,
-    BalanceRequest
+    BalanceRequest,
+    ApiIntegration
 } from "@/lib/types";
 
 export type {
@@ -26,7 +27,8 @@ export type {
     SiteSettings,
     BlogPost,
     SystemUser,
-    BalanceRequest
+    BalanceRequest,
+    ApiIntegration
 };
 import {
     getProducts,

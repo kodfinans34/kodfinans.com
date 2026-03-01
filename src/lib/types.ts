@@ -191,6 +191,18 @@ export interface SiteSettings {
     koServicesEnabled?: boolean;
     koSectionTitle?: string;
     koSectionDescription?: string;
+    // API Integrations
+    apiIntegrations?: ApiIntegration[];
+}
+
+export interface ApiIntegration {
+    id: string;
+    title: string;
+    description: string;
+    apiUrl: string;
+    apiKey: string;
+    image: string;
+    isActive: boolean;
 }
 
 // Blog Post Type
