@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useCart } from "@/context/CartContext";
-import { Trash2, CreditCard, Landmark, Wallet, Check, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
+import { Trash2, CreditCard, Landmark, Wallet, Check, ChevronDown, ChevronUp, Loader2, Copy, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -21,6 +21,13 @@ export default function CheckoutPage() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [isChecking, setIsChecking] = useState(true);
+    const [copiedField, setCopiedField] = useState<string | null>(null);
+
+    const copyToClipboard = (text: string, field: string) => {
+        navigator.clipboard.writeText(text);
+        setCopiedField(field);
+        setTimeout(() => setCopiedField(null), 2000);
+    };
 
     // Check if user is logged in
     useEffect(() => {
@@ -340,15 +347,35 @@ export default function CheckoutPage() {
                                                     </div>
                                                 )}
                                                 {settings.ibanHolder && (
-                                                    <div className="flex flex-col">
+                                                    <div className="flex flex-col gap-1">
                                                         <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">Alıcı</span>
-                                                        <span className="text-white/80 text-sm">{settings.ibanHolder}</span>
+                                                        <div className="flex items-center justify-between gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
+                                                            <span className="text-white/80 text-sm font-medium">{settings.ibanHolder}</span>
+                                                            <button
+                                                                onClick={() => copyToClipboard(settings.ibanHolder!, 'holder')}
+                                                                className="text-white/40 hover:text-primary transition-colors flex items-center gap-1.5 shrink-0"
+                                                                title="Alıcı adını kopyala"
+                                                            >
+                                                                {copiedField === 'holder' ? <CheckCircle2 size={16} className="text-green-500" /> : <Copy size={16} />}
+                                                                <span className="text-[10px] uppercase font-bold tracking-wider">{copiedField === 'holder' ? 'Kopyalandı' : 'Kopyala'}</span>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 )}
                                                 {settings.ibanInfo && (
-                                                    <div className="flex flex-col pt-1">
+                                                    <div className="flex flex-col gap-1 pt-2">
                                                         <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">IBAN</span>
-                                                        <span className="text-primary font-mono text-sm tracking-wide select-all">{settings.ibanInfo}</span>
+                                                        <div className="flex items-center justify-between gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
+                                                            <span className="text-primary font-mono text-sm tracking-wide select-all">{settings.ibanInfo}</span>
+                                                            <button
+                                                                onClick={() => copyToClipboard(settings.ibanInfo!, 'iban')}
+                                                                className="text-white/40 hover:text-primary transition-colors flex items-center gap-1.5 shrink-0"
+                                                                title="IBAN kopyala"
+                                                            >
+                                                                {copiedField === 'iban' ? <CheckCircle2 size={16} className="text-green-500" /> : <Copy size={16} />}
+                                                                <span className="text-[10px] uppercase font-bold tracking-wider">{copiedField === 'iban' ? 'Kopyalandı' : 'Kopyala'}</span>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 )}
                                             </div>
