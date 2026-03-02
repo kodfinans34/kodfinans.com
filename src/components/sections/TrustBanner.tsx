@@ -2,8 +2,9 @@
 
 import React from "react";
 import { ShieldCheck } from "lucide-react";
+import { useSystem } from "@/context/SystemContext";
 
-const partners = [
+const defaultPartners = [
     { name: "Razer Gold", src: "https://upload.wikimedia.org/wikipedia/en/thumb/4/40/Razer_snake_logo.svg/120px-Razer_snake_logo.svg.png" },
     { name: "Steam", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/120px-Steam_icon_logo.svg.png" },
     { name: "iTunes", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/ITunes_logo.svg/120px-ITunes_logo.svg.png" },
@@ -13,6 +14,9 @@ const partners = [
 ];
 
 export const TrustBanner = () => {
+    const { settings } = useSystem();
+    const displayPartners = settings?.trustPartners?.length ? settings.trustPartners : defaultPartners;
+
     return (
         <section className="py-8 md:py-12 border-y border-white/[0.03] bg-card/20 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4">
@@ -33,10 +37,10 @@ export const TrustBanner = () => {
                     {/* Logo Carousel */}
                     <div className="flex-1 overflow-hidden relative mask-horizontal">
                         <div className="flex gap-10 md:gap-16 items-center slide-logos" style={{ width: "max-content" }}>
-                            {[...partners, ...partners].map((p, i) => (
+                            {[...displayPartners, ...displayPartners].map((p, i) => (
                                 <div key={i} className="flex items-center gap-2.5 shrink-0 opacity-20 hover:opacity-50 transition-opacity duration-500">
-                                    <img src={p.src} alt={p.name} className="h-5 md:h-6 object-contain brightness-0 dark:invert" />
-                                    <span className="text-xs font-medium text-foreground/40 hidden md:block">{p.name}</span>
+                                    {p.src && <img src={p.src} alt={p.name} className="h-5 md:h-6 object-contain brightness-0 dark:invert" />}
+                                    {p.name && <span className="text-xs font-medium text-foreground/40 hidden md:block">{p.name}</span>}
                                 </div>
                             ))}
                         </div>

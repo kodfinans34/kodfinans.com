@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { storage } from "@/lib/firebase";
-import { ref, uploadBytesResumable, getDownloadURL, listAll, deleteObject } from "firebase/storage";
 import { UploadCloud, Image as ImageIcon, Copy, CheckCircle2, Loader2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { uploadFile } from "@/lib/upload";
 
 interface UploadedImage {
     name: string;
@@ -29,95 +28,56 @@ export default function GalleryPage() {
         setLoading(true);
         setError(null);
         try {
-            // Add a timeout to prevent infinite loading if Storage is not configured
-            const listRef = ref(storage, "gallery");
-            const listPromise = listAll(listRef);
-            const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Firebase Storage bağlantısı zaman aşımına uğradı. (15 saniye)")), 15000)
-            );
-
-            const res = await Promise.race([listPromise, timeoutPromise]) as any;
-
-            if (!res || !res.items) {
-                setImages([]);
-                setLoading(false);
-                return;
+            const response = await fetch("/api/gallery");
+            if (!response.ok) {
+                throw new Error("Resimler alınamadı.");
             }
-
-            const urls = (
-                await Promise.all(
-                    res.items.map(async (itemRef: any) => {
-                        try {
-                            const url = await getDownloadURL(itemRef);
-                            return {
-                                name: itemRef.name,
-                                fullPath: itemRef.fullPath,
-                                url,
-                            };
-                        } catch (err) {
-                            console.warn("Could not fetch URL for", itemRef.name, err);
-                            return null;
-                        }
-                    })
-                )
-            ).filter(Boolean) as UploadedImage[];
-
-            // Sort to show newest first
-            setImages(urls.reverse());
+            const data = await response.json();
+            setImages(data || []);
         } catch (error: any) {
             console.error("Error fetching images:", error);
-            setError(error?.message || error?.code || "Bilinmeyen bir hata oluştu.");
+            setError(error?.message || "Bilinmeyen bir hata oluştu.");
         } finally {
             setLoading(false);
         }
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // Generate custom name to avoid overwrites
-        const timestamp = new Date().getTime();
-        const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
-        const storageRef = ref(storage, `gallery/${timestamp}_${safeName}`);
-
         setUploading(true);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+        setUploadProgress(50); // Just a visual indicator
 
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setUploadProgress(progress);
-            },
-            (error) => {
-                console.error("Upload failed:", error);
-                setUploading(false);
-                setUploadProgress(0);
-                alert("Resim yüklenirken bir hata oluştu.");
-            },
-            async () => {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                setImages(prev => [{
-                    name: uploadTask.snapshot.ref.name,
-                    fullPath: uploadTask.snapshot.ref.fullPath,
-                    url: downloadURL
-                }, ...prev]);
-                setUploading(false);
-                setUploadProgress(0);
+        try {
+            const url = await uploadFile(file, "");
 
-                // Reset file input
-                if (e.target) e.target.value = '';
-            }
-        );
+            // Add to the top of the list
+            setImages(prev => [{
+                name: file.name,
+                fullPath: url.split("/").pop() || file.name,
+                url: url
+            }, ...prev]);
+        } catch (error) {
+            console.error("Upload failed:", error);
+            alert("Resim yüklenirken bir hata oluştu.");
+        } finally {
+            setUploading(false);
+            setUploadProgress(0);
+            if (e.target) e.target.value = '';
+        }
     };
 
     const handleDelete = async (fullPath: string) => {
         if (!confirm("Bu resmi silmek istediğinize emin misiniz? Kullanıldığı sayfalarda kırık görünebilir.")) return;
 
         try {
-            const imageRef = ref(storage, fullPath);
-            await deleteObject(imageRef);
+            const response = await fetch(`/api/gallery?file=${encodeURIComponent(fullPath)}`, {
+                method: "DELETE"
+            });
+
+            if (!response.ok) throw new Error("Silinemedi");
+
             setImages(prev => prev.filter(img => img.fullPath !== fullPath));
         } catch (error) {
             console.error("Delete failed:", error);

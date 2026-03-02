@@ -138,6 +138,8 @@ export interface SiteSettings {
     googleAnalyticsId?: string;
     customHeadCode?: string; // For Google Ads verification, etc.
     customCss?: string;
+    // Trust / Partners
+    trustPartners?: { name: string; src: string; }[];
     // Header / Navbar
     topBannerEnabled?: boolean;
     topBannerText1?: string;

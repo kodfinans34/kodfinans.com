@@ -18,12 +18,15 @@ import {
     Share2,
     Banknote,
     Megaphone,
-    Zap
+    Zap,
+    ShieldCheck,
+    Plus,
+    Trash2,
+    Upload
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeConfig, SiteSettings } from "@/lib/types";
 import { uploadFile } from "@/lib/upload";
-import { Upload } from "lucide-react";
 
 const COLOR_FIELD_LABELS: Record<string, string> = {
     background: "Arka Plan",
@@ -147,6 +150,73 @@ export default function AdminSettingsPage() {
         }
     };
 
+    const handleTrustPartnerUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            alert("Lütfen geçerli bir resim dosyası seçin.");
+            return;
+        }
+
+        setUploadingLogo(`partner_${index}`);
+
+        const toBase64 = (): Promise<string> => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result as string);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        };
+
+        const uploadWithTimeout = (timeoutMs: number): Promise<string> => {
+            return new Promise((resolve, reject) => {
+                const timer = setTimeout(() => reject(new Error("timeout")), timeoutMs);
+                uploadFile(file, `partners/partner_${Date.now()}`)
+                    .then(url => { clearTimeout(timer); resolve(url); })
+                    .catch(err => { clearTimeout(timer); reject(err); });
+            });
+        };
+
+        try {
+            const url = await uploadWithTimeout(8000);
+            handleUpdateTrustPartner(index, "src", url);
+        } catch (error) {
+            console.warn("Firebase upload failed, using base64 fallback:", error);
+            try {
+                const base64Url = await toBase64();
+                handleUpdateTrustPartner(index, "src", base64Url);
+            } catch (b64Error) {
+                alert("Resim yüklenemedi.");
+            }
+        } finally {
+            setUploadingLogo(null);
+        }
+    };
+
+    const handleAddTrustPartner = () => {
+        setLocalSettings(prev => ({
+            ...prev,
+            trustPartners: [...(prev.trustPartners || []), { name: "", src: "" }]
+        }));
+    };
+
+    const handleUpdateTrustPartner = (index: number, field: "name" | "src", value: string) => {
+        setLocalSettings(prev => {
+            const arr = [...(prev.trustPartners || [])];
+            arr[index] = { ...arr[index], [field]: value };
+            return { ...prev, trustPartners: arr };
+        });
+    };
+
+    const handleRemoveTrustPartner = (index: number) => {
+        setLocalSettings(prev => {
+            const arr = [...(prev.trustPartners || [])];
+            arr.splice(index, 1);
+            return { ...prev, trustPartners: arr };
+        });
+    };
 
     const handleSave = async () => {
         setSaving(true);
@@ -502,6 +572,77 @@ export default function AdminSettingsPage() {
                                             </div>
                                         );
                                     })}
+                                </div>
+                            </SectionCard>
+
+                            <SectionCard title="Güvenli Altyapı Ortakları" icon={ShieldCheck}>
+                                <p className="text-white/30 text-xs -mt-2 mb-4">Anasayfada görünen "Güvenli Altyapı" bölümündeki logoları buradan ekleyip çıkarabilirsiniz.</p>
+
+                                <div className="space-y-4">
+                                    {(localSettings.trustPartners || []).map((partner, index) => (
+                                        <div key={index} className="flex flex-col md:flex-row gap-4 p-4 rounded-xl bg-white/5 border border-white/10 items-start md:items-center">
+
+                                            {/* Preview */}
+                                            <div className="relative group w-16 h-10 bg-white/10 rounded flex items-center justify-center overflow-hidden shrink-0">
+                                                {partner.src ? (
+                                                    <img src={partner.src} alt="logo" className="max-w-[80%] max-h-[80%] object-contain" />
+                                                ) : (
+                                                    <ImageIcon size={16} className="text-white/20" />
+                                                )}
+
+                                                {/* Upload overlay */}
+                                                <label className={cn(
+                                                    "absolute inset-0 bg-black/60 flex items-center justify-center cursor-pointer transition-opacity opacity-0 hover:opacity-100",
+                                                    uploadingLogo === `partner_${index}` ? "opacity-100 pointer-events-none" : ""
+                                                )}>
+                                                    {uploadingLogo === `partner_${index}` ? (
+                                                        <Loader2 size={16} className="text-primary animate-spin" />
+                                                    ) : (
+                                                        <Upload size={16} className="text-white" />
+                                                    )}
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        onChange={(e) => handleTrustPartnerUpload(e, index)}
+                                                    />
+                                                </label>
+                                            </div>
+
+                                            {/* Inputs */}
+                                            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                                                <input
+                                                    type="text"
+                                                    value={partner.name}
+                                                    onChange={e => handleUpdateTrustPartner(index, "name", e.target.value)}
+                                                    placeholder="Marka Adı (Örn: Razer Gold)"
+                                                    className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-[11px] focus:border-primary/50 outline-none"
+                                                />
+                                                <div className="flex gap-2 w-full">
+                                                    <input
+                                                        type="text"
+                                                        value={partner.src}
+                                                        onChange={e => handleUpdateTrustPartner(index, "src", e.target.value)}
+                                                        placeholder="Resim URL'si"
+                                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-[11px] focus:border-primary/50 outline-none"
+                                                    />
+                                                    <button
+                                                        onClick={() => handleRemoveTrustPartner(index)}
+                                                        className="w-9 h-9 shrink-0 flex items-center justify-center rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors border border-red-500/20"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                    <button
+                                        onClick={handleAddTrustPartner}
+                                        className="w-full py-4 rounded-xl border border-dashed border-white/20 hover:border-primary/50 hover:bg-primary/5 transition-colors flex items-center justify-center gap-2 text-white/50 hover:text-white text-xs font-bold uppercase tracking-wider"
+                                    >
+                                        <Plus size={16} /> Yeni Ortak Ekle
+                                    </button>
                                 </div>
                             </SectionCard>
                         </div>

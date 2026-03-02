@@ -217,7 +217,7 @@ export default function CheckoutPage() {
                 <div className="max-w-7xl mx-auto px-4 relative z-10">
                     <h1 className="text-3xl md:text-5xl font-black italic text-white uppercase tracking-tighter mb-8 md:mb-12">Ödeme</h1>
 
-                    <div className="grid lg:grid-cols-12 gap-6 items-start flex-col-reverse lg:flex-row">
+                    <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 gap-6 items-start">
                         {/* Left Side: Payment & Forms */}
                         <div className="lg:col-span-8 space-y-6">
 
@@ -276,144 +276,144 @@ export default function CheckoutPage() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* Payment Methods */}
-                        <div className="bg-white/[0.02] p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] border border-white/5 shadow-2xl">
-                            <h2 className="text-base md:text-xl font-bold mb-4 md:mb-6 text-white uppercase tracking-wider flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
-                                    <span className="font-bold text-sm">2</span>
-                                </div>
-                                Ödeme Yöntemi
-                            </h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-                                <button
-                                    onClick={() => setPaymentMethod("balance")}
-                                    className={cn(
-                                        "p-6 rounded-3xl border transition-all flex flex-col items-center gap-3 relative overflow-hidden group",
-                                        paymentMethod === "balance"
-                                            ? "bg-primary/10 border-primary/50 text-white shadow-[0_10px_30px_rgba(74,188,241,0.1)]"
-                                            : "bg-white/5 border-white/5 text-white/30 hover:bg-white/10 hover:border-white/20"
-                                    )}
-                                >
-                                    <Wallet size={28} />
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">Bakiyeden Öde</span>
-                                </button>
-                                <button
-                                    onClick={() => setPaymentMethod("card")}
-                                    className={cn(
-                                        "p-6 rounded-3xl border transition-all flex flex-col items-center gap-3 relative overflow-hidden group",
-                                        paymentMethod === "card"
-                                            ? "bg-primary/10 border-primary/50 text-white shadow-[0_10px_30px_rgba(74,188,241,0.1)]"
-                                            : "bg-white/5 border-white/5 text-white/30 hover:bg-white/10 hover:border-white/20"
-                                    )}
-                                >
-                                    <CreditCard size={28} />
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">Kredi Kartı</span>
-                                </button>
-                                <button
-                                    onClick={() => setPaymentMethod("transfer")}
-                                    className={cn(
-                                        "p-6 rounded-3xl border transition-all flex flex-col items-center gap-3 relative overflow-hidden group",
-                                        paymentMethod === "transfer"
-                                            ? "bg-primary/10 border-primary/50 text-white shadow-[0_10px_30px_rgba(74,188,241,0.1)]"
-                                            : "bg-white/5 border-white/5 text-white/30 hover:bg-white/10 hover:border-white/20"
-                                    )}
-                                >
-                                    <Landmark size={28} />
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">Havale / EFT</span>
-                                </button>
-                            </div>
-
-                            <div className="mt-8 p-6 bg-white/5 rounded-2xl border border-white/5 text-sm text-white/60 leading-relaxed">
-                                {paymentMethod === "balance" && (
-                                    <div>
-                                        <p className="font-bold text-white mb-2">Mevcut Bakiyeniz: ₺{userBalance.toFixed(2)}</p>
-                                        <p>Hesabınızdaki bakiye ile güvenli ve komisyonsuz ödeme yapabilirsiniz. Eğer bakiyeniz yetersizse lütfen önce bakiye yükleyiniz.</p>
+                            {/* Payment Methods */}
+                            <div className="bg-white/[0.02] p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] border border-white/5 shadow-2xl">
+                                <h2 className="text-base md:text-xl font-bold mb-4 md:mb-6 text-white uppercase tracking-wider flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
+                                        <span className="font-bold text-sm">2</span>
                                     </div>
-                                )}
-                                {paymentMethod === "card" && (
-                                    <p>Kredi kartı veya banka kartınızla 3D Secure altyapısı üzerinden güvenli ödeme yapabilirsiniz. Kart bilgileriniz KodFinans sunucularında saklanmaz.</p>
-                                )}
-                                {paymentMethod === "transfer" && (
-                                    <div className="space-y-4">
-                                        <p>Banka hesaplarımıza 7/24 havale veya EFT yapabilirsiniz. Ödeme yaparken açıklama kısmına sipariş numaranızı yazmayı unutmayınız. İşleminiz onaylandıktan sonra bakiyeniz tanımlanır veya ürününüz teslim edilir.</p>
-
-                                        {(settings.bankName || settings.ibanInfo) && (
-                                            <div className="bg-white/5 p-5 rounded-xl border border-white/10 space-y-2 mt-4">
-                                                {settings.bankName && (
-                                                    <div className="flex flex-col">
-                                                        <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">Banka</span>
-                                                        <span className="text-white font-bold">{settings.bankName}</span>
-                                                    </div>
-                                                )}
-                                                {settings.ibanHolder && (
-                                                    <div className="flex flex-col gap-1">
-                                                        <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">Alıcı</span>
-                                                        <div className="flex items-center justify-between gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
-                                                            <span className="text-white/80 text-sm font-medium">{settings.ibanHolder}</span>
-                                                            <button
-                                                                onClick={() => copyToClipboard(settings.ibanHolder!, 'holder')}
-                                                                className="text-white/40 hover:text-primary transition-colors flex items-center gap-1.5 shrink-0"
-                                                                title="Alıcı adını kopyala"
-                                                            >
-                                                                {copiedField === 'holder' ? <CheckCircle2 size={16} className="text-green-500" /> : <Copy size={16} />}
-                                                                <span className="text-[10px] uppercase font-bold tracking-wider">{copiedField === 'holder' ? 'Kopyalandı' : 'Kopyala'}</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {settings.ibanInfo && (
-                                                    <div className="flex flex-col gap-1 pt-2">
-                                                        <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">IBAN</span>
-                                                        <div className="flex items-center justify-between gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
-                                                            <span className="text-primary font-mono text-sm tracking-wide select-all">{settings.ibanInfo}</span>
-                                                            <button
-                                                                onClick={() => copyToClipboard(settings.ibanInfo!, 'iban')}
-                                                                className="text-white/40 hover:text-primary transition-colors flex items-center gap-1.5 shrink-0"
-                                                                title="IBAN kopyala"
-                                                            >
-                                                                {copiedField === 'iban' ? <CheckCircle2 size={16} className="text-green-500" /> : <Copy size={16} />}
-                                                                <span className="text-[10px] uppercase font-bold tracking-wider">{copiedField === 'iban' ? 'Kopyalandı' : 'Kopyala'}</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
+                                    Ödeme Yöntemi
+                                </h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                                    <button
+                                        onClick={() => setPaymentMethod("balance")}
+                                        className={cn(
+                                            "p-6 rounded-3xl border transition-all flex flex-col items-center gap-3 relative overflow-hidden group",
+                                            paymentMethod === "balance"
+                                                ? "bg-primary/10 border-primary/50 text-white shadow-[0_10px_30px_rgba(74,188,241,0.1)]"
+                                                : "bg-white/5 border-white/5 text-white/30 hover:bg-white/10 hover:border-white/20"
                                         )}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* FAQ */}
-                        <div className="bg-white/[0.02] p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] border border-white/5 shadow-2xl">
-                            <h3 className="text-base md:text-xl font-bold mb-4 md:mb-6 text-white uppercase tracking-wider flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
-                                    <span className="font-bold text-sm">3</span>
+                                    >
+                                        <Wallet size={28} />
+                                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Bakiyeden Öde</span>
+                                    </button>
+                                    <button
+                                        onClick={() => setPaymentMethod("card")}
+                                        className={cn(
+                                            "p-6 rounded-3xl border transition-all flex flex-col items-center gap-3 relative overflow-hidden group",
+                                            paymentMethod === "card"
+                                                ? "bg-primary/10 border-primary/50 text-white shadow-[0_10px_30px_rgba(74,188,241,0.1)]"
+                                                : "bg-white/5 border-white/5 text-white/30 hover:bg-white/10 hover:border-white/20"
+                                        )}
+                                    >
+                                        <CreditCard size={28} />
+                                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Kredi Kartı</span>
+                                    </button>
+                                    <button
+                                        onClick={() => setPaymentMethod("transfer")}
+                                        className={cn(
+                                            "p-6 rounded-3xl border transition-all flex flex-col items-center gap-3 relative overflow-hidden group",
+                                            paymentMethod === "transfer"
+                                                ? "bg-primary/10 border-primary/50 text-white shadow-[0_10px_30px_rgba(74,188,241,0.1)]"
+                                                : "bg-white/5 border-white/5 text-white/30 hover:bg-white/10 hover:border-white/20"
+                                        )}
+                                    >
+                                        <Landmark size={28} />
+                                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Havale / EFT</span>
+                                    </button>
                                 </div>
-                                Sık Sorulan Sorular
-                            </h3>
-                            <div className="space-y-3">
-                                {faqs.map((faq, index) => (
-                                    <div key={index} className="border border-white/5 rounded-2xl overflow-hidden bg-black/40">
-                                        <button
-                                            onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                                            className="w-full flex items-center justify-between p-4 text-left font-bold text-sm text-white/80 hover:bg-white/5 transition-colors"
-                                        >
-                                            {faq.question}
-                                            {openFaq === index ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                                        </button>
-                                        <div className={cn(
-                                            "overflow-hidden transition-all duration-300",
-                                            openFaq === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-                                        )}>
-                                            <div className="p-4 pt-0 text-xs text-white/50 leading-relaxed">
-                                                {faq.answer}
+
+                                <div className="mt-8 p-6 bg-white/5 rounded-2xl border border-white/5 text-sm text-white/60 leading-relaxed">
+                                    {paymentMethod === "balance" && (
+                                        <div>
+                                            <p className="font-bold text-white mb-2">Mevcut Bakiyeniz: ₺{userBalance.toFixed(2)}</p>
+                                            <p>Hesabınızdaki bakiye ile güvenli ve komisyonsuz ödeme yapabilirsiniz. Eğer bakiyeniz yetersizse lütfen önce bakiye yükleyiniz.</p>
+                                        </div>
+                                    )}
+                                    {paymentMethod === "card" && (
+                                        <p>Kredi kartı veya banka kartınızla 3D Secure altyapısı üzerinden güvenli ödeme yapabilirsiniz. Kart bilgileriniz KodFinans sunucularında saklanmaz.</p>
+                                    )}
+                                    {paymentMethod === "transfer" && (
+                                        <div className="space-y-4">
+                                            <p>Banka hesaplarımıza 7/24 havale veya EFT yapabilirsiniz. Ödeme yaparken açıklama kısmına sipariş numaranızı yazmayı unutmayınız. İşleminiz onaylandıktan sonra bakiyeniz tanımlanır veya ürününüz teslim edilir.</p>
+
+                                            {(settings.bankName || settings.ibanInfo) && (
+                                                <div className="bg-white/5 p-5 rounded-xl border border-white/10 space-y-2 mt-4">
+                                                    {settings.bankName && (
+                                                        <div className="flex flex-col">
+                                                            <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">Banka</span>
+                                                            <span className="text-white font-bold">{settings.bankName}</span>
+                                                        </div>
+                                                    )}
+                                                    {settings.ibanHolder && (
+                                                        <div className="flex flex-col gap-1">
+                                                            <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">Alıcı</span>
+                                                            <div className="flex items-center justify-between gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
+                                                                <span className="text-white/80 text-sm font-medium">{settings.ibanHolder}</span>
+                                                                <button
+                                                                    onClick={() => copyToClipboard(settings.ibanHolder!, 'holder')}
+                                                                    className="text-white/40 hover:text-primary transition-colors flex items-center gap-1.5 shrink-0"
+                                                                    title="Alıcı adını kopyala"
+                                                                >
+                                                                    {copiedField === 'holder' ? <CheckCircle2 size={16} className="text-green-500" /> : <Copy size={16} />}
+                                                                    <span className="text-[10px] uppercase font-bold tracking-wider">{copiedField === 'holder' ? 'Kopyalandı' : 'Kopyala'}</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {settings.ibanInfo && (
+                                                        <div className="flex flex-col gap-1 pt-2">
+                                                            <span className="text-[10px] text-white/40 uppercase tracking-wider font-bold">IBAN</span>
+                                                            <div className="flex items-center justify-between gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
+                                                                <span className="text-primary font-mono text-sm tracking-wide select-all">{settings.ibanInfo}</span>
+                                                                <button
+                                                                    onClick={() => copyToClipboard(settings.ibanInfo!, 'iban')}
+                                                                    className="text-white/40 hover:text-primary transition-colors flex items-center gap-1.5 shrink-0"
+                                                                    title="IBAN kopyala"
+                                                                >
+                                                                    {copiedField === 'iban' ? <CheckCircle2 size={16} className="text-green-500" /> : <Copy size={16} />}
+                                                                    <span className="text-[10px] uppercase font-bold tracking-wider">{copiedField === 'iban' ? 'Kopyalandı' : 'Kopyala'}</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* FAQ */}
+                            <div className="bg-white/[0.02] p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] border border-white/5 shadow-2xl">
+                                <h3 className="text-base md:text-xl font-bold mb-4 md:mb-6 text-white uppercase tracking-wider flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
+                                        <span className="font-bold text-sm">3</span>
+                                    </div>
+                                    Sık Sorulan Sorular
+                                </h3>
+                                <div className="space-y-3">
+                                    {faqs.map((faq, index) => (
+                                        <div key={index} className="border border-white/5 rounded-2xl overflow-hidden bg-black/40">
+                                            <button
+                                                onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                                                className="w-full flex items-center justify-between p-4 text-left font-bold text-sm text-white/80 hover:bg-white/5 transition-colors"
+                                            >
+                                                {faq.question}
+                                                {openFaq === index ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                                            </button>
+                                            <div className={cn(
+                                                "overflow-hidden transition-all duration-300",
+                                                openFaq === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                                            )}>
+                                                <div className="p-4 pt-0 text-xs text-white/50 leading-relaxed">
+                                                    {faq.answer}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>

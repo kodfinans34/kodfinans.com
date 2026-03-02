@@ -77,13 +77,13 @@ export default function BakiyeEklePage() {
                     <div className="space-y-4">
                         <label className="text-xs font-black text-white/40 uppercase tracking-[0.2em] ml-2">Yüklenecek Tutar</label>
                         <div className="relative group">
-                            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 font-black text-2xl group-focus-within:text-primary transition-colors">₺</span>
+                            <span className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-white/20 font-black text-xl sm:text-2xl group-focus-within:text-primary transition-colors">₺</span>
                             <input
                                 type="number"
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
                                 placeholder="0.00"
-                                className="w-full h-24 pl-16 bg-[#0a100e] border border-white/10 rounded-[2rem] text-4xl font-black text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all font-mono"
+                                className="w-full h-16 sm:h-24 pl-10 sm:pl-16 bg-[#0a100e] border border-white/10 rounded-2xl sm:rounded-[2rem] text-2xl sm:text-4xl font-black text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all font-mono"
                             />
                         </div>
                         <div className="flex flex-wrap gap-3">
@@ -101,32 +101,32 @@ export default function BakiyeEklePage() {
 
                     <div className="space-y-4">
                         <label className="text-xs font-black text-white/40 uppercase tracking-[0.2em] ml-2">Ödeme Yöntemi</label>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-3 sm:gap-4">
                             <button
                                 onClick={() => setMethod("card")}
                                 className={cn(
-                                    "p-6 rounded-[2rem] border transition-all flex flex-col items-center gap-4 text-center group relative overflow-hidden",
+                                    "p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border transition-all flex flex-col items-center gap-3 sm:gap-4 text-center group relative overflow-hidden",
                                     method === "card"
                                         ? "bg-primary/10 border-primary text-primary shadow-[0_0_30px_rgba(74,188,241,0.2)]"
                                         : "bg-[#0a100e] border-white/10 text-white/40 hover:bg-white/5 hover:text-white"
                                 )}
                             >
-                                <CreditCard size={32} className="relative z-10" />
-                                <span className="text-xs font-black uppercase tracking-widest relative z-10">Kredi Kartı</span>
+                                <CreditCard size={28} className="relative z-10 sm:w-8 sm:h-8" />
+                                <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider sm:tracking-widest relative z-10">Kredi Kartı</span>
                                 {method === "card" && <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-50" />}
                             </button>
 
                             <button
                                 onClick={() => setMethod("transfer")}
                                 className={cn(
-                                    "p-6 rounded-[2rem] border transition-all flex flex-col items-center gap-4 text-center group relative overflow-hidden",
+                                    "p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border transition-all flex flex-col items-center gap-3 sm:gap-4 text-center group relative overflow-hidden",
                                     method === "transfer"
                                         ? "bg-secondary/10 border-secondary text-secondary shadow-[0_0_30px_rgba(168,85,247,0.2)]"
                                         : "bg-[#0a100e] border-white/10 text-white/40 hover:bg-white/5 hover:text-white"
                                 )}
                             >
-                                <Landmark size={32} className="relative z-10" />
-                                <span className="text-xs font-black uppercase tracking-widest relative z-10">Havale / EFT</span>
+                                <Landmark size={28} className="relative z-10 sm:w-8 sm:h-8" />
+                                <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider sm:tracking-widest relative z-10">Havale / EFT</span>
                                 {method === "transfer" && <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-transparent opacity-50" />}
                             </button>
                         </div>
@@ -173,10 +173,10 @@ export default function BakiyeEklePage() {
                             <div className="pt-2 border-t border-white/[0.05] space-y-3">
                                 <div>
                                     <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-2">Dekont Ekle <span className="text-white/30 text-[10px] normal-case tracking-normal">(Opsiyonel)</span></h4>
-                                    <label className="flex items-center justify-center w-full h-16 px-4 transition border-2 border-white/[0.05] border-dashed rounded-xl appearance-none cursor-pointer hover:border-primary/50 hover:bg-white/[0.02] group">
-                                        <div className="flex items-center gap-3">
-                                            <Upload size={16} className="text-white/40 group-hover:text-primary transition-colors" />
-                                            <span className="text-xs font-medium text-white/60 group-hover:text-white transition-colors">
+                                    <label className="flex items-center justify-center w-full h-16 px-4 transition border-2 border-white/[0.05] border-dashed rounded-xl appearance-none cursor-pointer hover:border-primary/50 hover:bg-white/[0.02] group overflow-hidden">
+                                        <div className="flex items-center gap-2 sm:gap-3 min-w-0 w-full justify-center">
+                                            <Upload size={16} className="text-white/40 group-hover:text-primary transition-colors shrink-0" />
+                                            <span className="text-[11px] sm:text-xs font-medium text-white/60 group-hover:text-white transition-colors truncate">
                                                 {receipt ? receipt.name : "Dosya veya resim seçin (İsteğe bağlı)"}
                                             </span>
                                         </div>
@@ -193,14 +193,15 @@ export default function BakiyeEklePage() {
                         </div>
                     )}
 
-                    <div className="pt-6">
+                    <div className="pt-2 sm:pt-6">
                         <Button
                             onClick={handlePayment}
                             disabled={isSubmitting || !amount}
-                            className="w-full py-8 rounded-[2.5rem] bg-gradient-to-r from-primary to-secondary text-white font-black text-sm uppercase tracking-[0.3em] shadow-[0_25px_60px_rgba(74,188,241,0.3)] hover:scale-[1.02] active:scale-98 transition-all flex items-center justify-center gap-4 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed">
+                            className="w-full py-5 sm:py-8 rounded-2xl sm:rounded-[2.5rem] bg-gradient-to-r from-primary to-secondary text-white font-black text-xs sm:text-sm uppercase tracking-widest sm:tracking-[0.3em] shadow-[0_25px_60px_rgba(74,188,241,0.3)] hover:scale-[1.02] active:scale-98 transition-all flex items-center justify-center gap-3 sm:gap-4 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed">
                             <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                            {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : null}
-                            {isSubmitting ? "GÖNDERİLİYOR..." : "TALEP OLUŞTUR"} {!isSubmitting && <ArrowRight size={20} />}
+                            {isSubmitting ? <Loader2 size={18} className="animate-spin sm:w-5 sm:h-5" /> : null}
+                            <span className="truncate">{isSubmitting ? "GÖNDERİLİYOR..." : "TALEP OLUŞTUR"}</span>
+                            {!isSubmitting && <ArrowRight size={18} className="sm:w-5 sm:h-5 shrink-0" />}
                         </Button>
                     </div>
                 </div>
@@ -226,10 +227,8 @@ export default function BakiyeEklePage() {
                             </div>
                         </div>
 
-                        <div className="border-t border-white/5 pt-6 mt-6 flex items-center gap-4">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg" className="h-8 bg-white rounded px-2 py-1 object-contain" alt="Visa" />
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" className="h-8 bg-white rounded px-2 py-1 object-contain" alt="Mastercard" />
-                            <img src="https://seeklogo.com/images/T/troy-logo-4B60567A20-seeklogo.com.png" className="h-8 bg-white rounded px-2 py-1 object-contain" alt="Troy" />
+                        <div className="border-t border-white/5 pt-6 mt-6 flex items-center justify-center h-14 w-full mx-auto max-w-[280px]">
+                            <img src="/images/payment-logos.png" className="h-full w-full object-contain" alt="Payment Methods" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.2))' }} />
                         </div>
                     </div>
 

@@ -197,6 +197,14 @@ const defaultSettings: SiteSettings = {
     headerLogo: "",
     footerLogo: "",
     adminLogo: "",
+    trustPartners: [
+        { name: "Razer Gold", src: "https://upload.wikimedia.org/wikipedia/en/thumb/4/40/Razer_snake_logo.svg/120px-Razer_snake_logo.svg.png" },
+        { name: "Steam", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/120px-Steam_icon_logo.svg.png" },
+        { name: "iTunes", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/ITunes_logo.svg/120px-ITunes_logo.svg.png" },
+        { name: "Google Play", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/120px-Google_Play_Store_badge_EN.svg.png" },
+        { name: "Visa", src: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" },
+        { name: "Mastercard", src: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" },
+    ],
     // Header / Navbar defaults
     topBannerEnabled: true,
     topBannerText1: "7/24 Aktif",
